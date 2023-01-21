@@ -12,7 +12,8 @@ public class TaxiWithGyro extends CommandBase {
   
   private DriveTrain driveTrain;
   double motorSpeed;
-  
+  Timer timer = new Timer();
+  double startTime;
 
   /** Creates a new TaxiWithGyro. */
   public TaxiWithGyro(DriveTrain driveTrain, double motorSpeed) {
@@ -27,26 +28,35 @@ public class TaxiWithGyro extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    startTime = Timer.getFPGATimestamp();
     driveTrain.dtInit();
     driveTrain.resetGyro();
+    //timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     double time = Timer.getFPGATimestamp();
-    if (time > 5) {
+    if (timer.getFPGATimestamp() - startTime < 5) {
+      System.out.println(timer.getFPGATimestamp());
       // negative if backwards
       // positive if forwards
       driveTrain.autonDrive(-motorSpeed);
     } else {
-      driveTrain.autonDrive(0);
+      System.out.println(timer.getFPGATimestamp());
+      driveTrain.stopAllMotors();
+      System.out.println(" auton stopped");
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    timer.stop();
+    timer.reset();
     driveTrain.stopAllMotors();
   }
 

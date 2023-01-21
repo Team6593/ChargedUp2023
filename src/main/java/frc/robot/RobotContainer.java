@@ -67,7 +67,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new TaxiWithGyro(driveTrain, .4); // taxi backwards for 5 seconds then stop
+    return new TaxiWithGyro(driveTrain, .2); // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
   }
 }

@@ -56,7 +56,7 @@ public class CamRIO extends SubsystemBase {
     //init visionThread
     visionThread = new Thread(
       () -> {
-        var camera = CameraServer.startAutomaticCapture();
+              var camera = CameraServer.startAutomaticCapture();
 
               var cameraWidth = 640;
               var cameraHeight = 480;
@@ -86,7 +86,7 @@ public class CamRIO extends SubsystemBase {
               aprilTagDetector.setConfig(config);
 
               var quadThreshParams = aprilTagDetector.getQuadThresholdParameters();
-              quadThreshParams.minClusterPixels = 250;
+              quadThreshParams.minClusterPixels = 400;
               quadThreshParams.criticalAngle *= 5; // default is 10
               quadThreshParams.maxLineFitMSE *= 1.5;
               aprilTagDetector.setQuadThresholdParameters(quadThreshParams);
