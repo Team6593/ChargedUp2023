@@ -8,8 +8,10 @@ import edu.wpi.first.hal.ThreadsJNI;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LimelightCalculationsData;
 
 public class LimeLight extends SubsystemBase {
 
@@ -34,6 +36,55 @@ public class LimeLight extends SubsystemBase {
     SmartDashboard.putNumber("LimeLightY", y);
     SmartDashboard.putNumber("LimeLightArea", area);
   }
+
+  public double EstimateDistanceToTarget(){
+    
+    //add actual height from camera lense to floor
+    double limelightHeight_Inch = LimelightCalculationsData.LimelightHeight_FromLenseToGround;
+
+    //add actual eight of target
+    double heightOfTarget_Inch = LimelightCalculationsData.HeightOfTargetInches;
+
+    //add actual angle rotation of camera exactly from vertical
+    double limelightMountAngle = LimelightCalculationsData.LimelightMountAngle;
+
+    //limelight angle from crosshair to target
+    double limelightAngleToTarget_Vertical = ty.getDouble(0.0);
+
+
+    double angleToTargetDegrees = limelightMountAngle + limelightAngleToTarget_Vertical;
+    double angleToTargetRadians = angleToTargetDegrees * (3.14159/180);
+
+    double distanceFromLimelightToTargetInch = (heightOfTarget_Inch - limelightHeight_Inch)/Math.tan(angleToTargetDegrees);
+
+    return distanceFromLimelightToTargetInch;
+  }
+
+  public void getInRange_ofTarget(){
+    //set kp Distance
+    double kpDistance = -0.0;
+    double currentDistance = EstimateDistanceToTarget();
+    
+    //set desired distance
+    double desiredDistance = 0;
+    double distance_Error = desiredDistance - currentDistance;
+
+    double adjustDriving = kpDistance * distance_Error;
+    
+    //make motors on command(s)to run at the adjusted driving speed
+
+
+  }
+  public void getInRange_andPlace(){
+    double kpAim = 0.0;
+    double kpDistance = -0.0;
+
+    //double heading_error = tx;
+    double distance_error = 0.0;
+    
+
+  }
+
 
   /** returns horizontal offset from crosshair to target as a double.
    * This value's range is -27 to 27 degrees

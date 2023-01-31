@@ -17,7 +17,12 @@ public final class Constants {
     // Sort out ID's by classes
     // MAKE SURE THE CLASSES ARE DECLARED STATIC
     // ALSO MAKE SURE TO IMPORT INNER-CLASSES STATICALLY
-
+    public static final class LimelightCalculationsData{
+        public static final double LimelightHeight_FromLenseToGround = 0;
+        public static final double HeightOfTargetInches = 0;
+        public static final double LimelightMountAngle = 0;
+    }
+    
     public final int XboxController_Port = 0;
 
     public static final class CameraVision {
