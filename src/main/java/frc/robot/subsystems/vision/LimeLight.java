@@ -4,15 +4,18 @@
 
 package frc.robot.subsystems.vision;
 
-import edu.wpi.first.hal.ThreadsJNI;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Utils.UnitConverter;
 
 public class LimeLight extends SubsystemBase {
 
+  // Use the limelight finder tool to change the limelight name
+  // if you change the name of the limelight, modify the string arg in .getTable();
+  // to match the name of the limelight
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   NetworkTableEntry validTargets = table.getEntry("tv"); // 0 or 1
   NetworkTableEntry tx = table.getEntry("tx"); // horizontal offset from crosshair to target (-27-27)
@@ -22,6 +25,7 @@ public class LimeLight extends SubsystemBase {
   /** Creates a new LimeLight. */
   public LimeLight() {}
   
+  UnitConverter unitConverter = new UnitConverter();
 
   public void displayValues() {
     // read vals periodically
@@ -34,6 +38,30 @@ public class LimeLight extends SubsystemBase {
     SmartDashboard.putNumber("LimeLightY", y);
     SmartDashboard.putNumber("LimeLightArea", area);
   }
+  
+  public double estimateDistance() {
+    // these vars are defined in the top of this class
+    // so I am redifining them here with an underscore
+    NetworkTable _table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry _ty = _table.getEntry("ty");
+    double targetOffsetAngle_Vertical = _ty.getDouble(0.0);
+
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = 0; // limelight is upside-down
+
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = 6.0;
+
+    // distance from the target to the floor
+    double goalHeightInches = 55; // change to (12*3) + 10
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    //calculate distance
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches)/Math.tan(angleToGoalRadians);
+    return distanceFromLimelightToGoalInches;
+}
 
   /** returns horizontal offset from crosshair to target as a double.
    * This value's range is -27 to 27 degrees
@@ -63,6 +91,7 @@ public class LimeLight extends SubsystemBase {
       targetFound = false;
       return false;
     } else {
+      System.out.println("target found");
       targetFound = true;
       return true;
     }
@@ -70,6 +99,9 @@ public class LimeLight extends SubsystemBase {
   
   @Override
   public void periodic() {
+    // function testing
     displayValues();
+    System.out.println(estimateDistance());
+    System.out.println(isTargetFound());
   }
 }

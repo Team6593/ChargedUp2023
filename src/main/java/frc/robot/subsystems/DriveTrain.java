@@ -77,6 +77,10 @@ public class DriveTrain extends SubsystemBase {
     DtRight.stopMotor();
   }
 
+  public void curveDrive(double speed, double rotation, boolean turnInPlace) {
+    Drive.curvatureDrive(speed, rotation, turnInPlace);
+  }
+
   public void tankDrive(double speed, double rotation) {
     Drive.tankDrive(speed, rotation);
   }
