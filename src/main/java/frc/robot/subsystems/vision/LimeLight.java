@@ -53,13 +53,14 @@ public class LimeLight extends SubsystemBase {
     double limelightLensHeightInches = 6.0;
 
     // distance from the target to the floor
-    double goalHeightInches = 55; // change to (12*3) + 10
+    double goalHeightInches = 57; // change to (12*3) + 10
 
     double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
     //calculate distance
     double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches)/Math.tan(angleToGoalRadians);
+    System.out.println(distanceFromLimelightToGoalInches);
     return distanceFromLimelightToGoalInches;
 }
 
@@ -84,15 +85,12 @@ public class LimeLight extends SubsystemBase {
 
 
   public boolean isTargetFound() {
-    boolean targetFound;
-    double target = validTargets.getDouble(0.0);
+    NetworkTable _table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry tv = _table.getEntry("tv"); // 0 or 1
+    double target = tv.getDouble(0.0);
     if(target == 0.0) {
-      System.out.println("no targets found");
-      targetFound = false;
       return false;
     } else {
-      System.out.println("target found");
-      targetFound = true;
       return true;
     }
   }
@@ -101,7 +99,5 @@ public class LimeLight extends SubsystemBase {
   public void periodic() {
     // function testing
     displayValues();
-    System.out.println(estimateDistance());
-    System.out.println(isTargetFound());
   }
 }
