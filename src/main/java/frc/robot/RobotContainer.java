@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Utils.MemoryMonitor;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.autonomous.TaxiWithGyro;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
-import frc.robot.commands.drivetrain.TaxiWithGyro;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.vision.CamRIO;
+import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -27,6 +28,7 @@ public class RobotContainer {
 
   // Make sure this is public so you can call camInit()
   public final CamRIO rioCamera;
+  public final LimeLight limeLight;
 
   private final ExampleCommand exampleCommand;
   private final ExampleSubsystem exampleSubsystem;
@@ -40,6 +42,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    limeLight = new LimeLight();
     memoryMonitor = new MemoryMonitor();
     rioCamera = new CamRIO();
     driveTrain = new DriveTrain();
