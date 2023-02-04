@@ -47,10 +47,11 @@ public final class Constants {
         // how to define consts: subsystem + master or slave + orientation (left, right, up, down) + "ID"
         // change these nums later
         // TO ELECTRICAL AND MECHANICAL, PLEASE STOP FUCKING WITH THE PORTS ON THE ROBORIO
-        public final int MasterRight = 1;
-        public final int MasterLeft = 2;
-        public final int SlaveRight = 3;
-        public final int SlaveLeft = 4;
+        public final int MasterRight = 2;
+        public final int MasterLeft = 4;
+        public final int SlaveRight = 1;
+        public final int SlaveLeft = 3;
+        public final double falconUnitsPerRevolution = 2048;
     }
 
 

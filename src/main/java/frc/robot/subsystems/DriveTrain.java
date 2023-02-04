@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -45,14 +47,20 @@ public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public DriveTrain() {
   
-    
+    slaveRight.follow(masterRight);
+    slaveLeft.follow(masterLeft);
+
+    masterRight.setInverted(true);
+    masterLeft.setInverted(false);
+    slaveLeft.setInverted(InvertType.FollowMaster);
+    slaveRight.setInverted(InvertType.FollowMaster);
     //NavX Gyro setup
     try {
         gyro = new AHRS(SPI.Port.kMXP);
       } catch (RuntimeException rex) {
         DriverStation.reportError("An error occured with NavX mxp, most likely and error with installing NavX - MansourQ" + rex.getMessage(), true);
       }
-
+      
     }
 
 
@@ -97,6 +105,7 @@ public class DriveTrain extends SubsystemBase {
       DtRight.set(speed);
       DtLeft.set(speed);
     }
+    
     public void dtInit() {
 
       //Ensure motor output is nuetral during initialization
@@ -125,13 +134,42 @@ public class DriveTrain extends SubsystemBase {
       masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
       slaveRight.set(TalonFXControlMode.PercentOutput, 0.6);
       slaveLeft.set(TalonFXControlMode.PercentOutput, 0.6);
-
+      
+      // set integrated sensor for PID, this doesn't matter even if PID isn't used
+      config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  /**
+   * this function only returns a value from the masterRight motor
+   * @return rps (rotations-per-second)
+   */
+  public double getRotationsPerSecond() {
+    double sensorVelocity = masterRight.getSelectedSensorVelocity();
+    double rps = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    return rps;
+  }
 
+  /**
+   * this function only returns a value from the masterRight motor
+   * @return rpm (rotations-per-minute)
+   */
+  public double getRotationsPerMinute() {
+    double sensorVelocity = masterRight.getSelectedSensorVelocity();
+    double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    return rpm * 60.0;
+  }
+
+  /**
+   * this function only returns a value from the masterRight motor
+   * @return rotations (sensor position / 2048)
+   */
+  public double getRotations() {
+    double sensorPosition = masterRight.getSelectedSensorPosition();
+    double rotations = sensorPosition / motors.falconUnitsPerRevolution;
+    return rotations;
+  }
+
+  public void displayTalonData() {
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
     System.out.println("Sensor position, slave right" + slaveRight.getSelectedSensorPosition());
     System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());
@@ -140,7 +178,7 @@ public class DriveTrain extends SubsystemBase {
     System.out.println("Sensor velocity, master right" + masterRight.getSelectedSensorVelocity());
     System.out.println("Sensor velocity, master left" + masterLeft.getSelectedSensorVelocity());
     System.out.println("Sensor velocity, slave right" + slaveRight.getSelectedSensorVelocity());
-    System.out.println("Sensor velocity, slave lef t" + slaveLeft.getSelectedSensorVelocity());
+    System.out.println("Sensor velocity, slave left" + slaveLeft.getSelectedSensorVelocity());
 
     System.out.println("Motor output, Master right" + masterRight.getMotorOutputPercent());
     System.out.println("Motor output, Slave right" + slaveRight.getMotorOutputPercent());
@@ -152,11 +190,15 @@ public class DriveTrain extends SubsystemBase {
     System.out.println("Stator Current, Master Left" + masterLeft.getStatorCurrent());
     System.out.println("Stator Current, Slave Left" + slaveLeft.getStatorCurrent());
 
-    masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-    masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-    slaveRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
-    slaveLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 1000);
+    masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+    masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+    slaveRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+    slaveLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+  }
 
-  
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+    displayTalonData();
   }
 }
