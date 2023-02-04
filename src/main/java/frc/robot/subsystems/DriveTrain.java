@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Motors;
@@ -105,7 +106,7 @@ public class DriveTrain extends SubsystemBase {
       DtRight.set(speed);
       DtLeft.set(speed);
     }
-    
+
     public void dtInit() {
 
       //Ensure motor output is nuetral during initialization
@@ -169,7 +170,34 @@ public class DriveTrain extends SubsystemBase {
     return rotations;
   }
 
+
   public void displayTalonData() {
+    
+    // Sensor position
+    double masterRightSensorPosition = masterRight.getSelectedSensorPosition();
+    double slaveRightSensorPosition = slaveRight.getSelectedSensorPosition();
+    double masterLeftSensorPosition = masterLeft.getSelectedSensorPosition();
+    double slaveLeftSensorPosition = slaveLeft.getSelectedSensorPosition();
+    
+    SmartDashboard.putNumber("Master Right Sensor Position", masterRightSensorPosition);
+    SmartDashboard.putNumber("Follower Right Sensor Position", slaveRightSensorPosition);
+    SmartDashboard.putNumber("Master Left Sensor Position", masterLeftSensorPosition);
+    SmartDashboard.putNumber("Follower Left Sensor Position", slaveLeftSensorPosition);
+
+    // Sensor velocity
+    double masterRightSensorVelocity = masterRight.getSelectedSensorVelocity();
+    double masterLeftSensorVelocity = masterLeft.getSelectedSensorVelocity();
+    double slaveLeftSensorVelocity = slaveLeft.getSelectedSensorVelocity();
+    double slaveRightSensorVelocity = slaveRight.getSelectedSensorVelocity();
+
+    SmartDashboard.putNumber("Master Right Sensor Velocity", masterRightSensorPosition);
+    
+  }
+
+  /**
+   * displays TalonFX sensor data to rioLog, this method should be called in periodic()
+   */
+  public void printTalonData() {
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
     System.out.println("Sensor position, slave right" + slaveRight.getSelectedSensorPosition());
     System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());
@@ -199,6 +227,6 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    displayTalonData();
+    printTalonData();
   }
 }
