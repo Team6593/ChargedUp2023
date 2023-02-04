@@ -39,21 +39,19 @@ public class LimeLight extends SubsystemBase {
     SmartDashboard.putNumber("LimeLightArea", area);
   }
   
-  public double estimateDistance() {
+  /**
+   * 
+   * @param limelightMountAngleDegrees how many degrees back is your limelight rotared from perfectly vertical
+   * @param limelightLensHeightInches distance from the encer of the limelight camera lens to the floor (in inches)
+   * @param goalHeightInches distance from the target to the floor, this works for retroflective tape and AprilTags
+   * @return the distance from the limelight to the target, within 8 inches of accuracy
+   */
+  public double estimateDistance(double limelightMountAngleDegrees, double limelightLensHeightInches, double goalHeightInches) {
     // these vars are defined in the top of this class
     // so I am redifining them here with an underscore
     NetworkTable _table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry _ty = _table.getEntry("ty");
     double targetOffsetAngle_Vertical = _ty.getDouble(0.0);
-
-    // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 0; // limelight is upside-down
-
-    // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 6.0;
-
-    // distance from the target to the floor
-    double goalHeightInches = 57; // change to (12*3) + 10
 
     double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
@@ -99,5 +97,6 @@ public class LimeLight extends SubsystemBase {
   public void periodic() {
     // function testing
     displayValues();
+    estimateDistance(0, 6, 57);
   }
 }
