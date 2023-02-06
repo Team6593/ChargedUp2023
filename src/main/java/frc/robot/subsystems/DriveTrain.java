@@ -66,8 +66,8 @@ public class DriveTrain extends SubsystemBase {
 
 
     
-    public void setLeftMotorspeed(double leftmoterspeed) {
-      DtLeft.set(leftmoterspeed);
+    public void setLeftMotorspeed(double leftmotorspeed) {
+      DtLeft.set(leftmotorspeed);
     }
 
     public void setRightMotorspeed(double rightmotorspeed) {
