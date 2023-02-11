@@ -13,9 +13,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -41,9 +45,12 @@ public class DriveTrain extends SubsystemBase {
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
+  private DoubleSolenoid dtShifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+
   private AHRS gyro; //import kauaiLabs_NavX_FRC vendor library
 
   public double P = 1;// might have to change number later
+
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
@@ -65,7 +72,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
 
-    
+    // MOTORS
     public void setLeftMotorspeed(double leftmoterspeed) {
       DtLeft.set(leftmoterspeed);
     }
@@ -90,6 +97,7 @@ public class DriveTrain extends SubsystemBase {
       DtRight.stopMotor();
     }
 
+    // DRIVING
     public void curveDrive(double speed, double rotation, boolean turnInPlace) {
       Drive.curvatureDrive(speed, rotation, turnInPlace);
     }
@@ -106,7 +114,19 @@ public class DriveTrain extends SubsystemBase {
       DtRight.set(speed);
       DtLeft.set(speed);
     }
+    
+    // SOLENOID/SHIFTERS
+    public void highGear(){
+      dtShifter.set(Value.kForward);
 
+    }
+
+    public void lowGear(){
+      dtShifter.set(Value.kReverse);
+
+    }
+
+    // MOTOR INIT
     public void dtInit() {
 
       //Ensure motor output is nuetral during initialization
@@ -140,6 +160,7 @@ public class DriveTrain extends SubsystemBase {
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
   }
 
+  // MOTOR POSITION/SENSOR
   /**
    * this function only returns a value from the masterRight motor
    * @return rps (rotations-per-second)
@@ -234,5 +255,6 @@ public class DriveTrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
+
   }
 }
