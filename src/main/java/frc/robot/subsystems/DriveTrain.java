@@ -190,9 +190,9 @@ public class DriveTrain extends SubsystemBase {
     double slaveLeftSensorVelocity = slaveLeft.getSelectedSensorVelocity();
     double slaveRightSensorVelocity = slaveRight.getSelectedSensorVelocity();
 
-    SmartDashboard.putNumber("Master Right Sensor Velocity", masterRightSensorPosition);
+    SmartDashboard.putNumber("Master Right Sensor Velocity", masterRightSensorVelocity);
     SmartDashboard.putNumber("Follower Right Sensor Velocity", slaveRightSensorVelocity);
-    SmartDashboard.putNumber("Master Left Sensor Velocity", masterRightSensorVelocity);
+    SmartDashboard.putNumber("Master Left Sensor Velocity", masterLeftSensorVelocity);
     SmartDashboard.putNumber("Follower Left Sensor Velocity", slaveLeftSensorVelocity);
     
   }
