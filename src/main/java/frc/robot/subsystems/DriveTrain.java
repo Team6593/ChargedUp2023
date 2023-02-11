@@ -122,19 +122,19 @@ public class DriveTrain extends SubsystemBase {
       
       final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
-      config.supplyCurrLimit.enable = true;
-      config.supplyCurrLimit.triggerThresholdCurrent = 40;
-      config.supplyCurrLimit.triggerThresholdTime = 1.0;
-      config.supplyCurrLimit.currentLimit = 30;
+      // config.supplyCurrLimit.enable = true;
+      // config.supplyCurrLimit.triggerThresholdCurrent = 40;
+      // config.supplyCurrLimit.triggerThresholdTime = 1.0;
+      // config.supplyCurrLimit.currentLimit = 30;
       
-      masterRight.configAllSettings(config);
-      masterLeft.configAllSettings(config);
-      slaveRight.configAllSettings(config);
-      slaveLeft.configAllSettings(config);
-      masterRight.set(TalonFXControlMode.PercentOutput, 0.6);
-      masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
-      slaveRight.set(TalonFXControlMode.PercentOutput, 0.6);
-      slaveLeft.set(TalonFXControlMode.PercentOutput, 0.6);
+      // masterRight.configAllSettings(config);
+      // masterLeft.configAllSettings(config);
+      // slaveRight.configAllSettings(config);
+      // slaveLeft.configAllSettings(config);
+      // masterRight.set(TalonFXControlMode.PercentOutput, 0.6);
+      // masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
+      // slaveRight.set(TalonFXControlMode.PercentOutput, 0.6);
+      // slaveLeft.set(TalonFXControlMode.PercentOutput, 0.6);
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
@@ -157,7 +157,7 @@ public class DriveTrain extends SubsystemBase {
   public double getRotationsPerMinute() {
     double sensorVelocity = masterRight.getSelectedSensorVelocity();
     double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
-    return rpm * 60.0;
+    return rpm = 60;
   }
 
   /**
@@ -230,6 +230,6 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    printTalonData();
+    
   }
 }
