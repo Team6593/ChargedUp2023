@@ -144,8 +144,8 @@ public class DriveTrain extends SubsystemBase {
    * this function only returns a value from the masterRight motor
    * @return rps (rotations-per-second)
    */
-  public double getRotationsPerSecond() {
-    double sensorVelocity = masterRight.getSelectedSensorVelocity();
+  public double getRotationsPerSecond(WPI_TalonFX motor) {
+    double sensorVelocity = motor.getSelectedSensorVelocity();
     double rps = sensorVelocity / motors.falconUnitsPerRevolution * 10;
     return rps;
   }
@@ -154,8 +154,8 @@ public class DriveTrain extends SubsystemBase {
    * this function only returns a value from the masterRight motor
    * @return rpm (rotations-per-minute)
    */
-  public double getRotationsPerMinute() {
-    double sensorVelocity = masterRight.getSelectedSensorVelocity();
+  public double getRotationsPerMinute(WPI_TalonFX motor) {
+    double sensorVelocity = motor.getSelectedSensorVelocity();
     double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
     return rpm = 60;
   }
@@ -164,13 +164,16 @@ public class DriveTrain extends SubsystemBase {
    * this function only returns a value from the masterRight motor
    * @return rotations (sensor position / 2048)
    */
-  public double getRotations() {
-    double sensorPosition = masterRight.getSelectedSensorPosition();
+  public double getRotations(WPI_TalonFX motor) {
+    double sensorPosition = motor.getSelectedSensorPosition();
     double rotations = sensorPosition / motors.falconUnitsPerRevolution;
     return rotations;
   }
 
-
+  /**
+   * displays motor position and velocity data to SmartDashboard,
+   * this is meant to be called in periodic()
+   */
   public void displayTalonData() {
     
     // Sensor position
