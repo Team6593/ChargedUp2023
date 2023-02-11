@@ -123,8 +123,12 @@ public class DriveTrain extends SubsystemBase {
 
     public void lowGear(){
       dtShifter.set(Value.kReverse);
-
     }
+
+    public void shifterOff() {
+      dtShifter.set(Value.kOff);
+    }
+
 
     // MOTOR INIT
     public void dtInit() {
