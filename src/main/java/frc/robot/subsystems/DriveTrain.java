@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -46,6 +47,8 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
   private DoubleSolenoid dtShifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+
+  private DigitalInput topMotorLimitSwitch
 
   private AHRS gyro; //import kauaiLabs_NavX_FRC vendor library
 
