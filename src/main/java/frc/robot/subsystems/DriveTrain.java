@@ -33,11 +33,11 @@ public class DriveTrain extends SubsystemBase {
   // We might not be using Sparks so this is subject to change
   private WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
   private WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
-  private WPI_TalonFX slaveLeft = new WPI_TalonFX(motors.SlaveLeft); // s left
-  private WPI_TalonFX slaveRight = new WPI_TalonFX(motors.SlaveRight); // s right
+  private WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
+  private WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // s right
 
-  private final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, slaveLeft);
-  private final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, slaveRight);
+  private final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, followerLeft);
+  private final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
@@ -48,13 +48,13 @@ public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public DriveTrain() {
   
-    slaveRight.follow(masterRight);
-    slaveLeft.follow(masterLeft);
+    followerRight.follow(masterRight);    
+    followerLeft.follow(masterLeft);
 
     masterRight.setInverted(true);
     masterLeft.setInverted(false);
-    slaveLeft.setInverted(InvertType.FollowMaster);
-    slaveRight.setInverted(InvertType.FollowMaster);
+    followerLeft.setInverted(InvertType.FollowMaster);
+    followerRight.setInverted(InvertType.FollowMaster);
     //NavX Gyro setup
     try {
         gyro = new AHRS(SPI.Port.kMXP);
@@ -178,9 +178,9 @@ public class DriveTrain extends SubsystemBase {
     
     // Sensor position
     double masterRightSensorPosition = masterRight.getSelectedSensorPosition();
-    double slaveRightSensorPosition = slaveRight.getSelectedSensorPosition();
+    double slaveRightSensorPosition = followerRight.getSelectedSensorPosition();
     double masterLeftSensorPosition = masterLeft.getSelectedSensorPosition();
-    double slaveLeftSensorPosition = slaveLeft.getSelectedSensorPosition();
+    double slaveLeftSensorPosition = followerLeft.getSelectedSensorPosition();
     
     SmartDashboard.putNumber("Master Right Sensor Position", masterRightSensorPosition);
     SmartDashboard.putNumber("Follower Right Sensor Position", slaveRightSensorPosition);
@@ -190,8 +190,8 @@ public class DriveTrain extends SubsystemBase {
     // Sensor velocity
     double masterRightSensorVelocity = masterRight.getSelectedSensorVelocity();
     double masterLeftSensorVelocity = masterLeft.getSelectedSensorVelocity();
-    double slaveLeftSensorVelocity = slaveLeft.getSelectedSensorVelocity();
-    double slaveRightSensorVelocity = slaveRight.getSelectedSensorVelocity();
+    double slaveLeftSensorVelocity = followerLeft.getSelectedSensorVelocity();
+    double slaveRightSensorVelocity = followerRight.getSelectedSensorVelocity();
 
     SmartDashboard.putNumber("Master Right Sensor Velocity", masterRightSensorVelocity);
     SmartDashboard.putNumber("Follower Right Sensor Velocity", slaveRightSensorVelocity);
@@ -205,34 +205,38 @@ public class DriveTrain extends SubsystemBase {
    */
   public void printTalonData() {
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
-    System.out.println("Sensor position, slave right" + slaveRight.getSelectedSensorPosition());
+    System.out.println("Sensor position, slave right" + followerRight.getSelectedSensorPosition());
     System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());
-    System.out.println("Sensor position, slave left" + slaveLeft.getSelectedSensorPosition());
+    System.out.println("Sensor position, slave left" + followerLeft.getSelectedSensorPosition());
 
     System.out.println("Sensor velocity, master right" + masterRight.getSelectedSensorVelocity());
     System.out.println("Sensor velocity, master left" + masterLeft.getSelectedSensorVelocity());
-    System.out.println("Sensor velocity, slave right" + slaveRight.getSelectedSensorVelocity());
-    System.out.println("Sensor velocity, slave left" + slaveLeft.getSelectedSensorVelocity());
+    System.out.println("Sensor velocity, slave right" + followerRight.getSelectedSensorVelocity());
+    System.out.println("Sensor velocity, slave left" + followerLeft.getSelectedSensorVelocity());
 
     System.out.println("Motor output, Master right" + masterRight.getMotorOutputPercent());
-    System.out.println("Motor output, Slave right" + slaveRight.getMotorOutputPercent());
+    System.out.println("Motor output, Slave right" + followerRight.getMotorOutputPercent());
     System.out.println("Motor output, Master left" + masterLeft.getMotorOutputPercent());
-    System.out.println("Motor output, Slave left" + slaveLeft.getMotorOutputPercent());
+    System.out.println("Motor output, Slave left" + followerLeft.getMotorOutputPercent());
 
     System.out.println("Stator current, Master Right" + masterRight.getStatorCurrent());
-    System.out.println("Stator current, Slave Right" + slaveRight.getStatorCurrent());
+    System.out.println("Stator current, Slave Right" + followerRight.getStatorCurrent());
     System.out.println("Stator Current, Master Left" + masterLeft.getStatorCurrent());
-    System.out.println("Stator Current, Slave Left" + slaveLeft.getStatorCurrent());
+    System.out.println("Stator Current, Slave Left" + followerLeft.getStatorCurrent());
 
     masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
     masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    slaveRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    slaveLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+    followerRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+    followerLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
   }
 
   @Override
   public void periodic() {
     displayTalonData();
+    masterRight.setSelectedSensorPosition(0);
+    masterLeft.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
     
   }
 }
