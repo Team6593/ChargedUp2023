@@ -46,10 +46,10 @@ public final class Constants {
         // put motor ID's here
         // how to define consts: subsystem + master or slave + orientation (left, right, up, down) + "ID"
         // change these nums later
-        public final int MasterRight = 2;
-        public final int MasterLeft = 4;
-        public final int SlaveRight = 1;
-        public final int SlaveLeft = 3;
+        public final int MasterRight = 1;
+        public final int FollowerRight = 2;
+        public final int MasterLeft = 3;
+        public final int FollowerLeft = 4;
         public final double falconUnitsPerRevolution = 2048;
     }
 
