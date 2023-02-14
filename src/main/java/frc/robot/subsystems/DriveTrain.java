@@ -46,9 +46,12 @@ public class DriveTrain extends SubsystemBase {
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
-  private DoubleSolenoid dtShifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
+  private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
+  private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
+  private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
-  private DigitalInput topMotorLimitSwitch
+  private DoubleSolenoid dtShifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
   private AHRS gyro; //import kauaiLabs_NavX_FRC vendor library
 
@@ -116,6 +119,8 @@ public class DriveTrain extends SubsystemBase {
     public void autonDrive(double speed) {
       DtRight.set(speed);
       DtLeft.set(speed);
+
+  
     }
     
     // SOLENOID/SHIFTERS
@@ -165,6 +170,12 @@ public class DriveTrain extends SubsystemBase {
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+
+      
+    masterRight.setSelectedSensorPosition(0);
+    masterLeft.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
   }
 
   // MOTOR POSITION/SENSOR
@@ -261,11 +272,5 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     displayTalonData();
-    masterRight.setSelectedSensorPosition(0);
-    masterLeft.setSelectedSensorPosition(0);
-    followerRight.setSelectedSensorPosition(0);
-    followerLeft.setSelectedSensorPosition(0);
-    
-
   }
 }
