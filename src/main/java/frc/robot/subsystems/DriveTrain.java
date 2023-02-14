@@ -138,6 +138,10 @@ public class DriveTrain extends SubsystemBase {
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+      masterRight.setSelectedSensorPosition(0);
+      masterLeft.setSelectedSensorPosition(0);
+      followerRight.setSelectedSensorPosition(0);
+      followerLeft.setSelectedSensorPosition(0);
   }
 
   /**
@@ -233,10 +237,7 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     displayTalonData();
-    masterRight.setSelectedSensorPosition(0);
-    masterLeft.setSelectedSensorPosition(0);
-    followerRight.setSelectedSensorPosition(0);
-    followerLeft.setSelectedSensorPosition(0);
+
     
   }
 }
