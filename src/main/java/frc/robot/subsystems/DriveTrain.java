@@ -215,6 +215,24 @@ public class DriveTrain extends SubsystemBase {
   }
 
   /**
+   * 
+   * @return recu_masterRightSensorPosition, the sensor-position of the master-right motor in RECU's
+   */
+  public double getRightSideMotorPosition() {
+    double recu_masterRightSensorPosition = unitConverter.toReadableEncoderUnit(masterRight.getSelectedSensorPosition());
+    return recu_masterRightSensorPosition;
+  }
+
+  /**
+   * 
+   * @return recu_masterLeftSensorPosition, the sensor-position of the master-left motor in RECU's
+   */
+  public double getLeftSideMotorPosition() {
+    double recu_masterLeftSensorPosition = unitConverter.toReadableEncoderUnit(masterLeft.getSelectedSensorPosition());
+    return recu_masterLeftSensorPosition;
+  }
+
+  /**
    * displays motor position and velocity data to SmartDashboard,
    * this is meant to be called in periodic()
    */
