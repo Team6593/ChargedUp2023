@@ -13,9 +13,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -40,6 +43,8 @@ public class DriveTrain extends SubsystemBase {
   private final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
+
+  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
   private AHRS gyro; //import kauaiLabs_NavX_FRC vendor library
 
@@ -80,14 +85,28 @@ public class DriveTrain extends SubsystemBase {
       Drive.arcadeDrive(motorspeed, turnSpeed);
     }
 
+    public void highGear(){
+
+      shifter.set(Value.kForward);
+    }
+    public void lowGear(){
+      shifter.set(Value.kReverse);
+    }
+    public void dtShifterOff(){
+      shifter.set(Value.kOff);
+    }
+
+
     public void resetGyro() {
       gyro.reset();
     }
 
 
     public void stopAllMotors() {
-      DtLeft.stopMotor();
-      DtRight.stopMotor();
+      masterRight.stopMotor();
+      masterLeft.stopMotor();
+      followerRight.stopMotor();
+      followerLeft.stopMotor();
     }
 
     public void curveDrive(double speed, double rotation, boolean turnInPlace) {
@@ -122,19 +141,19 @@ public class DriveTrain extends SubsystemBase {
       
       final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
-      // config.supplyCurrLimit.enable = true;
-      // config.supplyCurrLimit.triggerThresholdCurrent = 40;
-      // config.supplyCurrLimit.triggerThresholdTime = 1.0;
-      // config.supplyCurrLimit.currentLimit = 30;
+      config.supplyCurrLimit.enable = true;
+      config.supplyCurrLimit.triggerThresholdCurrent = 40;
+      config.supplyCurrLimit.triggerThresholdTime = 1.0;
+      config.supplyCurrLimit.currentLimit = 30;
       
-      // masterRight.configAllSettings(config);
-      // masterLeft.configAllSettings(config);
-      // slaveRight.configAllSettings(config);
-      // slaveLeft.configAllSettings(config);
-      // masterRight.set(TalonFXControlMode.PercentOutput, 0.6);
-      // masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
-      // slaveRight.set(TalonFXControlMode.PercentOutput, 0.6);
-      // slaveLeft.set(TalonFXControlMode.PercentOutput, 0.6);
+      masterRight.configAllSettings(config);
+      masterLeft.configAllSettings(config);
+      followerRight.configAllSettings(config);
+      followerLeft.configAllSettings(config);
+      masterRight.set(TalonFXControlMode.PercentOutput, 0.6);
+      masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
+      followerRight.set(TalonFXControlMode.PercentOutput, 0.6);
+      followerLeft.set(TalonFXControlMode.PercentOutput, 0.6);
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
