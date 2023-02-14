@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -39,6 +40,11 @@ public class DriveTrain extends SubsystemBase {
   private final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
+
+  private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
+  private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
+  private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
+  private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
   private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
@@ -122,6 +128,8 @@ public class DriveTrain extends SubsystemBase {
     public void autonDrive(double speed) {
       DtRight.set(speed);
       DtLeft.set(speed);
+
+  
     }
     
     /**
@@ -278,8 +286,5 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     displayTalonData();
-
-    
-
   }
 }
