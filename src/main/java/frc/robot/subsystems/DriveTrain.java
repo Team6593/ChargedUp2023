@@ -126,6 +126,18 @@ public class DriveTrain extends SubsystemBase {
       DtLeft.set(speed);
     }
 
+    /**
+     * resets all drivetrain sensor positions to 0,
+     * call this method in robotInit(), teleopInit(), and autonomousInit()
+     */
+    public void resetAllMotorPosition() {
+      masterLeft.setSelectedSensorPosition(0);
+      followerLeft.setSelectedSensorPosition(0);
+      masterRight.setSelectedSensorPosition(0);
+      followerLeft.setSelectedSensorPosition(0);
+    }
+
+
     public void dtInit() {
 
       //Ensure motor output is nuetral during initialization
@@ -141,19 +153,20 @@ public class DriveTrain extends SubsystemBase {
       
       final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
+      /*
       config.supplyCurrLimit.enable = true;
       config.supplyCurrLimit.triggerThresholdCurrent = 40;
       config.supplyCurrLimit.triggerThresholdTime = 1.0;
       config.supplyCurrLimit.currentLimit = 30;
-      
+      */
       masterRight.configAllSettings(config);
       masterLeft.configAllSettings(config);
       followerRight.configAllSettings(config);
       followerLeft.configAllSettings(config);
-      masterRight.set(TalonFXControlMode.PercentOutput, 0.6);
-      masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
-      followerRight.set(TalonFXControlMode.PercentOutput, 0.6);
-      followerLeft.set(TalonFXControlMode.PercentOutput, 0.6);
+      masterRight.set(TalonFXControlMode.PercentOutput, 1);
+      masterLeft.set(TalonFXControlMode.PercentOutput, 1);
+      followerRight.set(TalonFXControlMode.PercentOutput, 1);
+      followerLeft.set(TalonFXControlMode.PercentOutput, 1);
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
