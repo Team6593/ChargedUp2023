@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -50,6 +51,7 @@ public class DriveTrain extends SubsystemBase {
 
   public double P = 1;// might have to change number later
 
+
   /** Creates a new DriveTrain. */
   public DriveTrain() {
   
@@ -70,7 +72,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
 
-    
+    // MOTORS
     public void setLeftMotorspeed(double leftmoterspeed) {
       DtLeft.set(leftmoterspeed);
     }
@@ -86,9 +88,9 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void highGear(){
-
       shifter.set(Value.kForward);
     }
+
     public void lowGear(){
       shifter.set(Value.kReverse);
     }
@@ -109,6 +111,7 @@ public class DriveTrain extends SubsystemBase {
       followerLeft.stopMotor();
     }
 
+    // DRIVING
     public void curveDrive(double speed, double rotation, boolean turnInPlace) {
       Drive.curvatureDrive(speed, rotation, turnInPlace);
     }
@@ -125,6 +128,8 @@ public class DriveTrain extends SubsystemBase {
       DtRight.set(speed);
       DtLeft.set(speed);
     }
+    
+    
 
     /**
      * resets all drivetrain sensor positions to 0,
@@ -138,6 +143,10 @@ public class DriveTrain extends SubsystemBase {
     }
 
 
+    
+
+
+    // MOTOR INIT
     public void dtInit() {
 
       //Ensure motor output is nuetral during initialization
@@ -176,6 +185,7 @@ public class DriveTrain extends SubsystemBase {
       followerLeft.setSelectedSensorPosition(0);
   }
 
+  // MOTOR POSITION/SENSOR
   /**
    * this function only returns a value from the masterRight motor
    * @return rps (rotations-per-second)
@@ -271,5 +281,6 @@ public class DriveTrain extends SubsystemBase {
     displayTalonData();
 
     
+
   }
 }
