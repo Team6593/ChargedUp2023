@@ -8,6 +8,17 @@ package frc.robot.Utils;
 public class UnitConverter {
 
     /**
+     * converts raw TalonFX integrated-sensor units into RECU, or readable-encoder-units
+     * the formula is r/10 = RECU, where r is the raw units
+     * @param rawUnits
+     * @return readable-encoder-units
+     */
+    public double toReadableEncoderUnit(double rawUnits) {
+        double recu = rawUnits /100;
+        return recu;
+    }
+
+    /**
      * An ideal use-case for this is when you are programming sensors/encoders/autonomoue
      * Converts degrees into radians
      * @param degrees

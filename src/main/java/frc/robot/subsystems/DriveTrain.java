@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,11 +25,13 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Utils.UnitConverter;
 
 public class DriveTrain extends SubsystemBase {
   
   // refrence constants to get motor ID's
   public static Constants.Motors motors = new Constants.Motors();
+  public static UnitConverter unitConverter = new UnitConverter();
 
   // We might not be using Sparks so this is subject to change
   private WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
@@ -128,8 +131,6 @@ public class DriveTrain extends SubsystemBase {
     public void autonDrive(double speed) {
       DtRight.set(speed);
       DtLeft.set(speed);
-
-  
     }
     
     /**
@@ -169,10 +170,10 @@ public class DriveTrain extends SubsystemBase {
       masterLeft.configAllSettings(config);
       followerRight.configAllSettings(config);
       followerLeft.configAllSettings(config);
-      masterRight.set(TalonFXControlMode.PercentOutput, 1);
-      masterLeft.set(TalonFXControlMode.PercentOutput, 1);
-      followerRight.set(TalonFXControlMode.PercentOutput, 1);
-      followerLeft.set(TalonFXControlMode.PercentOutput, 1);
+      masterRight.set(TalonFXControlMode.PercentOutput, 0);
+      masterLeft.set(TalonFXControlMode.PercentOutput, 0);
+      followerRight.set(TalonFXControlMode.PercentOutput, 0);
+      followerLeft.set(TalonFXControlMode.PercentOutput, 0);
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
@@ -220,10 +221,10 @@ public class DriveTrain extends SubsystemBase {
   public void displayTalonData() {
     
     // Sensor position
-    double masterRightSensorPosition = masterRight.getSelectedSensorPosition();
-    double slaveRightSensorPosition = followerRight.getSelectedSensorPosition();
-    double masterLeftSensorPosition = masterLeft.getSelectedSensorPosition();
-    double slaveLeftSensorPosition = followerLeft.getSelectedSensorPosition();
+    double masterRightSensorPosition = unitConverter.toReadableEncoderUnit(masterRight.getSelectedSensorPosition() );
+    double slaveRightSensorPosition = unitConverter.toReadableEncoderUnit(followerRight.getSelectedSensorPosition() );
+    double masterLeftSensorPosition = unitConverter.toReadableEncoderUnit(masterLeft.getSelectedSensorPosition() );
+    double slaveLeftSensorPosition = unitConverter.toReadableEncoderUnit(followerLeft.getSelectedSensorPosition() );
     
     SmartDashboard.putNumber("Master Right Sensor Position", masterRightSensorPosition);
     SmartDashboard.putNumber("Follower Right Sensor Position", slaveRightSensorPosition);
@@ -257,6 +258,7 @@ public class DriveTrain extends SubsystemBase {
    * displays TalonFX sensor data to rioLog, this method should be called in periodic()
    */
   public void printTalonData() {
+    // TODO: change motor naming conventions to Master/Follower here
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
     System.out.println("Sensor position, slave right" + followerRight.getSelectedSensorPosition());
     System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());
