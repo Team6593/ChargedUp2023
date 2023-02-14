@@ -225,14 +225,24 @@ public class DriveTrain extends SubsystemBase {
     // Sensor velocity
     double masterRightSensorVelocity = masterRight.getSelectedSensorVelocity();
     double masterLeftSensorVelocity = masterLeft.getSelectedSensorVelocity();
-    double slaveLeftSensorVelocity = followerLeft.getSelectedSensorVelocity();
-    double slaveRightSensorVelocity = followerRight.getSelectedSensorVelocity();
+    double followerLeftSensorVelocity = followerLeft.getSelectedSensorVelocity();
+    double followerRightSensorVelocity = followerRight.getSelectedSensorVelocity();
 
     SmartDashboard.putNumber("Master Right Sensor Velocity", masterRightSensorVelocity);
-    SmartDashboard.putNumber("Follower Right Sensor Velocity", slaveRightSensorVelocity);
+    SmartDashboard.putNumber("Follower Right Sensor Velocity", followerRightSensorVelocity);
     SmartDashboard.putNumber("Master Left Sensor Velocity", masterLeftSensorVelocity);
-    SmartDashboard.putNumber("Follower Left Sensor Velocity", slaveLeftSensorVelocity);
+    SmartDashboard.putNumber("Follower Left Sensor Velocity", followerLeftSensorVelocity);
+
+    // Stator current
+    double masterRightStatorCurrent = masterRight.getStatorCurrent();
+    double masterLeftStatorCurrent = masterLeft.getStatorCurrent();
+    double followerRightStatorCurrent = followerRight.getStatorCurrent();
+    double followerLeftStatorCurrent = followerLeft.getStatorCurrent();
     
+    SmartDashboard.putNumber("Master Right Stator Current", masterRightStatorCurrent);
+    SmartDashboard.putNumber("Master Left Stator Current", masterLeftStatorCurrent);
+    SmartDashboard.putNumber("Follower Right Stator Current", followerRightStatorCurrent);
+    SmartDashboard.putNumber("Follower Left Stator Current", followerLeftStatorCurrent);
   }
 
   /**
