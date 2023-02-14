@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     rbContainer = new RobotContainer();
     rbContainer.rioCamera.camInit();
+    rbContainer.driveTrain.resetAllMotorPosition();
   }
 
   /**
@@ -48,7 +49,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     //rbContainer.memoryMonitor.getInstance().printMemoryUsage();
     rbContainer.limeLight.estimateDistance();
-    rbContainer.driveTrain.displayTalonData();
+    //rbContainer.driveTrain.displayTalonData();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -61,6 +62,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    rbContainer.driveTrain.resetAllMotorPosition();
     m_autonomousCommand = rbContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -75,6 +77,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    rbContainer.driveTrain.resetAllMotorPosition();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
