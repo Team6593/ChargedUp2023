@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -44,6 +45,9 @@ public class DriveTrain extends SubsystemBase {
   private final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
+
+  private DigitalInput dtLimitSwitch = new DigitalInput(0);
+
 
   private DoubleSolenoid dtShifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
@@ -107,12 +111,24 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void arcadeDrive(double xSpd, double zRot) {
-      Drive.arcadeDrive(xSpd, zRot, false);
+      if(xSpd > 0.6){
+        if(dtLimitSwitch.get()){
+          masterRight.set(0.6);
+          masterLeft.set(0.6);
+          followerRight.set(0.6);
+          followerLeft.set(0.6);
+        }else{
+          Drive.arcadeDrive(xSpd, zRot);
+        }
+      }else{
+        Drive.arcadeDrive(xSpd, zRot);
+      }
     }
 
     public void autonDrive(double speed) {
       DtRight.set(speed);
       DtLeft.set(speed);
+
     }
     
     // SOLENOID/SHIFTERS
@@ -162,6 +178,12 @@ public class DriveTrain extends SubsystemBase {
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+
+      
+    masterRight.setSelectedSensorPosition(0);
+    masterLeft.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
   }
 
   // MOTOR POSITION/SENSOR
@@ -249,20 +271,14 @@ public class DriveTrain extends SubsystemBase {
     System.out.println("Stator Current, Master Left" + masterLeft.getStatorCurrent());
     System.out.println("Stator Current, Slave Left" + followerLeft.getStatorCurrent());
 
-    masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    followerRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    followerLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+    masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    followerRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    followerLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
   }
 
   @Override
   public void periodic() {
     displayTalonData();
-    masterRight.setSelectedSensorPosition(0);
-    masterLeft.setSelectedSensorPosition(0);
-    followerRight.setSelectedSensorPosition(0);
-    followerLeft.setSelectedSensorPosition(0);
-    
-
   }
 }
