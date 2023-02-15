@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Utils.MemoryMonitor;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.autonomous.DriveToChargeStation;
 import frc.robot.commands.autonomous.TaxiWithGyro;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.subsystems.DriveTrain;
@@ -48,7 +49,6 @@ public class RobotContainer {
     driveTrain = new DriveTrain();
     exampleSubsystem = new ExampleSubsystem();
     exampleCommand = new ExampleCommand();
-    
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
     
     // Configure the button bindings
@@ -72,7 +72,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;//new TaxiWithGyro(driveTrain, .2); 
+    return new DriveToChargeStation(driveTrain, 1223.760000);//new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
   }
