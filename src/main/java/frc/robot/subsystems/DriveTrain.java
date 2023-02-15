@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -35,7 +34,7 @@ public class DriveTrain extends SubsystemBase {
   public static UnitConverter unitConverter = new UnitConverter();
 
   // motor controllers
-  public WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
+  private WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
   private WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
   private WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
   private WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // s right
@@ -46,10 +45,8 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
   // Limit Switches
-  private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
-  private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
-  private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
-  private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
+  private DigitalInput dtTopLimitSwitch = new DigitalInput(0);
+  private DigitalInput dtBottomLimitSwitch = new DigitalInput(0);
 
   private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
@@ -100,7 +97,6 @@ public class DriveTrain extends SubsystemBase {
     public void lowGear(){
       shifter.set(Value.kReverse);
     }
-
     public void dtShifterOff(){
       shifter.set(Value.kOff);
     }
@@ -132,15 +128,16 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void autonDrive(double speed) {
+
+      if (speed > 0.6) {
+        if (dtTopLimitSwitch.get()) {
+          DtRight.set(.6);
+          DtLeft.set(.6);
+        }
+      }
+
       DtRight.set(speed);
       DtLeft.set(speed);
-    }
-
-    public void drive(double motorspeed) {
-      masterLeft.set(ControlMode.PercentOutput, motorspeed);
-      masterRight.set(ControlMode.PercentOutput, motorspeed);
-      followerLeft.set(ControlMode.PercentOutput, motorspeed);
-      followerRight.set(ControlMode.PercentOutput, motorspeed);
     }
     
     /**
@@ -151,7 +148,7 @@ public class DriveTrain extends SubsystemBase {
       masterLeft.setSelectedSensorPosition(0);
       followerLeft.setSelectedSensorPosition(0);
       masterRight.setSelectedSensorPosition(0);
-      followerRight.setSelectedSensorPosition(0);
+      followerLeft.setSelectedSensorPosition(0);
     }
 
     // MOTOR INIT
