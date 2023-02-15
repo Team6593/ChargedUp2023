@@ -10,9 +10,9 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -33,7 +33,7 @@ public class DriveTrain extends SubsystemBase {
   public static Constants.Motors motors = new Constants.Motors();
   public static UnitConverter unitConverter = new UnitConverter();
 
-  // We might not be using Sparks so this is subject to change
+  // motor controllers
   private WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
   private WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
   private WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
@@ -44,6 +44,7 @@ public class DriveTrain extends SubsystemBase {
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
+  // Limit Switches
   private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
   private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
   private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
