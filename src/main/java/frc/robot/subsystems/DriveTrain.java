@@ -46,9 +46,6 @@ public class DriveTrain extends SubsystemBase {
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
-  private DigitalInput dtLimitSwitch = new DigitalInput(0);
-
-
   private DoubleSolenoid dtShifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
   private AHRS gyro; //import kauaiLabs_NavX_FRC vendor library
@@ -111,18 +108,8 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void arcadeDrive(double xSpd, double zRot) {
-      if(xSpd > 0.6){
-        if(dtLimitSwitch.get()){
-          masterRight.set(0.6);
-          masterLeft.set(0.6);
-          followerRight.set(0.6);
-          followerLeft.set(0.6);
-        }else{
-          Drive.arcadeDrive(xSpd, zRot);
-        }
-      }else{
+  
         Drive.arcadeDrive(xSpd, zRot);
-      }
     }
 
     public void autonDrive(double speed) {

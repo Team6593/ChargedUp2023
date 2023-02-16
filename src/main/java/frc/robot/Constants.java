@@ -51,6 +51,8 @@ public final class Constants {
         public final int MasterLeft = 3;
         public final int FollowerLeft = 4;
         public final double falconUnitsPerRevolution = 2048;
+
+        public final int ElevatorMotorID = 0;
     }
 
 
