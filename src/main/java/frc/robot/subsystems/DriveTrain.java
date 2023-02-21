@@ -72,6 +72,7 @@ public class DriveTrain extends SubsystemBase {
       
     }
 
+    
 
     // MOTORS
     public void setLeftMotorspeed(double leftmoterspeed) {
@@ -231,7 +232,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Master Left Sensor Velocity", masterLeftSensorVelocity);
     SmartDashboard.putNumber("Follower Left Sensor Velocity", slaveLeftSensorVelocity);
     
-  // }
+  }
 
    /**
     * displays TalonFX sensor data to rioLog, this method should be called in periodic()
