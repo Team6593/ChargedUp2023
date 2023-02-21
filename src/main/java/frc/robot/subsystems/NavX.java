@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,7 +19,7 @@ public class NavX extends SubsystemBase {
 
   }
 
-
+  // Helper methods
   public void reset() {
     navX.reset();
   }
@@ -26,33 +27,44 @@ public class NavX extends SubsystemBase {
     navX.calibrate();
   }
 
-  public void getAngle() {
-    navX.getAngle();
+  public double getAngle() {
+    return navX.getAngle();
   }
 
-  public void getYaw() {
-    navX.getYaw();
+  public float getYaw() {
+    return navX.getYaw();
   }
 
-  public void getAltitude() {
-    navX.getAltitude();
+  public float getAltitude() {
+   return navX.getAltitude();
   }
 
-  public void getVelocityX() {
-    navX.getVelocityX();
+  public float getVelocityX() {
+    return navX.getVelocityX();
   }
 
-  public void getVelocityY() {
-    navX.getVelocityY();
+  public float getVelocityY() {
+    return navX.getVelocityY();
   }
 
-  public void getVelocityZ() {
-    navX.getVelocityZ();
+  public float getVelocityZ() {
+    return navX.getVelocityZ();
+  }
+
+  // SmartDashboard methods
+  public void displayNavXData() {
+    SmartDashboard.putNumber("X Velocity", getVelocityX());
+    SmartDashboard.putNumber("Y velocity", getVelocityY());
+    SmartDashboard.putNumber("Z Velocity", getVelocityZ());
+
+    SmartDashboard.putNumber("Yaw", getYaw());
+    SmartDashboard.putNumber("Altitude", getAltitude());
+    SmartDashboard.putNumber("Angle", getAngle());
   }
 
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    displayNavXData();
   }
 }
