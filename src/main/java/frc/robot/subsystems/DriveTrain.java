@@ -61,13 +61,13 @@ public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public DriveTrain() {
   
-    followerRight.follow(masterRight);    
-    followerLeft.follow(masterLeft);
+    // followerRight.follow(masterRight);    
+    // followerLeft.follow(masterLeft);
 
     masterRight.setInverted(true);
     masterLeft.setInverted(false);
-    followerLeft.setInverted(InvertType.FollowMaster);
-    followerRight.setInverted(InvertType.FollowMaster);
+    followerLeft.setInverted(false);
+    followerRight.setInverted(true);
     //NavX Gyro setup
     try {
         gyro = new AHRS(SPI.Port.kMXP);
@@ -128,13 +128,22 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void arcadeDrive(double xSpd, double zRot) {
-      Drive.arcadeDrive(xSpd, zRot, false);
+  
+        Drive.arcadeDrive(xSpd, zRot);
     }
 
     public void autonDrive(double speed) {
       DtRight.set(speed);
       DtLeft.set(speed);
+
     }
+
+    
+    // SOLENOID/SHIFTERS
+    public void highGear(){
+      dtShifter.set(Value.kForward);
+    }
+
 
     public void drive(double motorspeed) {
       masterLeft.set(ControlMode.PercentOutput, motorspeed);
@@ -187,10 +196,14 @@ public class DriveTrain extends SubsystemBase {
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-      masterRight.setSelectedSensorPosition(0);
-      masterLeft.setSelectedSensorPosition(0);
-      followerRight.setSelectedSensorPosition(0);
-      followerLeft.setSelectedSensorPosition(0);
+
+
+      
+    masterRight.setSelectedSensorPosition(0);
+    masterLeft.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
+
   }
 
   // MOTOR POSITION/SENSOR
@@ -282,9 +295,10 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Follower Left Stator Current", followerLeftStatorCurrent);
   }
 
-  /**
-   * displays TalonFX sensor data to rioLog, this method should be called in periodic()
-   */
+
+   /**
+    * displays TalonFX sensor data to rioLog, this method should be called in periodic()
+    */
   public void printTalonData() {
     // TODO: change motor naming conventions to Master/Follower here
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
@@ -307,14 +321,15 @@ public class DriveTrain extends SubsystemBase {
     System.out.println("Stator Current, Master Left" + masterLeft.getStatorCurrent());
     System.out.println("Stator Current, Slave Left" + followerLeft.getStatorCurrent());
 
-    masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    followerRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
-    followerLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 10);
+    masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    followerRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    followerLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
   }
 
   @Override
   public void periodic() {
+
     displayTalonData();
   }
 }

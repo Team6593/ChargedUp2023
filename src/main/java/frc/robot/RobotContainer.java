@@ -4,18 +4,25 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.SpeedsForMotors;
+import frc.robot.Constants.InputMap.xBox;
 import frc.robot.Utils.MemoryMonitor;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.autonomous.DriveToChargeStation;
-import frc.robot.commands.autonomous.TaxiWithGyro;
+
+import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
+import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
+import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
+
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.vision.CamRIO;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,31 +33,44 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveTrain driveTrain;
-
+  public final Elevator elevator;
   // Make sure this is public so you can call camInit()
   public final CamRIO rioCamera;
   public final LimeLight limeLight;
 
-  private final ExampleCommand exampleCommand;
-  private final ExampleSubsystem exampleSubsystem;
+  private Compressor compressor;
 
   //Util classes
   public final MemoryMonitor memoryMonitor;
 
   private Constants constants = new Constants();
+  private xBox xbox = new xBox();
+  private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-
+  private JoystickButton rightButtonClick, leftButtonClick, aButton, xButton, yButton;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  public RobotContainer() {    
+    //examples
+
+    //instances of classes
     limeLight = new LimeLight();
     memoryMonitor = new MemoryMonitor();
     rioCamera = new CamRIO();
     driveTrain = new DriveTrain();
-    exampleSubsystem = new ExampleSubsystem();
-    exampleCommand = new ExampleCommand();
+
+    elevator = new Elevator();
+
+    aButton = new JoystickButton(xboxController, xbox.Abutton);
+    xButton = new JoystickButton(xboxController, xbox.Bbutton);
+    yButton = new JoystickButton(xboxController, xbox.Ybutton);
+
+    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
-    
+
+    //xbox buttons
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -62,6 +82,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
+    yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
+    xButton.onTrue(new ElevatorStopCommand(elevator));
+
 
   }
 
