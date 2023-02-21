@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorUpCommand extends CommandBase {
-  /** Creates a new ElevatorUpCommand. */
-
+  
   private Elevator elevator;
   private double elevatorSpeed;
-
-  public ElevatorUpCommand(Elevator elevator, double elevatorSpeed) {
-
+  /** Creates a new ElevatorUpCommand. */
+  public ElevatorUpCommand(Elevator elevator, double elevatorSpeed){
     this.elevator = elevator;
     this.elevatorSpeed = elevatorSpeed;
 
@@ -37,7 +35,7 @@ public class ElevatorUpCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     elevator.elevatorStop();
-    
+
   }
 
   // Returns true when the command should end.

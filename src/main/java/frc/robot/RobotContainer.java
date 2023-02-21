@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 import frc.robot.Utils.MemoryMonitor;
 import frc.robot.commands.ExampleCommand;
@@ -48,6 +49,7 @@ public class RobotContainer {
 
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
+  private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
   private JoystickButton rightButtonClick, leftButtonClick, aButton, xButton, yButton;
@@ -84,9 +86,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    aButton.onTrue(new ElevatorUpCommand(elevator, 0.4));
-    xButton.onTrue(new ElevatorDownCommand(elevator,0.4));
-    yButton.onTrue(new ElevatorStopCommand(elevator));
+    aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
+    yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
+    xButton.onTrue(new ElevatorStopCommand(elevator));
 
   }
 

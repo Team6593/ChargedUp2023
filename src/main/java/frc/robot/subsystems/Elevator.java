@@ -24,33 +24,25 @@ public class Elevator extends SubsystemBase {
   DigitalInput minHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorLowLimitSwitchPort); 
 
   public Elevator() {}
-
   /**
-   * 
    * 
    --Gets the value of the digital input. Returns true if circuit is open
    maxHeightLimitSwitch.get();
    *
    */
   public void elevatorUP(double elevatorSpeed){
-
     if(maxHeightLimitSwitch.get() == true){
-        elevatorMotor.set(elevatorSpeed);
-
-      }else if(maxHeightLimitSwitch.get()== false){
-        elevatorMotor.stopMotor();
-
-      }
+      elevatorMotor.set(elevatorSpeed);
+    }else if(maxHeightLimitSwitch.get() == false){
+      elevatorMotor.stopMotor();
     }
+  }
 
   public void elevatorDown(double elevatorSpeed){
-
-    if(minHeightLimitSwitch.get() == true){
+    if(minHeightLimitSwitch.get() == false){
       elevatorMotor.set(-elevatorSpeed);
-
     }else if(minHeightLimitSwitch.get() == false){
       elevatorMotor.stopMotor();
-
     }
   }
 
@@ -59,7 +51,12 @@ public class Elevator extends SubsystemBase {
 
   }
 
-
+  public void elevatorInit(){
+    elevatorMotor.setSafetyEnabled(true);
+    elevatorMotor.setExpiration(1);
+    elevatorMotor.feed();
+    
+  }
 
   @Override
   public void periodic() {

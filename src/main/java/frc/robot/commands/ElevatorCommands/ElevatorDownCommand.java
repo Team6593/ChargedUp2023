@@ -9,12 +9,10 @@ import frc.robot.subsystems.Elevator;
 
 public class ElevatorDownCommand extends CommandBase {
   /** Creates a new ElevatorDownCommand. */
-
   private Elevator elevator;
   private double elevatorSpeed;
 
   public ElevatorDownCommand(Elevator elevator, double elevatorSpeed) {
-
     this.elevator = elevator;
     this.elevatorSpeed = elevatorSpeed;
 
@@ -30,14 +28,12 @@ public class ElevatorDownCommand extends CommandBase {
   @Override
   public void execute() {
     elevator.elevatorDown(elevatorSpeed);
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     elevator.elevatorStop();
-
   }
 
   // Returns true when the command should end.

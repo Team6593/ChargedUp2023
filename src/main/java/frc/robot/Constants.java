@@ -25,6 +25,12 @@ public final class Constants {
         public final int ViewportWidth = 640;
         public final int ViewportHeight = 480;
     }
+    public static final class LimitSwitchesPorts{
+
+        public final int ElevatorTopLimitSwitchPort = 0;
+        public final int ElevatorLowLimitSwitchPort = 1;
+
+    }
 
     public static final class InputMap {
     
@@ -52,7 +58,11 @@ public final class Constants {
         public final int FollowerLeft = 4;
         public final double falconUnitsPerRevolution = 2048;
 
-        public final int ElevatorMotorID = 0;
+        public final int ElevatorMotorID = 6;
+    }
+
+    public static final class SpeedsForMotors{
+        public final double elevator_setSpeed = 0.4;
     }
 
 
