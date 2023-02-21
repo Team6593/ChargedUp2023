@@ -32,11 +32,15 @@ public class Elevator extends SubsystemBase {
    *
    */
   public void elevatorUP(double elevatorSpeed){
-    if(maxHeightLimitSwitch.get() == true){
-      elevatorMotor.set(elevatorSpeed);
-    }else if(maxHeightLimitSwitch.get() == false){
-      elevatorMotor.stopMotor();
+    // This code is unstable do not use for now
+    for(;;){
+
     }
+    // if(maxHeightLimitSwitch.get() == true){
+    //   elevatorMotor.set(elevatorSpeed);
+    // }else if(maxHeightLimitSwitch.get() == false){
+    //   elevatorMotor.stopMotor();
+    // }
   }
 
   public void elevatorDown(double elevatorSpeed){
@@ -57,13 +61,13 @@ public class Elevator extends SubsystemBase {
 
   public void elevatorInit(){
     elevatorMotor.setSafetyEnabled(true);
-    elevatorMotor.setExpiration(1);
-    elevatorMotor.feed();
-    
+    elevatorMotor.setExpiration(0.5);
+
   }
 
   @Override
   public void periodic() {
+    elevatorMotor.feed();
     // This method will be called once per scheduler run
   }
 }

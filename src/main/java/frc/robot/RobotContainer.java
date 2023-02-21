@@ -14,7 +14,6 @@ import frc.robot.Utils.MemoryMonitor;
 import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
-import frc.robot.commands.autonomous.TaxiWithGyro;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -49,7 +48,9 @@ public class RobotContainer {
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
   private JoystickButton rightButtonClick, leftButtonClick, aButton, xButton, yButton;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() { 
+  public RobotContainer() {    
+    //examples
+
     //instances of classes
     limeLight = new LimeLight();
     memoryMonitor = new MemoryMonitor();
