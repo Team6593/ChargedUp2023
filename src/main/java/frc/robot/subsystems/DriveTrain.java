@@ -46,10 +46,10 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
   // Limit Switches
-  private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
-  private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
-  private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
-  private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
+  //private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
+  //private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
+  //private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
+  //private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
   private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 

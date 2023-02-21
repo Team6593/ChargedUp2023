@@ -62,6 +62,11 @@ public class NavX extends SubsystemBase {
     SmartDashboard.putNumber("Angle", getAngle());
   }
 
+  //TODO: finish this later
+  public void printNavXData() {
+    SmartDashboard.putNumber("NavX angle", getAngle());
+    System.out.println("anlge       " + getAngle());
+  }
 
   @Override
   public void periodic() {
