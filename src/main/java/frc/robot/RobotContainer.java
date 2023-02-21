@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 import frc.robot.Utils.MemoryMonitor;
+
 import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
+
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -56,6 +58,7 @@ public class RobotContainer {
     memoryMonitor = new MemoryMonitor();
     rioCamera = new CamRIO();
     driveTrain = new DriveTrain();
+
     elevator = new Elevator();
 
     aButton = new JoystickButton(xboxController, xbox.Abutton);
@@ -67,6 +70,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
     //xbox buttons
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -82,6 +86,7 @@ public class RobotContainer {
     yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     xButton.onTrue(new ElevatorStopCommand(elevator));
 
+
   }
 
   /**
@@ -91,7 +96,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;//new TaxiWithGyro(driveTrain, .2); 
+    return new DriveToChargeStation(driveTrain, 1223.760000);//new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
   }
