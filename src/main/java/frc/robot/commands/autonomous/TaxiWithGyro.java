@@ -29,7 +29,7 @@ public class TaxiWithGyro extends CommandBase {
   @Override
   public void initialize() {
     startTime = Timer.getFPGATimestamp();
-    driveTrain.dtInit();
+    //driveTrain.dtInit();
     driveTrain.resetGyro();
     //timer.reset();
     timer.start();

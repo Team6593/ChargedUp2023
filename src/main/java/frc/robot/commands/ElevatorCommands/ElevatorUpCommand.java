@@ -35,7 +35,7 @@ public class ElevatorUpCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     elevator.elevatorStop();
-
+    //elevator.elevatorBrake();
   }
 
   // Returns true when the command should end.

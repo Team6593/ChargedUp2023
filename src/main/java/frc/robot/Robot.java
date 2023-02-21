@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     //rbContainer.memoryMonitor.getInstance().printMemoryUsage();
     rbContainer.limeLight.estimateDistance();
-    rbContainer.driveTrain.displayTalonData();
+    //rbContainer.driveTrain.displayTalonData();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
