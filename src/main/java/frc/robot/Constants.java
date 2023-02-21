@@ -62,7 +62,7 @@ public final class Constants {
     }
 
     public static final class SpeedsForMotors{
-        public final double elevator_setSpeed = 0.4;
+        public final double elevator_setSpeed = 0.2;
     }
 
 
