@@ -25,7 +25,7 @@ public class DriveTrain_DefaultCommnad extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //driveTrain.dtInit();
+    driveTrain.dtInit();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

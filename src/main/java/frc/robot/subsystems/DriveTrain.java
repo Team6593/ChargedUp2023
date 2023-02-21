@@ -36,10 +36,10 @@ public class DriveTrain extends SubsystemBase {
   public static Constants.Motors motors = new Constants.Motors();
 
   // We might not be using Sparks so this is subject to change
-  private Spark masterRight = new Spark(motors.MasterRight); // m right
-  private Spark masterLeft = new Spark(motors.MasterLeft); // m left
-  private Spark followerLeft = new Spark(motors.FollowerLeft); // s left
-  private Spark followerRight = new Spark(motors.FollowerRight); // s right
+  private WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
+  private WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
+  private WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
+  private WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // s right
 
   private final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, followerLeft);
   private final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
@@ -132,136 +132,136 @@ public class DriveTrain extends SubsystemBase {
     }
 
 
-  //   // MOTOR INIT
-  //   public void dtInit() {
+    // MOTOR INIT
+    public void dtInit() {
 
-  //     //Ensure motor output is nuetral during initialization
-  //     /* 
-  //     masterLeft.set(0);
-  //     masterRight.set(0);
-  //     slaveLeft.set(0);
-  //     slaveRight.set(0);
-  //     */
+      //Ensure motor output is nuetral during initialization
+      /* 
+      masterLeft.set(0);
+      masterRight.set(0);
+      slaveLeft.set(0);
+      slaveRight.set(0);
+      */
 
-  //     //Typically the right side of a drivetrain must be inverted
+      //Typically the right side of a drivetrain must be inverted
      
       
-  //     final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
+      final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
-  //     // config.supplyCurrLimit.enable = true;
-  //     // config.supplyCurrLimit.triggerThresholdCurrent = 40;
-  //     // config.supplyCurrLimit.triggerThresholdTime = 1.0;
-  //     // config.supplyCurrLimit.currentLimit = 30;
+      // config.supplyCurrLimit.enable = true;
+      // config.supplyCurrLimit.triggerThresholdCurrent = 40;
+      // config.supplyCurrLimit.triggerThresholdTime = 1.0;
+      // config.supplyCurrLimit.currentLimit = 30;
       
-  //     // masterRight.configAllSettings(config);
-  //     // masterLeft.configAllSettings(config);
-  //     // slaveRight.configAllSettings(config);
-  //     // slaveLeft.configAllSettings(config);
-  //     // masterRight.set(TalonFXControlMode.PercentOutput, 0.6);
-  //     // masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
-  //     // slaveRight.set(TalonFXControlMode.PercentOutput, 0.6);
-  //     // slaveLeft.set(TalonFXControlMode.PercentOutput, 0.6);
+      // masterRight.configAllSettings(config);
+      // masterLeft.configAllSettings(config);
+      // slaveRight.configAllSettings(config);
+      // slaveLeft.configAllSettings(config);
+      // masterRight.set(TalonFXControlMode.PercentOutput, 0.6);
+      // masterLeft.set(TalonFXControlMode.PercentOutput, 0.6);
+      // slaveRight.set(TalonFXControlMode.PercentOutput, 0.6);
+      // slaveLeft.set(TalonFXControlMode.PercentOutput, 0.6);
       
-  //     // set integrated sensor for PID, this doesn't matter even if PID isn't used
-  //     config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+      // set integrated sensor for PID, this doesn't matter even if PID isn't used
+      config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
       
-  //   masterRight.setSelectedSensorPosition(0);
-  //   masterLeft.setSelectedSensorPosition(0);
-  //   followerRight.setSelectedSensorPosition(0);
-  //   followerLeft.setSelectedSensorPosition(0);
-  // }
+    masterRight.setSelectedSensorPosition(0);
+    masterLeft.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
+  }
 
-  // // MOTOR POSITION/SENSOR
-  // /**
-  //  * this function only returns a value from the masterRight motor
-  //  * @return rps (rotations-per-second)
-  //  */
-  // public double getRotationsPerSecond(WPI_TalonFX motor) {
-  //   double sensorVelocity = motor.getSelectedSensorVelocity();
-  //   double rps = sensorVelocity / motors.falconUnitsPerRevolution * 10;
-  //   return rps;
-  // }
+  // MOTOR POSITION/SENSOR
+  /**
+   * this function only returns a value from the masterRight motor
+   * @return rps (rotations-per-second)
+   */
+  public double getRotationsPerSecond(WPI_TalonFX motor) {
+    double sensorVelocity = motor.getSelectedSensorVelocity();
+    double rps = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    return rps;
+  }
 
-  // /**
-  //  * this function only returns a value from the masterRight motor
-  //  * @return rpm (rotations-per-minute)
-  //  */
-  // public double getRotationsPerMinute(WPI_TalonFX motor) {
-  //   double sensorVelocity = motor.getSelectedSensorVelocity();
-  //   double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
-  //   return rpm = 60;
-  // }
+  /**
+   * this function only returns a value from the masterRight motor
+   * @return rpm (rotations-per-minute)
+   */
+  public double getRotationsPerMinute(WPI_TalonFX motor) {
+    double sensorVelocity = motor.getSelectedSensorVelocity();
+    double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    return rpm = 60;
+  }
 
   /**
    * this function only returns a value from the masterRight motor
    * @return rotations (sensor position / 2048)
    */
-  // public double getRotations(WPI_TalonFX motor) {
-  //   double sensorPosition = motor.getSelectedSensorPosition();
-  //   double rotations = sensorPosition / motors.falconUnitsPerRevolution;
-  //   return rotations;
+  public double getRotations(WPI_TalonFX motor) {
+    double sensorPosition = motor.getSelectedSensorPosition();
+    double rotations = sensorPosition / motors.falconUnitsPerRevolution;
+    return rotations;
+  }
+
+  /**
+   * displays motor position and velocity data to SmartDashboard,
+   * this is meant to be called in periodic()
+   */
+  public void displayTalonData() {
+    
+    // Sensor position
+    double masterRightSensorPosition = masterRight.getSelectedSensorPosition();
+    double slaveRightSensorPosition = followerRight.getSelectedSensorPosition();
+    double masterLeftSensorPosition = masterLeft.getSelectedSensorPosition();
+    double slaveLeftSensorPosition = followerLeft.getSelectedSensorPosition();
+    
+    SmartDashboard.putNumber("Master Right Sensor Position", masterRightSensorPosition);
+    SmartDashboard.putNumber("Follower Right Sensor Position", slaveRightSensorPosition);
+    SmartDashboard.putNumber("Master Left Sensor Position", masterLeftSensorPosition);
+    SmartDashboard.putNumber("Follower Left Sensor Position", slaveLeftSensorPosition);
+
+    // Sensor velocity
+    double masterRightSensorVelocity = masterRight.getSelectedSensorVelocity();
+    double masterLeftSensorVelocity = masterLeft.getSelectedSensorVelocity();
+    double slaveLeftSensorVelocity = followerLeft.getSelectedSensorVelocity();
+    double slaveRightSensorVelocity = followerRight.getSelectedSensorVelocity();
+
+    SmartDashboard.putNumber("Master Right Sensor Velocity", masterRightSensorVelocity);
+    SmartDashboard.putNumber("Follower Right Sensor Velocity", slaveRightSensorVelocity);
+    SmartDashboard.putNumber("Master Left Sensor Velocity", masterLeftSensorVelocity);
+    SmartDashboard.putNumber("Follower Left Sensor Velocity", slaveLeftSensorVelocity);
+    
   // }
 
-  // /**
-  //  * displays motor position and velocity data to SmartDashboard,
-  //  * this is meant to be called in periodic()
-  //  */
-  // public void displayTalonData() {
-    
-  //   // Sensor position
-  //   double masterRightSensorPosition = masterRight.getSelectedSensorPosition();
-  //   double slaveRightSensorPosition = followerRight.getSelectedSensorPosition();
-  //   double masterLeftSensorPosition = masterLeft.getSelectedSensorPosition();
-  //   double slaveLeftSensorPosition = followerLeft.getSelectedSensorPosition();
-    
-  //   SmartDashboard.putNumber("Master Right Sensor Position", masterRightSensorPosition);
-  //   SmartDashboard.putNumber("Follower Right Sensor Position", slaveRightSensorPosition);
-  //   SmartDashboard.putNumber("Master Left Sensor Position", masterLeftSensorPosition);
-  //   SmartDashboard.putNumber("Follower Left Sensor Position", slaveLeftSensorPosition);
+   /**
+    * displays TalonFX sensor data to rioLog, this method should be called in periodic()
+    */
+  public void printTalonData() {
+    System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
+    System.out.println("Sensor position, slave right" + followerRight.getSelectedSensorPosition());
+    System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());
+    System.out.println("Sensor position, slave left" + followerLeft.getSelectedSensorPosition());
 
-  //   // Sensor velocity
-  //   double masterRightSensorVelocity = masterRight.getSelectedSensorVelocity();
-  //   double masterLeftSensorVelocity = masterLeft.getSelectedSensorVelocity();
-  //   double slaveLeftSensorVelocity = followerLeft.getSelectedSensorVelocity();
-  //   double slaveRightSensorVelocity = followerRight.getSelectedSensorVelocity();
+    System.out.println("Sensor velocity, master right" + masterRight.getSelectedSensorVelocity());
+    System.out.println("Sensor velocity, master left" + masterLeft.getSelectedSensorVelocity());
+    System.out.println("Sensor velocity, slave right" + followerRight.getSelectedSensorVelocity());
+    System.out.println("Sensor velocity, slave left" + followerLeft.getSelectedSensorVelocity());
 
-  //   SmartDashboard.putNumber("Master Right Sensor Velocity", masterRightSensorVelocity);
-  //   SmartDashboard.putNumber("Follower Right Sensor Velocity", slaveRightSensorVelocity);
-  //   SmartDashboard.putNumber("Master Left Sensor Velocity", masterLeftSensorVelocity);
-  //   SmartDashboard.putNumber("Follower Left Sensor Velocity", slaveLeftSensorVelocity);
-    
-  // }
+    System.out.println("Motor output, Master right" + masterRight.getMotorOutputPercent());
+    System.out.println("Motor output, Slave right" + followerRight.getMotorOutputPercent());
+    System.out.println("Motor output, Master left" + masterLeft.getMotorOutputPercent());
+    System.out.println("Motor output, Slave left" + followerLeft.getMotorOutputPercent());
 
-  // /**
-  //  * displays TalonFX sensor data to rioLog, this method should be called in periodic()
-  //  */
-  // public void printTalonData() {
-  //   System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
-  //   System.out.println("Sensor position, slave right" + followerRight.getSelectedSensorPosition());
-  //   System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());
-  //   System.out.println("Sensor position, slave left" + followerLeft.getSelectedSensorPosition());
+    System.out.println("Stator current, Master Right" + masterRight.getStatorCurrent());
+    System.out.println("Stator current, Slave Right" + followerRight.getStatorCurrent());
+    System.out.println("Stator Current, Master Left" + masterLeft.getStatorCurrent());
+    System.out.println("Stator Current, Slave Left" + followerLeft.getStatorCurrent());
 
-  //   System.out.println("Sensor velocity, master right" + masterRight.getSelectedSensorVelocity());
-  //   System.out.println("Sensor velocity, master left" + masterLeft.getSelectedSensorVelocity());
-  //   System.out.println("Sensor velocity, slave right" + followerRight.getSelectedSensorVelocity());
-  //   System.out.println("Sensor velocity, slave left" + followerLeft.getSelectedSensorVelocity());
-
-  //   System.out.println("Motor output, Master right" + masterRight.getMotorOutputPercent());
-  //   System.out.println("Motor output, Slave right" + followerRight.getMotorOutputPercent());
-  //   System.out.println("Motor output, Master left" + masterLeft.getMotorOutputPercent());
-  //   System.out.println("Motor output, Slave left" + followerLeft.getMotorOutputPercent());
-
-  //   System.out.println("Stator current, Master Right" + masterRight.getStatorCurrent());
-  //   System.out.println("Stator current, Slave Right" + followerRight.getStatorCurrent());
-  //   System.out.println("Stator Current, Master Left" + masterLeft.getStatorCurrent());
-  //   System.out.println("Stator Current, Slave Left" + followerLeft.getStatorCurrent());
-
-  //   masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
-  //   masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
-  //   followerRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
-  //   followerLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
-  // }
+    masterRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    masterLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    followerRight.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+    followerLeft.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 350);
+  }
 
   @Override
   public void periodic() {
