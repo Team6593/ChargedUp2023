@@ -53,8 +53,6 @@ public class DriveTrain extends SubsystemBase {
 
   private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
-  private AHRS gyro; //import kauaiLabs_NavX_FRC vendor library
-
   public double P = 1;// might have to change number later
 
 
@@ -68,13 +66,6 @@ public class DriveTrain extends SubsystemBase {
     masterLeft.setInverted(false);
     followerLeft.setInverted(false);
     followerRight.setInverted(true);
-    //NavX Gyro setup
-    try {
-        gyro = new AHRS(SPI.Port.kMXP);
-      } catch (RuntimeException rex) {
-        DriverStation.reportError("An error occured with NavX mxp, most likely and error with installing NavX - MansourQ" + rex.getMessage(), true);
-      }
-      
     }
 
     
@@ -88,12 +79,6 @@ public class DriveTrain extends SubsystemBase {
       DtRight.set(rightmotorspeed);
     }
 
-    public void driveStraight(double motorspeed) {
-      double err = -gyro.getAngle(); //target angle is zero
-      double turnSpeed = P * err;
-      Drive.arcadeDrive(motorspeed, turnSpeed);
-    }
-
 
     public void lowGear(){
       shifter.set(Value.kReverse);
@@ -102,12 +87,6 @@ public class DriveTrain extends SubsystemBase {
     public void dtShifterOff(){
       shifter.set(Value.kOff);
     }
-
-
-    public void resetGyro() {
-      gyro.reset();
-    }
-
 
     public void stopAllMotors() {
       masterRight.stopMotor();
