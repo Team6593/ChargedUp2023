@@ -34,12 +34,12 @@ public class DriveTrain extends SubsystemBase {
 
   // motor controllers
   public WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
-  private WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
-  private WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
-  private WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // s right
+  public WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
+  public WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
+  public WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // s right
 
-  private final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, followerLeft);
-  private final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
+  public final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, followerLeft);
+  public final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
 
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 

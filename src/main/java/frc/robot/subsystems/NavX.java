@@ -86,11 +86,6 @@ public class NavX extends SubsystemBase {
     SmartDashboard.putNumber("Roll", getRoll());
   }
 
-  //TODO: finish this later
-  public void printNavXData() {
-    
-  }
-
   @Override
   public void periodic() {
     //displayNavXData();
