@@ -11,20 +11,37 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavX extends SubsystemBase {
-  
-  public AHRS navX = new AHRS(SPI.Port.kMXP);
+  public AHRS navX;
 
   /** Creates a new NavX. */
   public NavX() {
-
+    try {
+      navX = new AHRS(SPI.Port.kMXP);
+    } catch (RuntimeException NavXNotFoundRuntimeException) {
+      DriverStation.reportError("Could not find NavX-mxp, this is most likely an installation issue" + NavXNotFoundRuntimeException.getMessage(), true);
+    }
   }
 
-  // Helper methods
+  public void connectionTest() {
+    if(navX.isConnected()) {
+      System.out.println("NavX connected");
+    } else { System.out.println("NavX is not connected");}
+  }
+
   public void reset() {
     navX.reset();
   }
+
   public void calibrate() {
     navX.calibrate();
+  }
+
+  public void resetYaw() {
+    navX.zeroYaw();
+  } 
+
+  public float getPitch() {
+    return navX.getPitch();
   }
 
   public double getAngle() {
@@ -51,6 +68,10 @@ public class NavX extends SubsystemBase {
     return navX.getVelocityZ();
   }
 
+  public float getRoll() {
+    return navX.getRoll();
+  }
+
   // SmartDashboard methods
   public void displayNavXData() {
     SmartDashboard.putNumber("X Velocity", getVelocityX());
@@ -60,16 +81,18 @@ public class NavX extends SubsystemBase {
     SmartDashboard.putNumber("Yaw", getYaw());
     SmartDashboard.putNumber("Altitude", getAltitude());
     SmartDashboard.putNumber("Angle", getAngle());
+    SmartDashboard.putNumber("Pitch", getPitch());
+
+    SmartDashboard.putNumber("Roll", getRoll());
   }
 
   //TODO: finish this later
   public void printNavXData() {
-    SmartDashboard.putNumber("NavX angle", getAngle());
-    System.out.println("anlge       " + getAngle());
+    
   }
 
   @Override
   public void periodic() {
-    displayNavXData();
+    //displayNavXData();
   }
 }
