@@ -50,7 +50,8 @@ public class RobotContainer {
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightButtonClick, leftButtonClick, aButton, xButton, yButton;
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton;
+  private XboxController.Button wasd;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -63,15 +64,9 @@ public class RobotContainer {
 
     elevator = new Elevator();
 
-    aButton = new JoystickButton(xboxController, xbox.Abutton);
-    xButton = new JoystickButton(xboxController, xbox.Bbutton);
-    yButton = new JoystickButton(xboxController, xbox.Ybutton);
-
     compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
-
-    //xbox buttons
 
     // Configure the button bindings
     configureButtonBindings();
@@ -84,10 +79,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // define JoystickButton to XboxController buttons
+    aButton = new JoystickButton(xboxController, xbox.Abutton);
+    xButton = new JoystickButton(xboxController, xbox.Bbutton);
+    yButton = new JoystickButton(xboxController, xbox.Ybutton);
+    rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
+    leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
+    
+    // button -> command handling
     aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     xButton.onTrue(new ElevatorStopCommand(elevator));
-
+    
 
   }
 
