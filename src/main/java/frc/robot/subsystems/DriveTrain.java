@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
@@ -67,9 +68,23 @@ public class DriveTrain extends SubsystemBase {
     
     }
 
-    
 
     // MOTORS
+
+    public void setBrakeMode() {
+      masterLeft.setNeutralMode(NeutralMode.Brake);
+      masterRight.setNeutralMode(NeutralMode.Brake);
+      followerLeft.setNeutralMode(NeutralMode.Brake);
+      followerRight.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void setCoastMode() {
+      masterLeft.setNeutralMode(NeutralMode.Coast);
+      masterRight.setNeutralMode(NeutralMode.Coast);
+      followerLeft.setNeutralMode(NeutralMode.Coast);
+      followerRight.setNeutralMode(NeutralMode.Coast);
+    }
+
     public void setLeftMotorspeed(double leftmoterspeed) {
       DtLeft.set(leftmoterspeed);
     }
@@ -277,7 +292,6 @@ public class DriveTrain extends SubsystemBase {
     * displays TalonFX sensor data to rioLog, this method should be called in periodic()
     */
   public void printTalonData() {
-    // TODO: change motor naming conventions to Master/Follower here
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
     System.out.println("Sensor position, slave right" + followerRight.getSelectedSensorPosition());
     System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());

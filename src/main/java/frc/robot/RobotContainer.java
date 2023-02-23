@@ -17,6 +17,8 @@ import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
 import frc.robot.commands.autonomous.DriveToChargeStation;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
+import frc.robot.commands.drivetrain.HighGear;
+import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
@@ -85,12 +87,16 @@ public class RobotContainer {
     yButton = new JoystickButton(xboxController, xbox.Ybutton);
     rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
     leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
-    
+
     // button -> command handling
+    // Elevator bindings
     aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     xButton.onTrue(new ElevatorStopCommand(elevator));
     
+    // DriveTrain, high and low gear bindings
+    rightTrigger.onTrue(new HighGear(driveTrain));
+    leftTrigger.onTrue(new LowGear(driveTrain));
 
   }
 
@@ -100,9 +106,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // DriveToChargeStation then BalanceOnChargeStation
+    return new DriveToChargeStation(driveTrain, 1223.760000);
     
-    return new DriveToChargeStation(driveTrain, 1223.760000);//new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
+    // only use this when DriveToChargeStation command does not work
+    //new TaxiWithGyro(driveTrain, .2); 
   }
 }
