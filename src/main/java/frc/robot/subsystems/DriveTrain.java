@@ -44,14 +44,13 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
   // Limit Switches
+  // Uncomment the following lines below if there are limit switches on the robot
   //private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
   //private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
   //private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
   //private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
   private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-
-  public double P = 1;// might have to change number later
 
 
   /** Creates a new DriveTrain. */
@@ -60,6 +59,7 @@ public class DriveTrain extends SubsystemBase {
     // followerRight.follow(masterRight);    
     // followerLeft.follow(masterLeft);
 
+    // Right side of DriveTrain must be inverted to drive straight
     masterRight.setInverted(true);
     masterLeft.setInverted(false);
     followerLeft.setInverted(false);
@@ -149,12 +149,13 @@ public class DriveTrain extends SubsystemBase {
       slaveLeft.set(0);
       slaveRight.set(0);
       */
-
-      //Typically the right side of a drivetrain must be inverted
-     
       
       final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
+      // Comment this code out if the robot 'stutters' while driving
+      // This limits the amount of electricity the motor can recieve,
+      // but this can cause the robot to drive slow, or 'stutter'
+      // because of the motor's safety measures
       /*
       config.supplyCurrLimit.enable = true;
       config.supplyCurrLimit.triggerThresholdCurrent = 40;
@@ -174,11 +175,11 @@ public class DriveTrain extends SubsystemBase {
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
 
-      
-    masterRight.setSelectedSensorPosition(0);
-    masterLeft.setSelectedSensorPosition(0);
-    followerRight.setSelectedSensorPosition(0);
-    followerLeft.setSelectedSensorPosition(0);
+      // reset all motor positions on init
+      masterRight.setSelectedSensorPosition(0);
+      masterLeft.setSelectedSensorPosition(0);
+      followerRight.setSelectedSensorPosition(0);
+      followerLeft.setSelectedSensorPosition(0);
 
   }
 
