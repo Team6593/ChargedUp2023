@@ -53,7 +53,7 @@ public class RobotContainer {
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
   private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton;
-  private XboxController.Button wasd;
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
