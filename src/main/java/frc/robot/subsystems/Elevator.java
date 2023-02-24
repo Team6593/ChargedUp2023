@@ -32,18 +32,22 @@ public class Elevator extends SubsystemBase {
     // This code is unstable do not use for now
     if(maxHeightLimitSwitch.get() == true){
       elevatorMotor.set(elevatorSpeed);
+      
     }else if(maxHeightLimitSwitch.get() == false){
       elevatorMotor.stopMotor();
       elevatorBrake();
+
     }
   }
 
   public void elevatorDown(double elevatorSpeed){
     if(minHeightLimitSwitch.get() == true){
       elevatorMotor.set(-elevatorSpeed);
+
     }else if(minHeightLimitSwitch.get() == false){
       elevatorMotor.stopMotor();
       elevatorBrake();
+
     }
   }
 

@@ -16,15 +16,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DoubleSolenoidChannels;
 import frc.robot.Constants.Motors;
+import frc.robot.Utils.UnitConverter;
 
 public class Arm extends SubsystemBase {
 
   private Motors motors = new Motors();
+  private UnitConverter unitConverter = new UnitConverter();
   private DoubleSolenoidChannels doubleSolenoidChannels = new DoubleSolenoidChannels();
-  /** Creates a new Hand. */
-  private WPI_TalonFX armMotor = new WPI_TalonFX(motors.armMotorID);
-  private DoubleSolenoid armSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmForwardChannel, doubleSolenoidChannels.ArmReverseChannel);
 
+  //Motor/s
+  private WPI_TalonFX armMotor = new WPI_TalonFX(motors.armMotorID);
+
+  //solenoids
+  private DoubleSolenoid armSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmForwardChannel, doubleSolenoidChannels.ArmReverseChannel);
+  
+  /* Creates a new Hand. */
   public Arm() {}
 
   public void armBrakeMode(){
@@ -37,30 +43,50 @@ public class Arm extends SubsystemBase {
 
   public void armInit(){
     armBrakeMode();
-
+    armMotor.setSelectedSensorPosition(0);
+    
+    armMotor.setInverted(true);//might have to change later
     final TalonFXConfiguration handConfig = new TalonFXConfiguration();
 
     handConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
-    armMotor.setSelectedSensorPosition(0);
+
   }
 
-  public double getArmSensorPosition(){
-    return armMotor.getSelectedSensorPosition();
+  public double readableArmSensorPosition(){
+    double armSensorPos = unitConverter.toReadableEncoderUnit(armMotor.getSelectedSensorPosition());
+    return armSensorPos;
   }
 
-  public double getArmSensorVelocity(){
-    return armMotor.getSelectedSensorVelocity();
+  public double armSensorVelocity(){
+    double armSensorVel = unitConverter.toReadableEncoderUnit(armMotor.getSelectedSensorVelocity());
+    return armSensorVel;
   }
 
   public void displayArmSensorData(){
-    SmartDashboard.putNumber("Hand sensor velocity", getArmSensorVelocity());
-    SmartDashboard.putNumber("Hand sensor position", getArmSensorPosition());
+    SmartDashboard.putNumber("Hand sensor position", readableArmSensorPosition());
+    SmartDashboard.putNumber("Hand sensor velocity", armSensorVelocity());
 
   }
 
-  public void armExtend_grab(){
+  public void armClose(){
     armSolenoid.set(Value.kForward);
+  }
+
+  public void armOpen(){
+    armSolenoid.set(Value.kReverse);
+  }
+
+  public void armExtend(){
+    while(readableArmSensorPosition() < 228){
+      armMotor.set(0.25);
+    }
+  }
+
+  public void armRetract(){
+    while(readableArmSensorPosition() > 10){
+      armMotor.set(-0.25);
+    }
   }
 
   @Override

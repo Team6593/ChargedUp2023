@@ -14,12 +14,12 @@ public class UnitConverter {
      * @return readable-encoder-units
      */
     public double toReadableEncoderUnit(double rawUnits) {
-        double recu = rawUnits /100;
+        double recu = rawUnits / 100;
         return recu;
     }
 
     /**
-     * An ideal use-case for this is when you are programming sensors/encoders/autonomoue
+     * An ideal use-case for this is when you are programming sensors/encoders/autonomous
      * Converts degrees into radians
      * @param degrees
      * @return radians
@@ -30,7 +30,7 @@ public class UnitConverter {
     }
 
     /**
-     * An ideal use-case for this is when you are programming sensors/encoders/autonomoue
+     * An ideal use-case for this is when you are programming sensors/encoders/autonomous
      * Converts radians into degrees
      * @param radians
      * @return degrees
@@ -41,7 +41,7 @@ public class UnitConverter {
     }
 
     /**
-     * An ideal use-case for this is when you are programming sensors/encoders/autonomoue
+     * An ideal use-case for this is when you are programming sensors/encoders/autonomous
      * @param units
      * @return units per revolution/full rotation (360 degrees)
      */
@@ -51,7 +51,7 @@ public class UnitConverter {
     }
     
     /**
-     * An ideal use-case for this is when you are programming sensors/encoders/autonomoue
+     * An ideal use-case for this is when you are programming sensors/encoders/autonomous
      * @param units
      * @return units per half-revolution/half of a full rotation (180 degrees)
      */
@@ -61,7 +61,7 @@ public class UnitConverter {
     }
 
     /**
-     * An ideal use-case for this is when you are programming sensors/encoders/autonomoue
+     * An ideal use-case for this is when you are programming sensors/encoders/autonomous
      * @param units
      * @param degrees
      * @return units per-degree (units/degree)
@@ -72,7 +72,7 @@ public class UnitConverter {
     }
 
     /**
-     * An ideal use-case for this is when you are programming sensors/encoders/autonomoue
+     * An ideal use-case for this is when you are programming sensors/encoders/autonomous
      * @param degree
      * @param units
      * @return degree(s) per unit (degree/units)
