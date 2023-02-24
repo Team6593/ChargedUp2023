@@ -59,10 +59,21 @@ public final class Constants {
         public final double falconUnitsPerRevolution = 2048;
 
         public final int ElevatorMotorID = 6;
+
+        public final int HandMotorID = 0;
     }
 
     public static final class SpeedsForMotors{
         public final double elevator_setSpeed = 0.2;
+    }
+
+    public static final class DoubleSolenoidChannels{
+        public static final int ForwardChannelDt = 4;
+        public static final int ReverseChannelDt = 5;
+
+        public final int HandForwardChannel = 0;
+        public final int HandReverseChannel = 0;
+
     }
 
 

@@ -40,10 +40,23 @@ public class NavX extends SubsystemBase {
     navX.zeroYaw();
   } 
 
+
+  /**
+   * Depending on the orientation of the RoboRIO, the pitch might actually be the roll instead
+   * This means that the RoboRIO was installed sideways, so the pitch and roll are swapped.
+   * Regardless, the implementation of getPitch and getRoll will not be changed.
+   * @return Pitch (the level of tilt backwards or forwards in degrees)
+   */
   public float getPitch() {
     return navX.getPitch();
   }
 
+  /**
+   * This method is the same as getYaw, with some slight differences. However, 
+   * this method is more accurate because it returns a double precision number
+   * @return The current total accumulated yaw angle (Z axis) of the robot in degrees. 
+   * This heading is based on integration of the returned rate from the Z-axis (yaw) gyro.
+   */
   public double getAngle() {
     return navX.getAngle();
   }
@@ -68,6 +81,12 @@ public class NavX extends SubsystemBase {
     return navX.getVelocityZ();
   }
 
+  /**
+   * Depending on the orientation of the RoboRIO, the pitch might actually be the roll instead
+   * This means that the RoboRIO was installed sideways, so the pitch and roll are swapped.
+   * Regardless, the implementation of getPitch and getRoll will not be changed.
+   * @return Roll (the level of tilt left or right measured in degrees)
+   */
   public float getRoll() {
     return navX.getRoll();
   }

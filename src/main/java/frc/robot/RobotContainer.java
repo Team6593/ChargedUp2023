@@ -52,8 +52,7 @@ public class RobotContainer {
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton;
-  private XboxController.Button wasd;
+  private JoystickButton aButton, xButton, yButton, rightClick, leftClick;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -85,18 +84,26 @@ public class RobotContainer {
     aButton = new JoystickButton(xboxController, xbox.Abutton);
     xButton = new JoystickButton(xboxController, xbox.Bbutton);
     yButton = new JoystickButton(xboxController, xbox.Ybutton);
-    rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
-    leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
+    leftClick = new JoystickButton(xboxController, xbox.LeftButtonClick);
+    rightClick = new JoystickButton(xboxController, xbox.RightButtonClick);
+    //rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
+    //leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
 
     // button -> command handling
     // Elevator bindings
-    aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
-    yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
-    xButton.onTrue(new ElevatorStopCommand(elevator));
-    
+    // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
+    // xButton.onTrue(new ElevatorStopCommand(elevator));
+    // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
+    aButton.onTrue(new HighGear(driveTrain));
+    xButton.onTrue(new LowGear(driveTrain));
+
     // DriveTrain, high and low gear bindings
-    rightTrigger.onTrue(new HighGear(driveTrain));
-    leftTrigger.onTrue(new LowGear(driveTrain));
+
+    // rightClick.onTrue(new HighGear(driveTrain));
+    // leftClick.onTrue(new LowGear(driveTrain));
+
+    // rightTrigger.onTrue(new HighGear(driveTrain));
+    // leftTrigger.onTrue(new LowGear(driveTrain));
 
   }
 

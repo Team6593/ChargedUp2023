@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DoubleSolenoidChannels;
 import frc.robot.Utils.UnitConverter;
 
 public class DriveTrain extends SubsystemBase {
@@ -32,6 +33,7 @@ public class DriveTrain extends SubsystemBase {
   // refrence constants to get motor ID's
   public static Constants.Motors motors = new Constants.Motors();
   public static UnitConverter unitConverter = new UnitConverter();
+  public static DoubleSolenoidChannels doubleSolenoidChannels = new DoubleSolenoidChannels();
 
   // motor controllers
   public WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
@@ -41,7 +43,7 @@ public class DriveTrain extends SubsystemBase {
 
   public final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, followerLeft);
   public final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
-
+  
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
   // Limit Switches
@@ -51,20 +53,19 @@ public class DriveTrain extends SubsystemBase {
   //private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
   //private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
-  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ForwardChannelDt, doubleSolenoidChannels.ReverseChannelDt);
 
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-  
     // followerRight.follow(masterRight);    
     // followerLeft.follow(masterLeft);
 
     // Right side of DriveTrain must be inverted to drive straight
-    masterRight.setInverted(true);
-    masterLeft.setInverted(false);
-    followerLeft.setInverted(false);
-    followerRight.setInverted(true);
+    // masterRight.setInverted(true);
+    // masterLeft.setInverted(false);
+    // followerLeft.setInverted(false);
+    // followerRight.setInverted(true);
     
     }
 
@@ -93,14 +94,6 @@ public class DriveTrain extends SubsystemBase {
       DtRight.set(rightmotorspeed);
     }
 
-
-    public void lowGear(){
-      shifter.set(Value.kReverse);
-    }
-
-    public void dtShifterOff(){
-      shifter.set(Value.kOff);
-    }
 
     public void stopAllMotors() {
       masterRight.stopMotor();
@@ -135,6 +128,14 @@ public class DriveTrain extends SubsystemBase {
       shifter.set(Value.kForward);
     }
 
+    public void lowGear(){
+      shifter.set(Value.kReverse);
+    }
+
+    public void dtShifterOff(){
+      shifter.set(Value.kOff);
+    }
+
 
     public void drive(double motorspeed) {
       masterLeft.set(ControlMode.PercentOutput, motorspeed);
@@ -167,6 +168,8 @@ public class DriveTrain extends SubsystemBase {
       
       final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
+      //setCoastMode();
+
       // Comment this code out if the robot 'stutters' while driving
       // This limits the amount of electricity the motor can recieve,
       // but this can cause the robot to drive slow, or 'stutter'
@@ -181,15 +184,24 @@ public class DriveTrain extends SubsystemBase {
       masterLeft.configAllSettings(config);
       followerRight.configAllSettings(config);
       followerLeft.configAllSettings(config);
+
+      /* 
       masterRight.set(TalonFXControlMode.PercentOutput, 0);
       masterLeft.set(TalonFXControlMode.PercentOutput, 0);
       followerRight.set(TalonFXControlMode.PercentOutput, 0);
       followerLeft.set(TalonFXControlMode.PercentOutput, 0);
+      */
       
       // set integrated sensor for PID, this doesn't matter even if PID isn't used
       config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
+      followerLeft.follow(masterLeft);
+      followerRight.follow(masterRight);
 
+      masterRight.setInverted(true);
+      masterLeft.setInverted(false);
+      followerRight.setInverted(InvertType.FollowMaster);
+      followerLeft.setInverted(InvertType.FollowMaster);
       // reset all motor positions on init
       masterRight.setSelectedSensorPosition(0);
       masterLeft.setSelectedSensorPosition(0);
@@ -207,6 +219,7 @@ public class DriveTrain extends SubsystemBase {
     double sensorVelocity = motor.getSelectedSensorVelocity();
     double rps = sensorVelocity / motors.falconUnitsPerRevolution * 10;
     return rps;
+    
   }
 
   /**
@@ -216,7 +229,7 @@ public class DriveTrain extends SubsystemBase {
   public double getRotationsPerMinute(WPI_TalonFX motor) {
     double sensorVelocity = motor.getSelectedSensorVelocity();
     double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
-    return rpm = 60;
+    return rpm;
   }
 
   /**

@@ -31,9 +31,10 @@ public class DriveTrain_DefaultCommnad extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(xboxController.getRawAxis(1), -xboxController.getRawAxis(4));
-    //driveTrain.arcadeDrive(-xboxController.getRawAxis(1), -xboxController.getRawAxis(4));
-    //driveTrain.arcadeDrive(xboxController.getRawAxis(1), xboxController.getRawAxis(4)); // for inverted movement
+    //driveTrain.curveDrive(xboxController.getRawAxis(1), -xboxController.getRawAxis(4), true);
+    //driveTrain.setCoastMode();
+    //driveTrain.arcadeDrive(-xboxController.getRawAxis(1), xboxController.getRawAxis(4));
+    driveTrain.arcadeDrive(xboxController.getRawAxis(1), xboxController.getRawAxis(4)); // for inverted movement
   }
 
   // Called once the command ends or is interrupted.
