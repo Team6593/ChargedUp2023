@@ -10,15 +10,17 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
-import frc.robot.Utils.MemoryMonitor;
 
 import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
-
+import frc.robot.commands.autonomous.DriveToChargeStation;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
+import frc.robot.commands.drivetrain.HighGear;
+import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.vision.CamRIO;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,39 +39,31 @@ public class RobotContainer {
   // Make sure this is public so you can call camInit()
   public final CamRIO rioCamera;
   public final LimeLight limeLight;
+  public final NavX navX;
 
   private Compressor compressor;
-
-  //Util classes
-  public final MemoryMonitor memoryMonitor;
 
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightButtonClick, leftButtonClick, aButton, xButton, yButton;
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton;
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
-    //examples
 
     //instances of classes
+    navX = new NavX();
     limeLight = new LimeLight();
-    memoryMonitor = new MemoryMonitor();
     rioCamera = new CamRIO();
     driveTrain = new DriveTrain();
 
     elevator = new Elevator();
 
-    aButton = new JoystickButton(xboxController, xbox.Abutton);
-    xButton = new JoystickButton(xboxController, xbox.Bbutton);
-    yButton = new JoystickButton(xboxController, xbox.Ybutton);
-
     compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
-
-    //xbox buttons
 
     // Configure the button bindings
     configureButtonBindings();
@@ -82,10 +76,22 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    // define JoystickButton to XboxController buttons
+    aButton = new JoystickButton(xboxController, xbox.Abutton);
+    xButton = new JoystickButton(xboxController, xbox.Bbutton);
+    yButton = new JoystickButton(xboxController, xbox.Ybutton);
+    rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
+    leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
+
+    // button -> command handling
+    // Elevator bindings
     aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     xButton.onTrue(new ElevatorStopCommand(elevator));
-
+    
+    // DriveTrain, high and low gear bindings
+    rightTrigger.onTrue(new HighGear(driveTrain));
+    leftTrigger.onTrue(new LowGear(driveTrain));
 
   }
 
@@ -95,9 +101,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new DriveToChargeStation(driveTrain, 1223.760000);//new TaxiWithGyro(driveTrain, .2); 
+    // DriveToChargeStation then BalanceOnChargeStation
+    return new DriveToChargeStation(driveTrain, 1223.760000);
+    
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
+    // only use this when DriveToChargeStation command does not work
+    //new TaxiWithGyro(driveTrain, .2); 
   }
 }

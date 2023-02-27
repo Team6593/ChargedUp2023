@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
     rbContainer = new RobotContainer();
     rbContainer.rioCamera.camInit();
     rbContainer.driveTrain.resetAllMotorPosition();
+    rbContainer.navX.calibrate();
+    rbContainer.navX.connectionTest();
   }
 
   /**
@@ -47,8 +49,10 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    
+    rbContainer.navX.displayNavXData();
     //rbContainer.memoryMonitor.getInstance().printMemoryUsage();
-    rbContainer.limeLight.estimateDistance();
+    //rbContainer.limeLight.estimateDistance();
     //rbContainer.driveTrain.displayTalonData();
   }
 

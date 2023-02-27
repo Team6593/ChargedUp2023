@@ -7,10 +7,12 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.NavX;
 
 public class TaxiWithGyro extends CommandBase {
   
   private DriveTrain driveTrain;
+  private NavX navX;
   double motorSpeed;
   Timer timer = new Timer();
   double startTime;
@@ -30,7 +32,7 @@ public class TaxiWithGyro extends CommandBase {
   public void initialize() {
     startTime = Timer.getFPGATimestamp();
     //driveTrain.dtInit();
-    driveTrain.resetGyro();
+    navX.reset();
     //timer.reset();
     timer.start();
   }
