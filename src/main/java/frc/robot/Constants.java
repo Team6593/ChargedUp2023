@@ -59,6 +59,9 @@ public final class Constants {
         public final double falconUnitsPerRevolution = 2048;
 
         public final int ElevatorMotorID = 6;
+
+        //units per revolution of talon Motors
+        public final int TalonFX_UnitsPerRev = 2048;
     }
 
     public static final class SpeedsForMotors{

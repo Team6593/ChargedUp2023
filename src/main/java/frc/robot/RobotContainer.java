@@ -17,8 +17,11 @@ import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
 import frc.robot.commands.autonomous.DriveToChargeStation;
 import frc.robot.commands.drivetrain.BalanceOnChargeStation;
+import frc.robot.commands.drivetrain.DriveDistanceUsingCalculations;
 import frc.robot.commands.drivetrain.DriveTrainStop;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
+import frc.robot.commands.drivetrain.HighGear;
+import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
@@ -50,8 +53,7 @@ public class RobotContainer {
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton;
-  private XboxController.Button wasd;
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, rightClick, leftClick;
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -84,15 +86,21 @@ public class RobotContainer {
     aButton = new JoystickButton(xboxController, xbox.Abutton);
     xButton = new JoystickButton(xboxController, xbox.Bbutton);
     yButton = new JoystickButton(xboxController, xbox.Ybutton);
+    rightClick = new JoystickButton(xboxController, xbox.RightButtonClick);
+    leftClick = new JoystickButton(xboxController, xbox.LeftButtonClick);
+
     rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
     leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
     
     // button -> command handling
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
-    aButton.whileTrue(new DriveTrainStop(driveTrain));
-    yButton.whileTrue(new BalanceOnChargeStation(driveTrain, navX, .5));
-    xButton.onTrue(new ElevatorStopCommand(elevator));
+    // xButton.onTrue(new ElevatorStopCommand(elevator));
+    aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
+    xButton.onTrue(new DriveTrainStop(driveTrain));
+
+    leftClick.onTrue(new LowGear(driveTrain));
+    rightClick.onTrue(new HighGear(driveTrain));
 
     
 

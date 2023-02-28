@@ -32,18 +32,17 @@ public class BalanceOnChargeStation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.driveDistance();
-    // if(navX.getRoll() < -1){
-    //   driveTrain.drive(-dtSpeed);
+    if(navX.getRoll() < -1){
+      driveTrain.drive(-dtSpeed);
 
-    // }else if(navX.getRoll() > 1){
-    //   driveTrain.drive(dtSpeed);
+    }else if(navX.getRoll() > 1){
+      driveTrain.drive(dtSpeed);
 
-    // }else if(navX.getRoll() > -1 && navX.getRoll() < 1){
-    //   driveTrain.stopAllMotors();
-    //   //driveTrain.driveTrainBrake();
+    }else if(navX.getRoll() > -1 && navX.getRoll() < 1){
+      driveTrain.stopAllMotors();
+      //driveTrain.driveTrainBrake();
 
-    //}
+    }
   }
 
   // Called once the command ends or is interrupted.
