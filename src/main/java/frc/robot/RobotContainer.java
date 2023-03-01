@@ -104,9 +104,6 @@ public class RobotContainer {
 
     leftClick.onTrue(new LowGear(driveTrain));
     rightClick.onTrue(new HighGear(driveTrain));
-
-    
-
   }
 
   /**
@@ -116,7 +113,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     
-    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation);
+    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
+    .andThen(new BalanceOnChargeStation(driveTrain, navX, autonomous.balancingSpeed));
     
     // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 
