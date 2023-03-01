@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
@@ -12,13 +12,13 @@ public class BalanceOnChargeStation extends CommandBase {
   /** Creates a new BalanceOnChargeStation. */
   private DriveTrain driveTrain;
   private NavX navX;
-  private double dtSpeed;
+  private double speed;
 
-  public BalanceOnChargeStation(DriveTrain driveTrain, NavX navX, double dtSpeed) {
+  public BalanceOnChargeStation(DriveTrain driveTrain, NavX navX, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.navX = navX;
-    this.dtSpeed = dtSpeed;
+    this.speed = speed;
 
     addRequirements(driveTrain, navX);
   }
@@ -33,10 +33,10 @@ public class BalanceOnChargeStation extends CommandBase {
   @Override
   public void execute() {
     if(navX.getRoll() < -1){
-      driveTrain.drive(-dtSpeed);
+      driveTrain.drive(-speed);
 
     }else if(navX.getRoll() > 1){
-      driveTrain.drive(dtSpeed);
+      driveTrain.drive(speed);
 
     }else if(navX.getRoll() > -1 && navX.getRoll() < 1){
       driveTrain.stopAllMotors();

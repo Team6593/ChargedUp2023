@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 import frc.robot.Utils.MemoryMonitor;
@@ -15,8 +16,8 @@ import frc.robot.Utils.MemoryMonitor;
 import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
+import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
-import frc.robot.commands.drivetrain.BalanceOnChargeStation;
 import frc.robot.commands.drivetrain.DriveDistanceUsingCalculations;
 import frc.robot.commands.drivetrain.DriveTrainStop;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
@@ -51,6 +52,7 @@ public class RobotContainer {
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
+  private Autonomous autonomous = new Autonomous();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
   private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, rightClick, leftClick;
@@ -96,7 +98,8 @@ public class RobotContainer {
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
-    aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
+
+    // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     xButton.onTrue(new DriveTrainStop(driveTrain));
 
     leftClick.onTrue(new LowGear(driveTrain));
@@ -113,7 +116,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     
-    return new DriveToChargeStation(driveTrain, 1223.760000);//new TaxiWithGyro(driveTrain, .2); 
+    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation);
+    
+    // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
+    //new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
   }
