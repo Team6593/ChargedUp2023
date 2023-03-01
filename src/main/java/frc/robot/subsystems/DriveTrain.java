@@ -57,157 +57,145 @@ public class DriveTrain extends SubsystemBase {
 
 
   /** Creates a new DriveTrain. */
-  public DriveTrain() {
-    // followerRight.follow(masterRight);    
-    // followerLeft.follow(masterLeft);
+  public DriveTrain() {}
 
-    // Right side of DriveTrain must be inverted to drive straight
-    // masterRight.setInverted(true);
-    // masterLeft.setInverted(false);
-    // followerLeft.setInverted(false);
-    // followerRight.setInverted(true);
+
+
+  // MOTOR INIT
+  public void dtInit() {
+
+    //Ensure motor output is nuetral during initialization
+    masterRight.set(0);
+    masterLeft.set(0);
+    followerRight.set(0);
+    followerLeft.set(0);
     
-    }
+    final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
+    //setCoastMode();
 
-    // MOTORS
+    // Comment this code out if the robot 'stutters' while driving
+    // This limits the amount of electricity the motor can recieve,
+    // but this can cause the robot to drive slow, or 'stutter'
+    // because of the motor's safety measures
 
-    public void setBrakeMode() {
-      masterLeft.setNeutralMode(NeutralMode.Brake);
-      masterRight.setNeutralMode(NeutralMode.Brake);
-      followerLeft.setNeutralMode(NeutralMode.Brake);
-      followerRight.setNeutralMode(NeutralMode.Brake);
-    }
-
-    public void setCoastMode() {
-      masterLeft.setNeutralMode(NeutralMode.Coast);
-      masterRight.setNeutralMode(NeutralMode.Coast);
-      followerLeft.setNeutralMode(NeutralMode.Coast);
-      followerRight.setNeutralMode(NeutralMode.Coast);
-    }
-
-    public void setLeftMotorspeed(double leftmoterspeed) {
-      DtLeft.set(leftmoterspeed);
-    }
-
-    public void setRightMotorspeed(double rightmotorspeed) {
-      DtRight.set(rightmotorspeed);
-    }
-
-
-    public void stopAllMotors() {
-      masterRight.stopMotor();
-      masterLeft.stopMotor();
-      followerRight.stopMotor();
-      followerLeft.stopMotor();
-    }
-
-    // DRIVING
-    public void curveDrive(double speed, double rotation, boolean turnInPlace) {
-      Drive.curvatureDrive(speed, rotation, turnInPlace);
-    }
-
-    public void tankDrive(double speed, double rotation) {
-      Drive.tankDrive(speed, rotation);
-    }
-
-    public void arcadeDrive(double xSpd, double zRot) {
+    config.supplyCurrLimit.enable = true;
+    config.supplyCurrLimit.triggerThresholdCurrent = 70;
+    config.supplyCurrLimit.triggerThresholdTime = 3.0;
+    config.supplyCurrLimit.currentLimit = 70;
   
-      Drive.arcadeDrive(xSpd, zRot);
-    }
+    masterRight.configAllSettings(config);
+    masterLeft.configAllSettings(config);
+    followerRight.configAllSettings(config);
+    followerLeft.configAllSettings(config);
 
-    public void autonDrive(double speed) {
-      DtRight.set(speed);
-      DtLeft.set(speed);
-
-    }
-
+    /* 
+    masterRight.set(TalonFXControlMode.PercentOutput, 0);
+    masterLeft.set(TalonFXControlMode.PercentOutput, 0);
+    followerRight.set(TalonFXControlMode.PercentOutput, 0);
+    followerLeft.set(TalonFXControlMode.PercentOutput, 0);
+    */
     
-    // SOLENOID/SHIFTERS
-    public void highGear(){
-      shifter.set(Value.kForward);
-    }
+    // set integrated sensor for PID, this doesn't matter even if PID isn't used
+    config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
 
-    public void lowGear(){
-      shifter.set(Value.kReverse);
-    }
+    followerLeft.follow(masterLeft);
+    followerRight.follow(masterRight);
 
-    public void dtShifterOff(){
-      shifter.set(Value.kOff);
-    }
+    masterRight.setInverted(true);
+    masterLeft.setInverted(false);
+    followerRight.setInverted(InvertType.FollowMaster);
+    followerLeft.setInverted(InvertType.FollowMaster);
+    // reset all motor positions on init
+    masterRight.setSelectedSensorPosition(0);
+    masterLeft.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
+
+  }
+
+  // MOTORS
+  public void setBrakeMode() {
+    masterLeft.setNeutralMode(NeutralMode.Brake);
+    masterRight.setNeutralMode(NeutralMode.Brake);
+    followerLeft.setNeutralMode(NeutralMode.Brake);
+    followerRight.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setCoastMode() {
+    masterLeft.setNeutralMode(NeutralMode.Coast);
+    masterRight.setNeutralMode(NeutralMode.Coast);
+    followerLeft.setNeutralMode(NeutralMode.Coast);
+    followerRight.setNeutralMode(NeutralMode.Coast);
+  }
+
+  public void setLeftMotorspeed(double leftmoterspeed) {
+    DtLeft.set(leftmoterspeed);
+  }
+
+  public void setRightMotorspeed(double rightmotorspeed) {
+    DtRight.set(rightmotorspeed);
+  }
 
 
-    public void drive(double motorspeed) {
-      masterLeft.set(ControlMode.PercentOutput, motorspeed);
-      masterRight.set(ControlMode.PercentOutput, motorspeed);
-      followerLeft.set(ControlMode.PercentOutput, motorspeed);
-      followerRight.set(ControlMode.PercentOutput, motorspeed);
-    }
-    
-    /**
-     * resets all drivetrain sensor positions to 0,
-     * call this method in robotInit(), teleopInit(), and autonomousInit()
-     */
-    public void resetAllMotorPosition() {
-      masterLeft.setSelectedSensorPosition(0);
-      followerLeft.setSelectedSensorPosition(0);
-      masterRight.setSelectedSensorPosition(0);
-      followerRight.setSelectedSensorPosition(0);
-    }
+  public void stopAllMotors() {
+    masterRight.stopMotor();
+    masterLeft.stopMotor();
+    followerRight.stopMotor();
+    followerLeft.stopMotor();
+  }
 
-    // MOTOR INIT
-    public void dtInit() {
+  // DRIVING
+  public void curveDrive(double speed, double rotation, boolean turnInPlace) {
+    Drive.curvatureDrive(speed, rotation, turnInPlace);
+  }
 
-      //Ensure motor output is nuetral during initialization
-      /* 
-      masterLeft.set(0);
-      masterRight.set(0);
-      slaveLeft.set(0);
-      slaveRight.set(0);
-      */
-      
-      final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
+  public void tankDrive(double speed, double rotation) {
+    Drive.tankDrive(speed, rotation);
+  }
 
-      //setCoastMode();
+  public void arcadeDrive(double xSpd, double zRot) {
 
-      // Comment this code out if the robot 'stutters' while driving
-      // This limits the amount of electricity the motor can recieve,
-      // but this can cause the robot to drive slow, or 'stutter'
-      // because of the motor's safety measures
-      /*
-      config.supplyCurrLimit.enable = true;
-      config.supplyCurrLimit.triggerThresholdCurrent = 40;
-      config.supplyCurrLimit.triggerThresholdTime = 1.0;
-      config.supplyCurrLimit.currentLimit = 30;
-      */
-      masterRight.configAllSettings(config);
-      masterLeft.configAllSettings(config);
-      followerRight.configAllSettings(config);
-      followerLeft.configAllSettings(config);
+    Drive.arcadeDrive(xSpd, zRot);
+  }
 
-      /* 
-      masterRight.set(TalonFXControlMode.PercentOutput, 0);
-      masterLeft.set(TalonFXControlMode.PercentOutput, 0);
-      followerRight.set(TalonFXControlMode.PercentOutput, 0);
-      followerLeft.set(TalonFXControlMode.PercentOutput, 0);
-      */
-      
-      // set integrated sensor for PID, this doesn't matter even if PID isn't used
-      config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+  public void autonDrive(double speed) {
+    DtRight.set(speed);
+    DtLeft.set(speed);
 
-      followerLeft.follow(masterLeft);
-      followerRight.follow(masterRight);
+  }
 
-      masterRight.setInverted(true);
-      masterLeft.setInverted(false);
-      followerRight.setInverted(InvertType.FollowMaster);
-      followerLeft.setInverted(InvertType.FollowMaster);
-      // reset all motor positions on init
-      masterRight.setSelectedSensorPosition(0);
-      masterLeft.setSelectedSensorPosition(0);
-      followerRight.setSelectedSensorPosition(0);
-      followerLeft.setSelectedSensorPosition(0);
+  
+  // SOLENOID/SHIFTERS
+  public void highGear(){
+    shifter.set(Value.kForward);
+  }
 
+  public void lowGear(){
+    shifter.set(Value.kReverse);
+  }
+
+  public void dtShifterOff(){
+    shifter.set(Value.kOff);
+  }
+
+
+  public void drive(double motorspeed) {
+    masterLeft.set(ControlMode.PercentOutput, motorspeed);
+    masterRight.set(ControlMode.PercentOutput, motorspeed);
+    followerLeft.set(ControlMode.PercentOutput, motorspeed);
+    followerRight.set(ControlMode.PercentOutput, motorspeed);
+  }
+  
+  /**
+   * resets all drivetrain sensor positions to 0,
+   * call this method in robotInit(), teleopInit(), and autonomousInit()
+   */
+  public void resetAllMotorPosition() {
+    masterLeft.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
+    masterRight.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
   }
 
   // MOTOR POSITION/SENSOR
