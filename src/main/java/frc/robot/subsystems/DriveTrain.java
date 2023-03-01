@@ -299,7 +299,6 @@ public class DriveTrain extends SubsystemBase {
     * displays TalonFX sensor data to rioLog, this method should be called in periodic()
     */
   public void printTalonData() {
-    // TODO: change motor naming conventions to Master/Follower here
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
     System.out.println("Sensor position, slave right" + followerRight.getSelectedSensorPosition());
     System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());

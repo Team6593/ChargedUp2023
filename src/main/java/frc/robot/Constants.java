@@ -56,9 +56,16 @@ public final class Constants {
         public final int FollowerRight = 2;
         public final int MasterLeft = 3;
         public final int FollowerLeft = 4;
-        public final double falconUnitsPerRevolution = 2048;
-
         public final int ElevatorMotorID = 6;
+        public final int ArmID = 7; //TODO: make sure this value is correct in Pheonix Tuner
+        
+        public final double falconUnitsPerRevolution = 2048;
+    }
+
+    public static final class SolenoidChannels {
+        //TODO: ensure that the arm's solenoid is connected to the right channel. Check CTRE-PCM
+        public final int armForwardChannel = 9;
+        public final int armBackwardChannel = 10;
     }
 
     public static final class SpeedsForMotors{

@@ -158,8 +158,6 @@ public class CamRIO extends SubsystemBase {
               // if you do not close the detector, it will cause a memory leak
               aprilTagDetector.close();
             });
-    //TODO: create a handwritten protocol for syncing tag detection with autonomous driving
-    // (or just use a pre-existing one like NetworkTables)
     visionThread.setDaemon(true);
     visionThread.start();
   }
