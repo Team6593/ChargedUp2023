@@ -101,7 +101,6 @@ public class RobotContainer {
 
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     xButton.onTrue(new DriveTrainStop(driveTrain));
-
     leftClick.onTrue(new LowGear(driveTrain));
     rightClick.onTrue(new HighGear(driveTrain));
   }
