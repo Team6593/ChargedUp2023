@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
-import frc.robot.Utils.MemoryMonitor;
 
 import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
@@ -46,9 +45,6 @@ public class RobotContainer {
   public final LimeLight limeLight;
   public final NavX navX;
 
-  //Util classes
-  public final MemoryMonitor memoryMonitor;
-
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
@@ -64,7 +60,6 @@ public class RobotContainer {
     //instances of classes
     navX = new NavX();
     limeLight = new LimeLight();
-    memoryMonitor = new MemoryMonitor();
     rioCamera = new CamRIO();
     driveTrain = new DriveTrain();
 
@@ -113,7 +108,11 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
-    .andThen(new BalanceOnChargeStation(driveTrain, navX, autonomous.balancingSpeed));
+    .andThen(new BalanceOnChargeStation(
+      driveTrain,
+      navX,
+      autonomous.balancingSpeed,
+      autonomous.rollThreshholdDegrees));
     
     // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 
