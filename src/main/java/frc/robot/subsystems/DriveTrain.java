@@ -252,6 +252,11 @@ public class DriveTrain extends SubsystemBase {
     return recu_masterLeftSensorPosition;
   }
 
+  public void driveDistance( double diameterOfWheel, double toGetDistanceInInches){
+    double driveDistanceEncoderValue = unitConverter.distanceToTravelCalcultions(diameterOfWheel, motors.falconUnitsPerRevolution, toGetDistanceInInches);
+    
+  }
+
   /**
    * displays motor position and velocity data to SmartDashboard,
    * this is meant to be called in periodic()

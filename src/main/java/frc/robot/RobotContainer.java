@@ -95,12 +95,12 @@ public class RobotContainer {
     leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
     
     // button -> command handling
-    // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
-    // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
-    // xButton.onTrue(new ElevatorStopCommand(elevator));
+    aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
+    yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
+    xButton.onTrue(new ElevatorStopCommand(elevator));
 
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
-    xButton.onTrue(new DriveTrainStop(driveTrain));
+    // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
     rightClick.onTrue(new HighGear(driveTrain));
   }
@@ -119,5 +119,6 @@ public class RobotContainer {
     //new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
+     
   }
-}
+} 
