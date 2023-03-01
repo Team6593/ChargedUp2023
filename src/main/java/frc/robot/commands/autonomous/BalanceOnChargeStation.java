@@ -26,7 +26,6 @@ public class BalanceOnChargeStation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,4 +58,3 @@ public class BalanceOnChargeStation extends CommandBase {
     return false;
   }
 }
-
