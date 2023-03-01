@@ -70,8 +70,13 @@ public final class Constants {
         public static final int ReverseChannelDt = 5;
 
         public static final int ArmForwardChannel = 0;
+        public static final int ArmReverseChannel = 0;
     }
 
-
+    public static final class Autonomous {
+        public final double encoderDistanceToChargeStation = 1223.760000; // couple feet
+        public final double balancingSpeed = 15; // 15 percent speed
+        public final double rollThresholdDegrees = 1;
+    }
 
 }

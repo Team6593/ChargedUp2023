@@ -4,11 +4,7 @@
 
 package frc.robot.commands.drivetrain;
 
-<<<<<<< HEAD
-//import edu.wpi.first.wpilibj.Joystick;
-=======
 import edu.wpi.first.wpilibj.Joystick;
->>>>>>> 9522ea312cfb548dc03d39ff66082f7eb420144b
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
@@ -35,11 +31,7 @@ public class DriveTrain_DefaultCommnad extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-<<<<<<< HEAD
-    driveTrain.tankDrive(xboxController.getRawAxis(1)*0.5, -xboxController.getRawAxis(4)*0.5);
-=======
     driveTrain.arcadeDrive(xboxController.getRawAxis(1), -xboxController.getRawAxis(4));
->>>>>>> 9522ea312cfb548dc03d39ff66082f7eb420144b
     //driveTrain.arcadeDrive(-xboxController.getRawAxis(1), -xboxController.getRawAxis(4));
     //driveTrain.arcadeDrive(xboxController.getRawAxis(1), xboxController.getRawAxis(4)); // for inverted movement
   }
