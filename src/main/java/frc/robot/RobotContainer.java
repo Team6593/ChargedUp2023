@@ -8,13 +8,17 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 
 import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
 import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
+import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
+import frc.robot.commands.drivetrain.DriveDistanceUsingCalculations;
+import frc.robot.commands.drivetrain.DriveTrainStop;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
@@ -41,14 +45,14 @@ public class RobotContainer {
   public final LimeLight limeLight;
   public final NavX navX;
 
-  private Compressor compressor;
-
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
+  private Autonomous autonomous = new Autonomous();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton;
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, rightClick, leftClick;
+
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
@@ -61,7 +65,6 @@ public class RobotContainer {
 
     elevator = new Elevator();
 
-    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
@@ -80,19 +83,21 @@ public class RobotContainer {
     aButton = new JoystickButton(xboxController, xbox.Abutton);
     xButton = new JoystickButton(xboxController, xbox.Bbutton);
     yButton = new JoystickButton(xboxController, xbox.Ybutton);
+    rightClick = new JoystickButton(xboxController, xbox.RightButtonClick);
+    leftClick = new JoystickButton(xboxController, xbox.LeftButtonClick);
+
     rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
     leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
-
-    // button -> command handling
-    // Elevator bindings
-    aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
-    yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
-    xButton.onTrue(new ElevatorStopCommand(elevator));
     
-    // DriveTrain, high and low gear bindings
-    rightTrigger.onTrue(new HighGear(driveTrain));
-    leftTrigger.onTrue(new LowGear(driveTrain));
+    // button -> command handling
+    // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
+    // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
+    // xButton.onTrue(new ElevatorStopCommand(elevator));
 
+    // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
+    xButton.onTrue(new DriveTrainStop(driveTrain));
+    leftClick.onTrue(new LowGear(driveTrain));
+    rightClick.onTrue(new HighGear(driveTrain));
   }
 
   /**
@@ -101,12 +106,17 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // DriveToChargeStation then BalanceOnChargeStation
-    return new DriveToChargeStation(driveTrain, 1223.760000);
     
+    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
+    .andThen(new BalanceOnChargeStation(
+      driveTrain,
+      navX,
+      autonomous.balancingSpeed,
+      autonomous.rollThreshholdDegrees));
+    
+    // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
+    //new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
-    // only use this when DriveToChargeStation command does not work
-    //new TaxiWithGyro(driveTrain, .2); 
   }
 }

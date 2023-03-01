@@ -41,17 +41,17 @@ public class TaxiWithGyro extends CommandBase {
   @Override
   public void execute() {
 
-    double time = Timer.getFPGATimestamp();
-    if (timer.getFPGATimestamp() - startTime < 5) {
-      System.out.println(timer.getFPGATimestamp());
-      // negative if backwards
-      // positive if forwards
-      driveTrain.autonDrive(-motorSpeed);
-    } else {
-      System.out.println(timer.getFPGATimestamp());
-      driveTrain.stopAllMotors();
-      System.out.println(" auton stopped");
-    }
+    // double time = Timer.getFPGATimestamp();
+    // if (timer.getFPGATimestamp() - startTime < 5) {
+    //   System.out.println(timer.getFPGATimestamp());
+    //   // negative if backwards
+    //   // positive if forwards
+    //   driveTrain.autonDrive(-motorSpeed);
+    // } else {
+    //   System.out.println(timer.getFPGATimestamp());
+    //   driveTrain.stopAllMotors();
+    //   System.out.println(" auton stopped");
+    // }
   }
 
   // Called once the command ends or is interrupted.

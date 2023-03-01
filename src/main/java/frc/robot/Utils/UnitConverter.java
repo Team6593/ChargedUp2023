@@ -6,7 +6,20 @@ package frc.robot.Utils;
 
 /** Unit conversion class, converts between radians, degrees and units */
 public class UnitConverter {
+    //determines distance driven in inches
+    /**
+     * determines distance driven when a number of revolutions are given
+     * @param diameterOfWheel (measure of straight line across the center of the wheel)
+     * @param unitsPerRevs (revolutions given to measure the distance that will be driven)
+     * @return
+     */
+    public double distanceToTravelCalcultions(double diameterOfWheel, double unitsPerRevs, double distanceInInches){
+        double circumferenceOfWheel = diameterOfWheel * Math.PI;//PI is the radius of the wheel(circumference to diameter)
+        double distancePerRevs = unitsPerRevs * circumferenceOfWheel;
+        double driveDistance = distancePerRevs * distanceInInches;
 
+        return driveDistance;
+    }
     /**
      * converts raw TalonFX integrated-sensor units into RECU, or readable-encoder-units
      * the formula is r/10 = RECU, where r is the raw units
@@ -16,6 +29,16 @@ public class UnitConverter {
     public double toReadableEncoderUnit(double rawUnits) {
         double recu = rawUnits /100;
         return recu;
+    }
+    /**
+     * converts actual units per revolution to number 
+     * that matches with the readable encoder values 
+     * @param motorUPR (motor-units-per-revolution)
+     * @return unitsPerRev
+     */
+    public double unitsPerRev_toMatchREU(double motorUPR){
+        double unitsPerRev = motorUPR / 100;//divide by number the encoder's raw units are being divided by
+        return unitsPerRev;
     }
 
     /**

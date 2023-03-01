@@ -4,20 +4,20 @@
 
 package frc.robot.commands.drivetrain;
 
-//import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveTrain_DefaultCommnad extends CommandBase {
-  /** Creates a new DriveTrain_DefultCommnad. */
-  private DriveTrain driveTrain;
-  private XboxController xboxController;
+public class DriveDistanceUsingCalculations extends CommandBase {
+  /** Creates a new DriveDistanceUsingCalculations. */
 
-  public DriveTrain_DefaultCommnad(DriveTrain driveTrain, XboxController xboxController) {
-    
-    this.xboxController = xboxController;
+  private DriveTrain driveTrain;
+  private double diameterOfWheel;
+  private double toGetDistanceInInches;
+
+  public DriveDistanceUsingCalculations(DriveTrain driveTrain, double diameterOfWheel, double toGetDistanceInInches) {
     this.driveTrain = driveTrain;
+    this.diameterOfWheel = diameterOfWheel;
+    this.toGetDistanceInInches = toGetDistanceInInches;
 
     addRequirements(driveTrain);
   }
@@ -31,15 +31,14 @@ public class DriveTrain_DefaultCommnad extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.tankDrive(xboxController.getRawAxis(1)*0.5, -xboxController.getRawAxis(4)*0.5);
-    //driveTrain.arcadeDrive(-xboxController.getRawAxis(1), -xboxController.getRawAxis(4));
-    //driveTrain.arcadeDrive(xboxController.getRawAxis(1), xboxController.getRawAxis(4)); // for inverted movement
+    driveTrain.driveDistance(diameterOfWheel, toGetDistanceInInches);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     driveTrain.stopAllMotors();
+
   }
 
   // Returns true when the command should end.

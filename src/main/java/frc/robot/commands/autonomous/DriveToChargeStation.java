@@ -34,18 +34,8 @@ public class DriveToChargeStation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rightMotorPosition = driveTrain.masterRight.getSelectedSensorPosition();
+    double rightMotorPosition = 0;// = driveTrain.masterRight.getSelectedSensorPosition();
     double rightMotorPosition_RECU = unitConverter.toReadableEncoderUnit(rightMotorPosition);
-
-    // This works off of sensor ticks and not a unit of measurement,
-    // like feet, meters, yards, inch etc. To find out the amount of rotations
-    // needed to drive to the Charge Station (docked, not yet engaged) then
-    // enable the robot in FRC Driver Station and push the robot until you
-    // have reached the Charge Station. Then check the motor position, 
-    // will be displayed in SmartDashboard. The numnber displayed is 
-    // already converted into a RECU, no conversion needed.
-
-    // drive until we reach the set motor position
     if (rightMotorPosition_RECU < encoderDistance) {
       driveTrain.drive(.2);
     } else {
@@ -56,7 +46,6 @@ public class DriveToChargeStation extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveTrain.setBrakeMode();
     driveTrain.stopAllMotors();
   }
 
