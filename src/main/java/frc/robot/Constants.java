@@ -50,25 +50,43 @@ public final class Constants {
 
     public static final class Motors {
         // put motor ID's here
-        // how to define consts: subsystem + master or slave + orientation (left, right, up, down) + "ID"
+        // how to define consts: subsystem + master or follower + orientation (left, right, up, down) + "ID"
         // change these nums later
         public final int MasterRight = 1;
         public final int FollowerRight = 2;
         public final int MasterLeft = 3;
         public final int FollowerLeft = 4;
-        public final double falconUnitsPerRevolution = 2048;
+        public final double FalconUnitsPerRevolution = 2048;
 
-        public final int ElevatorMotorID = 6;
+        // Elevator motor(s)
+        public final int ElevatorMotorID = 0;
+        public final int ArmMotorUpDownID = 0;
+        public final int ArmMotorRotatingID = 0;
+        public final int ArmMotorLeftID = 0;
+        public final int ArmMotorRightID = 0;
 
         //units per revolution of talon Motors
         public final int TalonFX_UnitsPerRev = 2048;
     }
 
     public static final class SpeedsForMotors{
-        public final double elevator_setSpeed = 0.2;
+        public final double Elevator_setSpeed = 0.2;
     }
 
+    public static final class DoubleSolenoidChannels{
+        // DriveTrain
+        public static final int ForwardChannelDt = 4;
+        public static final int ReverseChannelDt = 5;
 
+        // Arm
+        public final int ArmCloseChannel = 0;
+        public final int ArmOpenChannel = 0;
+        public final int ArmExtendChannel = 0;
+        public final int armRetractChannel = 0;
+    }
 
+    public static final class PIDValues{
+        public final double KPARM = .01;
+    }
 
 }

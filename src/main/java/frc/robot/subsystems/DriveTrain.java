@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DoubleSolenoidChannels;
 import frc.robot.Utils.UnitConverter;
 
 public class DriveTrain extends SubsystemBase {
@@ -49,9 +50,7 @@ public class DriveTrain extends SubsystemBase {
   // private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
   // private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
-  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-
-  public double P = 1;// might have to change number later
+  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DoubleSolenoidChannels.ForwardChannelDt, DoubleSolenoidChannels.ReverseChannelDt);
 
 
   /** Creates a new DriveTrain. */
@@ -130,7 +129,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void driveDistance(double diameterOfWheel, double toGetDistanceInInchesMultiplier){
-    double distanceToTravel = unitConverter.distanceToTravelCalcultions(diameterOfWheel, motors.falconUnitsPerRevolution, toGetDistanceInInchesMultiplier);
+    double distanceToTravel = unitConverter.distanceToTravelCalcultions(diameterOfWheel, motors.FalconUnitsPerRevolution, toGetDistanceInInchesMultiplier);
     // 37156.244632 encoder units.
     // To get driving distance in inches 
     // divide inches that will want to be 
@@ -209,7 +208,7 @@ public class DriveTrain extends SubsystemBase {
   */
   public double getRotationsPerSecond(WPI_TalonFX motor) {
     double sensorVelocity = motor.getSelectedSensorVelocity();
-    double rps = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    double rps = sensorVelocity / motors.FalconUnitsPerRevolution * 10;
     return rps;
   }
 
@@ -219,7 +218,7 @@ public class DriveTrain extends SubsystemBase {
    */
   public double getRotationsPerMinute(WPI_TalonFX motor) {
     double sensorVelocity = motor.getSelectedSensorVelocity();
-    double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    double rpm = sensorVelocity / motors.FalconUnitsPerRevolution * 10;
     return rpm;
   }
 
@@ -229,7 +228,7 @@ public class DriveTrain extends SubsystemBase {
    */
   public double getRotations(WPI_TalonFX motor) {
     double sensorPosition = motor.getSelectedSensorPosition();
-    double rotations = sensorPosition / motors.falconUnitsPerRevolution;
+    double rotations = sensorPosition / motors.FalconUnitsPerRevolution;
     return rotations;
   }
 
