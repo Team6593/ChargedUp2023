@@ -7,6 +7,14 @@ package frc.robot.Utils;
 /** Unit conversion class, converts between radians, degrees and units */
 public class UnitConverter {
 
+    public double distanceToTravelCalcultions(double diameterOfWheel, double encoderUnitsPerRev, double multiplierForDistanceInInches){
+        double circumferenceOfWheel = diameterOfWheel * Math.PI;
+        double encoderUnitsPerFullWheelRev = circumferenceOfWheel * encoderUnitsPerRev;
+        double driveDistance = encoderUnitsPerFullWheelRev * multiplierForDistanceInInches;
+
+        return encoderUnitsPerFullWheelRev;
+    }
+
     /**
      * converts raw TalonFX integrated-sensor units into RECU, or readable-encoder-units
      * the formula is r/10 = RECU, where r is the raw units

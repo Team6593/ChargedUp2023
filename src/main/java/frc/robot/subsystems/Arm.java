@@ -25,11 +25,11 @@ public class Arm extends SubsystemBase {
   private DoubleSolenoidChannels doubleSolenoidChannels = new DoubleSolenoidChannels();
 
   //Motor/s
-  private WPI_TalonFX armMotor = new WPI_TalonFX(motors.armMotorID);
+  private WPI_TalonFX armMotor = new WPI_TalonFX(motors.armMotorID); 
 
   //solenoids
-  private DoubleSolenoid armSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmForwardChannel, doubleSolenoidChannels.ArmReverseChannel);
-  
+  private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
+  private DoubleSolenoid armExtendAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 0);
   /* Creates a new Hand. */
   public Arm() {}
 
@@ -70,22 +70,26 @@ public class Arm extends SubsystemBase {
   }
 
   public void armClose(){
-    armSolenoid.set(Value.kForward);
+    armSolenoidCloseAndOpen.set(Value.kForward);
   }
 
   public void armOpen(){
-    armSolenoid.set(Value.kReverse);
+    armSolenoidCloseAndOpen.set(Value.kReverse);
   }
 
   public void armExtend(){
-    while(readableArmSensorPosition() < 228){
-      armMotor.set(0.25);
-    }
+    armSolenoidCloseAndOpen.set(Value.kForward); 
   }
 
   public void armRetract(){
-    while(readableArmSensorPosition() > 10){
-      armMotor.set(-0.25);
+    armSolenoidCloseAndOpen.set(Value.kReverse);
+  }
+
+  public void motorUpMax(double armMotorSpeed){
+    double armEncoderVal = armMotor.getSelectedSensorPosition();
+    while(armEncoderVal < 100){
+      armMotor.set(armMotorSpeed * kPArm);
+
     }
   }
 
