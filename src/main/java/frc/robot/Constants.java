@@ -30,6 +30,10 @@ public final class Constants {
         public final int ElevatorTopLimitSwitchPort = 0;
         public final int ElevatorLowLimitSwitchPort = 1;
 
+        // // Arm limit switches (WIP)
+        // public final static int ArmLimitSwitchPortOne = 0;
+        // public final static int ArmLimitSwitchPortTwo = 0;
+
     }
 
     public static final class InputMap {
@@ -58,8 +62,10 @@ public final class Constants {
         public final int FollowerLeft = 4;
         public final double FalconUnitsPerRevolution = 2048;
 
-        // Elevator motor(s)
+        // Elevator motor
         public final int ElevatorMotorID = 0;
+
+        // Arm motor(s)
         public final int ArmMotorUpDownID = 0;
         public final int ArmMotorRotatingID = 0;
         public final int ArmMotorLeftID = 0;
@@ -83,6 +89,12 @@ public final class Constants {
         public final int ArmOpenChannel = 0;
         public final int ArmExtendChannel = 0;
         public final int armRetractChannel = 0;
+
+    }
+    public static final class Autonomous {
+        public final double encoderDistanceToChargeStation = 1223.760000; //couple feet or so, change later
+        public final double balancingSpeed = .15; // 15 percent speed
+        public final double rollThreshholdDegrees = 1;
     }
 
     public static final class PIDValues{

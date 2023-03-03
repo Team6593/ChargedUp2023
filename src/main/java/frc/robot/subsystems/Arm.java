@@ -9,14 +9,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.hal.simulation.DIODataJNI;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DoubleSolenoidChannels;
-import frc.robot.Constants.PIDValues;
+import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
+import frc.robot.Constants.PIDValues;
 import frc.robot.Utils.UnitConverter;
 
 public class Arm extends SubsystemBase {
@@ -37,6 +40,10 @@ public class Arm extends SubsystemBase {
   private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
   private DoubleSolenoid armExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.armRetractChannel);
 
+  // //limit switches (WIP)
+  // private DigitalInput armLimitSwitchOne = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchPortOne);
+  // private DigitalInput armLimitSwitchTwo = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchPortTwo);
+
   /* Creates a new Hand. */
   public Arm() {}
 
@@ -51,6 +58,25 @@ public class Arm extends SubsystemBase {
 
     handConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
   }
+
+  // // Limit switch methods
+  // public void armLimitSwitchUp(double armMotorSpeed) {
+  //   if (armLimitSwitchOne.get() == true) {
+  //     armMotorUpDown.set(armMotorSpeed);
+  //   } else if (armLimitSwitchOne.get() == false) {
+  //     armMotorUpDown.stopMotor();
+  //     armBrakeMode();
+  //   }
+  // }
+
+  // public void armLimitSwitchDown(double armMotorSpeed) {
+  //   if (armLimitSwitchTwo.get() == true) {
+  //     armMotorUpDown.set(-armMotorSpeed);
+  //   } else if (armLimitSwitchTwo.get() == false) {
+  //     armMotorUpDown.stopMotor();
+  //     armBrakeMode();
+  //   }
+  // }
 
   public void stopUpDownArmMotor() {
     armMotorUpDown.stopMotor();
