@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.hal.simulation.DIODataJNI;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -59,7 +58,7 @@ public class Arm extends SubsystemBase {
     handConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
   }
 
-  // // Limit switch methods
+  // // Limit switch methods (WIP)
   // public void armLimitSwitchUp(double armMotorSpeed) {
   //   if (armLimitSwitchOne.get() == true) {
   //     armMotorUpDown.set(armMotorSpeed);

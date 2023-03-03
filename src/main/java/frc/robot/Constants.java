@@ -33,7 +33,6 @@ public final class Constants {
         // // Arm limit switches (WIP)
         // public final static int ArmLimitSwitchPortOne = 0;
         // public final static int ArmLimitSwitchPortTwo = 0;
-
     }
 
     public static final class InputMap {
