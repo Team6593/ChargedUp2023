@@ -31,9 +31,9 @@ public class Arm extends SubsystemBase {
 
 
   //Motor/s
-  private WPI_TalonFX armMotorUpDown = new WPI_TalonFX(motors.ArmMotorUpDownID);
-  private WPI_TalonFX armMotorLeft = new WPI_TalonFX(motors.ArmMotorLeftID);
-  private WPI_TalonFX armMotorRight = new WPI_TalonFX(motors.ArmMotorRightID);
+//  private WPI_TalonFX armMotorUpDown = new WPI_TalonFX(motors.ArmMotorUpDownID);
+//  private WPI_TalonFX armMotorLeft = new WPI_TalonFX(motors.ArmMotorLeftID);
+//  private WPI_TalonFX armMotorRight = new WPI_TalonFX(motors.ArmMotorRightID);
 
   //solenoids
   private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
@@ -47,15 +47,7 @@ public class Arm extends SubsystemBase {
   public Arm() {}
 
   public void armInit(){
-    armBrakeMode();
-    armMotorUpDown.setSelectedSensorPosition(0);
     
-    armMotorUpDown.setInverted(true);//might have to change later
-    armMotorRight.setInverted(true); 
-
-    final TalonFXConfiguration handConfig = new TalonFXConfiguration();
-
-    handConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
   }
 
   // // Limit switch methods (WIP)
@@ -77,41 +69,6 @@ public class Arm extends SubsystemBase {
   //   }
   // }
 
-  public void stopUpDownArmMotor() {
-    armMotorUpDown.stopMotor();
-    armBrakeMode();
-  }
-
-  public void stopLeftRightArmMotors() {
-    armMotorLeft.stopMotor();
-    armMotorRight.stopMotor();
-    armBrakeMode();
-  }
-
-  public void armBrakeMode(){
-    armMotorUpDown.setNeutralMode(NeutralMode.Brake);
-  }
-
-  public void armCoastMode(){
-    armMotorUpDown.setNeutralMode(NeutralMode.Coast);
-  }
-
-  public double readableArmSensorPosition(){
-    double armSensorPos = unitConverter.toReadableEncoderUnit(armMotorUpDown.getSelectedSensorPosition());
-    return armSensorPos;
-  }
-
-  public double armSensorVelocity(){
-    double armSensorVel = unitConverter.toReadableEncoderUnit(armMotorUpDown.getSelectedSensorVelocity());
-    return armSensorVel;
-  }
-
-  public void displayArmSensorData(){
-    SmartDashboard.putNumber("Hand sensor position", readableArmSensorPosition());
-    SmartDashboard.putNumber("Hand sensor velocity", armSensorVelocity());
-
-  }
-
   public void armClose(){
     armSolenoidCloseAndOpen.set(Value.kForward);
   }
@@ -128,28 +85,8 @@ public class Arm extends SubsystemBase {
     armExtandAndRetract.set(Value.kReverse);
   }
 
-  public void armMotorUp(double armMotorSpeed) {
-    double armEncoderVal = armMotorUpDown.getSelectedSensorPosition();
-    while (armEncoderVal < 1000) {
-      armMotorUpDown.set(armMotorSpeed * pidValues.KPARM);
-    }
-  }
-
-  public void armMotorDown(double armMotorSpeed) {
-    double armEncoderVal = armMotorUpDown.getSelectedSensorPosition();
-    while (armEncoderVal > 1000) {
-      armMotorUpDown.set(armMotorSpeed * pidValues.KPARM);
-    }
-  }
-
-  public void armMotorPullIn(double armMotorSpeed) {
-    armMotorLeft.set(armMotorSpeed);
-    armMotorRight.set(armMotorSpeed);
-  }
-
   @Override
   public void periodic() {
-    displayArmSensorData();
     // This method will be called once per scheduler run
   }
 }
