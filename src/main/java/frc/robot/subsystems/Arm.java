@@ -21,6 +21,12 @@ import frc.robot.Constants.Motors;
 import frc.robot.Constants.PIDValues;
 import frc.robot.Utils.UnitConverter;
 
+//// README:
+//// THIS SUBSYSTEM IS ONLY SOLENOIDS (PISTONS)
+//// THIS SUBSYSTEM CANNOT MOVE UP AND DOWN BY ITSELF
+//// THAT IS THE REEELER SUBSYSTEM'S JOB
+//// DON'T DECLARE ANY MOTORS HERE
+
 public class Arm extends SubsystemBase {
 
   // Instances of classes
@@ -47,7 +53,7 @@ public class Arm extends SubsystemBase {
   public Arm() {}
 
   public void armInit(){
-    
+
   }
 
   // // Limit switch methods (WIP)
@@ -68,6 +74,9 @@ public class Arm extends SubsystemBase {
   //     armBrakeMode();
   //   }
   // }
+  
+
+  // HAND METHODS, GRABBING AND RELEASING OBJECTS
 
   public void armClose(){
     armSolenoidCloseAndOpen.set(Value.kForward);
@@ -77,6 +86,8 @@ public class Arm extends SubsystemBase {
     armSolenoidCloseAndOpen.set(Value.kReverse);
   }
 
+  // EXTENDER METHODS, MOVING ARM FORWARD AND BACKWARD
+  
   public void armExtend(){
     armExtandAndRetract.set(Value.kForward);
   }

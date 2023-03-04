@@ -22,9 +22,12 @@ import frc.robot.commands.drivetrain.DriveTrainStop;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
+import frc.robot.commands.reeler.ReelArmDown;
+import frc.robot.commands.reeler.ReelArmUp;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.Reeler;
 import frc.robot.subsystems.vision.CamRIO;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,6 +47,7 @@ public class RobotContainer {
   public final CamRIO rioCamera;
   public final LimeLight limeLight;
   public final NavX navX;
+  public final Reeler reeler;
 
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
@@ -62,7 +66,7 @@ public class RobotContainer {
     limeLight = new LimeLight();
     rioCamera = new CamRIO();
     driveTrain = new DriveTrain();
-
+    reeler = new Reeler();
     elevator = new Elevator();
 
 
@@ -80,9 +84,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // define JoystickButton to XboxController buttons
-    // aButton = new JoystickButton(xboxController, xbox.Abutton);
+    aButton = new JoystickButton(xboxController, xbox.Abutton);
     // xButton = new JoystickButton(xboxController, xbox.Xbutton);
-    // yButton = new JoystickButton(xboxController, xbox.Ybutton);
+    yButton = new JoystickButton(xboxController, xbox.Ybutton);
     bButton = new JoystickButton(xboxController, xbox.Bbutton);
     rightClick = new JoystickButton(xboxController, xbox.RightButtonClick);
     leftClick = new JoystickButton(xboxController, xbox.LeftButtonClick);
@@ -94,7 +98,8 @@ public class RobotContainer {
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
-
+    yButton.whileTrue(new ReelArmUp(reeler));
+    aButton.whileTrue(new ReelArmDown(reeler));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));

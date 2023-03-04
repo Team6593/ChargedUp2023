@@ -61,14 +61,12 @@ public final class Constants {
         public final int FollowerLeft = 4;
         public final double FalconUnitsPerRevolution = 2048;
 
+        // Reeler motors
+        public final int TopMotorID = 10;
+        public final int BottomMotorID = 11;
+
         // Elevator motor
         public final int ElevatorMotorID = 0;
-
-        // Arm motor(s)
-        public final int ArmMotorUpDownID = 0;
-        public final int ArmMotorRotatingID = 0;
-        public final int ArmMotorLeftID = 0;
-        public final int ArmMotorRightID = 0;
 
         //units per revolution of talon Motors
         public final int TalonFX_UnitsPerRev = 2048;
