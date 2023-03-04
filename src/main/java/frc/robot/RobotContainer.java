@@ -4,21 +4,14 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 
-import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
-import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
-import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
-import frc.robot.commands.drivetrain.DriveDistanceUsingCalculations;
-import frc.robot.commands.drivetrain.DriveTrainStop;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
