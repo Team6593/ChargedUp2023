@@ -13,8 +13,6 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -132,6 +130,7 @@ public class DriveTrain extends SubsystemBase {
     followerLeft.setNeutralMode(NeutralMode.Coast);
     followerRight.setNeutralMode(NeutralMode.Coast);
   }
+
 
   public void setLeftMotorspeed(double leftmoterspeed) {
     DtLeft.set(leftmoterspeed);
