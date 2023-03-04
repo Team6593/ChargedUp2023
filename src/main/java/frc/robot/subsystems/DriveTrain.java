@@ -53,7 +53,7 @@ public class DriveTrain extends SubsystemBase {
   //private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
   //private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
-  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ForwardChannelDt, doubleSolenoidChannels.ReverseChannelDt);
+  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DoubleSolenoidChannels.ForwardChannelDt, DoubleSolenoidChannels.ReverseChannelDt);
 
 
   /** Creates a new DriveTrain. */
@@ -190,6 +190,19 @@ public class DriveTrain extends SubsystemBase {
     followerLeft.set(ControlMode.PercentOutput, motorspeed);
     followerRight.set(ControlMode.PercentOutput, motorspeed);
   }
+
+  public void driveDistance(double diameterOfWheel, double toGetDistanceInInchesMultiplier){
+    double distanceToTravel = unitConverter.distanceToTravelCalcultions(diameterOfWheel, motors.FalconUnitsPerRevolution, toGetDistanceInInchesMultiplier);
+    // 37156.244632 encoder units.
+    // To get driving distance in inches 
+    // divide inches that will want to be 
+    // driven by 27.
+    while(getRightSideMotorPosition() < distanceToTravel){
+      drive(0.3);
+    }
+
+    // System.out.println("distance to travel " + distanceToTravel);
+  }
   
   /**
    * resets all drivetrain sensor positions to 0,
@@ -209,7 +222,7 @@ public class DriveTrain extends SubsystemBase {
    */
   public double getRotationsPerSecond(WPI_TalonFX motor) {
     double sensorVelocity = motor.getSelectedSensorVelocity();
-    double rps = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    double rps = sensorVelocity / motors.FalconUnitsPerRevolution * 10;
     return rps;
     
   }
@@ -220,7 +233,7 @@ public class DriveTrain extends SubsystemBase {
    */
   public double getRotationsPerMinute(WPI_TalonFX motor) {
     double sensorVelocity = motor.getSelectedSensorVelocity();
-    double rpm = sensorVelocity / motors.falconUnitsPerRevolution * 10;
+    double rpm = sensorVelocity / motors.FalconUnitsPerRevolution * 10;
     return rpm;
   }
 
@@ -230,7 +243,7 @@ public class DriveTrain extends SubsystemBase {
    */
   public double getRotations(WPI_TalonFX motor) {
     double sensorPosition = motor.getSelectedSensorPosition();
-    double rotations = sensorPosition / motors.falconUnitsPerRevolution;
+    double rotations = sensorPosition / motors.FalconUnitsPerRevolution;
     return rotations;
   }
 
@@ -250,11 +263,6 @@ public class DriveTrain extends SubsystemBase {
   public double getLeftSideMotorPosition() {
     double recu_masterLeftSensorPosition = unitConverter.toReadableEncoderUnit(masterLeft.getSelectedSensorPosition());
     return recu_masterLeftSensorPosition;
-  }
-
-  public void driveDistance( double diameterOfWheel, double toGetDistanceInInches){
-    double driveDistanceEncoderValue = unitConverter.distanceToTravelCalcultions(diameterOfWheel, motors.falconUnitsPerRevolution, toGetDistanceInInches);
-    
   }
 
   /**
