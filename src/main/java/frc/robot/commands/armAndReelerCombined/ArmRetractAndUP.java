@@ -4,35 +4,34 @@
 
 package frc.robot.commands.armAndReelerCombined;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.arm.ArmClose;
-import frc.robot.commands.arm.ArmOpen;
-import frc.robot.commands.reeler.ReelArmDown;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.arm.ArmRetract;
+import frc.robot.commands.arm.ArmUp;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Reeler;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmUpExtendGrab extends SequentialCommandGroup {
-  private Reeler reeler;
+public class ArmRetractAndUP extends ParallelCommandGroup {
   private Arm arm;
+  private Reeler reeler;
   private double reelerSpeed;
   private double armSpeed;
 
-  /** Creates a new ArmUpExtendGrab. */
-  public ArmUpExtendGrab(Reeler reeler, Arm arm, double reelerSpeed, double armSpeed) {
-    this.reeler = reeler;   
+  /** Creates a new ArmCloseRetractUP. */
+  public ArmRetractAndUP(Arm arm, double armSpeed, Reeler reeler, double reelerSpeed) {
     this.arm = arm;
-    this.reelerSpeed = reelerSpeed;
+    this.reeler = reeler;
     this.armSpeed = armSpeed;
-    
+    this.reelerSpeed = reelerSpeed;
+
     addRequirements(arm, reeler);
-    
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ArmAndReelerUp(arm, armSpeed, reeler, reelerSpeed),
-                new ArmClose(arm)
+    addCommands(
+      new ArmRetract(arm),
+      new ArmAndReelerUp(arm, armSpeed, reeler, reelerSpeed)
     );
   }
 }
