@@ -10,10 +10,11 @@ import frc.robot.subsystems.Reeler;
 public class ReelArmUp extends CommandBase {
   
   private Reeler reeler;
-
+  private double reelerMotorspeed;
   /** Creates a new ReelArmUp. */
-  public ReelArmUp(Reeler reeler) {
+  public ReelArmUp(Reeler reeler, double reelerMotorspeed) {
     this.reeler = reeler;
+    this.reelerMotorspeed = reelerMotorspeed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(reeler);
   }
@@ -27,7 +28,7 @@ public class ReelArmUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    reeler.reelArmUp();
+    reeler.reelArmUp(reelerMotorspeed);
   }
 
   // Called once the command ends or is interrupted.

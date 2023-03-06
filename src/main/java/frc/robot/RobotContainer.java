@@ -48,7 +48,8 @@ public class RobotContainer {
   private Autonomous autonomous = new Autonomous();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick;
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick,
+                         menuButton, windowButton;
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -91,8 +92,10 @@ public class RobotContainer {
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
-    yButton.whileTrue(new ReelArmUp(reeler));
-    aButton.whileTrue(new ReelArmDown(reeler));
+
+    // You may have to adjust these values
+    yButton.whileTrue(new ReelArmUp(reeler, .3));
+    aButton.whileTrue(new ReelArmDown(reeler, .3));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));

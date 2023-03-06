@@ -31,20 +31,20 @@ public class Reeler extends SubsystemBase {
     bottomMotor.set(ControlMode.PercentOutput, 0);
   }
 
-  public void reelArmUp() {
+  public void reelArmUp(double motorspeed) {
     // does one of these have to be negative?
-    topMotor.set(.3);
+    topMotor.set(motorspeed);
     
     // bottom motor may need more speed
-    bottomMotor.set(ControlMode.PercentOutput, .3);
+    bottomMotor.set(ControlMode.PercentOutput, motorspeed);
   }
 
-  public void reelArmDown() {
+  public void reelArmDown(double motorspeed) {
     // do one of these have to be positive?
-    topMotor.set(-.3);
+    topMotor.set(-motorspeed);
 
     // bottom motor may need more speed
-    bottomMotor.set(ControlMode.PercentOutput, -.3);
+    bottomMotor.set(ControlMode.PercentOutput, -motorspeed);
   }
 
   public void stopReelerMotors() {
