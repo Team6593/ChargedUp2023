@@ -13,21 +13,28 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
 
 public class Reeler extends SubsystemBase {
   
-  Motors motors = new Motors();
+  private Motors motors = new Motors();
+  private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
 
   CANSparkMax topMotor = new CANSparkMax(motors.TopMotorID, MotorType.kBrushless);
+
+  DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
+  DigitalInput armLimitSwitchBottom = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchBottom);
+
   /** Creates a new Reeler. */
   public Reeler() {}
 
   public void reelerInit() {
     // ensure motors don't move during initialization
     topMotor.set(0);
-    reelerBrakeMotors();
+    reelerBrakeMotor();
    }
   
   public void reelArmUp(double reelerSpeed) {
@@ -41,11 +48,11 @@ public class Reeler extends SubsystemBase {
 
   }
 
-  public void stopReelerMotors() {
+  public void stopReelerMotor() {
     topMotor.stopMotor();
   }
 
-  public void reelerBrakeMotors() {
+  public void reelerBrakeMotor() {
     topMotor.setIdleMode(IdleMode.kBrake);
   }
 

@@ -6,7 +6,6 @@ package frc.robot.commands.armAndReelerCombined;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.arm.ArmRetract;
-import frc.robot.commands.arm.ArmUp;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Reeler;
 

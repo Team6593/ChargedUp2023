@@ -1,29 +1,29 @@
-// // Copyright (c) FIRST and other WPILib contributors.
-// // Open Source Software; you can modify and/or share it under the terms of
-// // the WPILib BSD license file in the root directory of this project.
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// package frc.robot.commands.arm;
+package frc.robot.commands.arm;
 
-// import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import frc.robot.subsystems.Arm;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.Arm;
 
-// // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// // information, see:
-// // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-// public class ArmLimitSwitchStop extends InstantCommand {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class ArmStop extends InstantCommand {
 
-//   private Arm arm;
+  private Arm arm;
 
-//   public ArmLimitSwitchStop(Arm arm) {
-//     this.arm = arm;
+  public ArmStop(Arm arm) {
+    this.arm = arm;
 
-//     addRequirements(arm);
-//     // Use addRequirements() here to declare subsystem dependencies.
-//   }
+    addRequirements(arm);
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
 
-//   // Called when the command is initially scheduled.
-//   @Override
-//   public void initialize() {
-//     arm.stopUpDownArmMotor();
-//   }
-// }
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    arm.stopArmMotor();
+  }
+}

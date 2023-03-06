@@ -76,6 +76,11 @@ public final class Constants {
     }
 
     public static final class SpeedsForMotors{
+        //speeds for arm and reeler
+        public static final double ArmSpeed = 0;
+        public static final double ReelerSpeed = 0;
+
+        //speed for elevator
         public final double Elevator_setSpeed = 0.2;
     }
 

@@ -26,7 +26,7 @@ public class ArmAndReelerUp extends ParallelCommandGroup {
     this.armSpeed = armSpeed;
     this.reelerSpeed = reelerSpeed;
 
-    addRequirements(arm, reeler);
+    //addRequirements(arm, reeler);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ArmUp(arm, armSpeed), new ReelArmUp(reeler, reelerSpeed));

@@ -39,7 +39,6 @@ public class Arm extends SubsystemBase {
 
 
   //Motor/s
-  private Spark armReelerMotor = new Spark(motors.ArmReelerMotorID);
   private WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
 
   //solenoids
@@ -61,19 +60,17 @@ public class Arm extends SubsystemBase {
     armMotor.setNeutralMode(NeutralMode.Brake);
   }
 
-  public void stopArmMotors(){
+  public void stopArmMotor(){
     armMotor.stopMotor();
-    armReelerMotor.stopMotor();
   }
 
   // // Limit switch methods (WIP)- might have to change from negative to positive values later
   public void armUp(double armMotorsSpeed) {
     if (armLimitSwitchTop.get() == true) {
       armMotor.set(armMotorsSpeed);
-      armReelerMotor.set(-armMotorsSpeed);
 
     } else if (armLimitSwitchTop.get() == false) {
-      stopArmMotors();
+      stopArmMotor();
       armBrake();
     }
   }
@@ -81,7 +78,7 @@ public class Arm extends SubsystemBase {
   public void armDown(double armMotorsSpeed) {
     if (armLimitSwitchBottom.get() == true) {
       armMotor.set(-armMotorsSpeed);
-      armReelerMotor.set(armMotorsSpeed);
+      
     } else if (armLimitSwitchBottom.get() == false) {
       armMotor.stopMotor();
       armBrake();

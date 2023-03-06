@@ -23,14 +23,13 @@ public class ArmDownGrab extends SequentialCommandGroup {
   private double armSpeed;
 
   /** Creates a new ArmUpExtendGrab. */
-  public ArmDownGrab(Reeler reeler, Arm arm, double reelerSpeed, double armSpeed) {
-    this.reeler = reeler;   
+  public ArmDownGrab(Arm arm, double armSpeed, Reeler reeler, double reelerSpeed) {
+    this.reeler = reeler;
     this.arm = arm;
     this.reelerSpeed = reelerSpeed;
     this.armSpeed = armSpeed;
     
-    addRequirements(arm, reeler);
-    
+    //addRequirements(arm, reeler);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

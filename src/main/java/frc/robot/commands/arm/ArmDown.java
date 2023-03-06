@@ -7,12 +7,12 @@ package frc.robot.commands.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class ArmLimitSwitchDown extends CommandBase {
+public class ArmDown extends CommandBase {
   private Arm arm;
   private double armSpeed;
 
   /** Creates a new ArmLimitSwitchDown. */
-  public ArmLimitSwitchDown(Arm arm, double armSpeed) {
+  public ArmDown(Arm arm, double armSpeed) {
     this.arm = arm;
     this.armSpeed = armSpeed;
 
@@ -33,8 +33,7 @@ public class ArmLimitSwitchDown extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.stopArmMotors();
-    // arm.armBrakeMode();
+    arm.stopArmMotor();
   }
 
   // Returns true when the command should end.
