@@ -36,9 +36,9 @@ import frc.robot.Constants;
  * (or something like that), is connected via USB
  * to the RoboRIO.
  */
-public class CamRIO extends SubsystemBase {
+public class Camera extends SubsystemBase {
   /** Creates a new CamRIO. */
-  public CamRIO() {}// do not add any subsystem dependencies
+  public Camera() {}// do not add any subsystem dependencies
 
   // set vision processing on another thread so it does not slow down the main thread
   Thread visionThread;
@@ -158,8 +158,6 @@ public class CamRIO extends SubsystemBase {
               // if you do not close the detector, it will cause a memory leak
               aprilTagDetector.close();
             });
-    //TODO: create a handwritten protocol for syncing tag detection with autonomous driving
-    // (or just use a pre-existing one like NetworkTables)
     visionThread.setDaemon(true);
     visionThread.start();
   }

@@ -21,7 +21,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Reeler;
-import frc.robot.subsystems.vision.CamRIO;
+import frc.robot.subsystems.vision.Camera;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -37,7 +37,7 @@ public class RobotContainer {
   public final DriveTrain driveTrain;
   public final Elevator elevator;
   // Make sure this is public so you can call camInit()
-  public final CamRIO rioCamera;
+  public final Camera rioCamera;
   public final LimeLight limeLight;
   public final NavX navX;
   public final Reeler reeler;
@@ -58,7 +58,7 @@ public class RobotContainer {
     //instances of classes
     navX = new NavX();
     limeLight = new LimeLight();
-    rioCamera = new CamRIO();
+    rioCamera = new Camera();
     driveTrain = new DriveTrain();
     reeler = new Reeler();
     elevator = new Elevator();
