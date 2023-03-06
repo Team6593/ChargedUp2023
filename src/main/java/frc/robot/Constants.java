@@ -31,8 +31,8 @@ public final class Constants {
         public final int ElevatorLowLimitSwitchPort = 1;
 
         // // Arm limit switches (WIP)
-        // public final static int ArmLimitSwitchPortOne = 0;
-        // public final static int ArmLimitSwitchPortTwo = 0;
+        public final static int ArmLimitSwitchTop = 0;
+        public final static int ArmLimitSwitchBottom = 0;
     }
 
     public static final class InputMap {
@@ -52,6 +52,9 @@ public final class Constants {
     }
 
     public static final class Motors {
+
+        public static final int ArmReelerMotorID = 0;
+        public static final int ArmMotorID = 0;
         // put motor ID's here
         // how to define consts: subsystem + master or follower + orientation (left, right, up, down) + "ID"
         // change these nums later

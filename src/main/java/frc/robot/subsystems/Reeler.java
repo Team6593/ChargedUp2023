@@ -21,41 +21,32 @@ public class Reeler extends SubsystemBase {
   Motors motors = new Motors();
 
   CANSparkMax topMotor = new CANSparkMax(motors.TopMotorID, MotorType.kBrushless);
-  WPI_TalonFX bottomMotor = new WPI_TalonFX(motors.BottomMotorID);
-
   /** Creates a new Reeler. */
   public Reeler() {}
 
   public void reelerInit() {
     // ensure motors don't move during initialization
     topMotor.set(0);
-    bottomMotor.set(ControlMode.PercentOutput, 0);
-  }
-
-  public void reelArmUp() {
+    reelerBrakeMotors();
+   }
+  
+  public void reelArmUp(double reelerSpeed) {
     // does one of these have to be negative?
-    topMotor.set(.3);
-    
-    // bottom motor may need more speed
-    bottomMotor.set(ControlMode.PercentOutput, .3);
+    topMotor.set(reelerSpeed);    
   }
 
-  public void reelArmDown() {
+  public void reelArmDown(double reelerSpeed) {
     // do one of these have to be positive?
-    topMotor.set(-.3);
+    topMotor.set(-reelerSpeed);
 
-    // bottom motor may need more speed
-    bottomMotor.set(ControlMode.PercentOutput, -.3);
   }
 
   public void stopReelerMotors() {
     topMotor.stopMotor();
-    bottomMotor.stopMotor();
   }
 
   public void reelerBrakeMotors() {
     topMotor.setIdleMode(IdleMode.kBrake);
-    bottomMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
