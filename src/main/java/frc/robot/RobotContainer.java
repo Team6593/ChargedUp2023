@@ -98,8 +98,8 @@ public class RobotContainer {
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
-    yButton.whileTrue(new ReelArmUp(reeler));
-    aButton.whileTrue(new ReelArmDown(reeler));
+    // yButton.whileTrue(new ReelArmUp(reeler));
+    // aButton.whileTrue(new ReelArmDown(reeler));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
