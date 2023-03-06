@@ -4,7 +4,7 @@
 
 package frc.robot.commands.armAndReelerCombined;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.arm.ArmRetract;
 import frc.robot.commands.arm.ArmUp;
 import frc.robot.subsystems.Arm;
@@ -13,7 +13,7 @@ import frc.robot.subsystems.Reeler;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmRetractAndUP extends ParallelCommandGroup {
+public class ArmRetractAndUP extends SequentialCommandGroup {
   private Arm arm;
   private Reeler reeler;
   private double reelerSpeed;
@@ -26,7 +26,7 @@ public class ArmRetractAndUP extends ParallelCommandGroup {
     this.armSpeed = armSpeed;
     this.reelerSpeed = reelerSpeed;
 
-    addRequirements(arm, reeler);
+    //addRequirements(arm, reeler);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
