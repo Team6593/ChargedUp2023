@@ -10,8 +10,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
+
 import frc.robot.commands.arm.ArmClose;
 import frc.robot.commands.arm.ArmOpen;
+
+
+import frc.robot.commands.ElevatorCommands.ElevatorDown;
+import frc.robot.commands.ElevatorCommands.ElevatorStop;
+import frc.robot.commands.armReelerElevator.ArmDownGrab;
+import frc.robot.commands.armReelerElevator.StopArmAndReeler;
+
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
@@ -39,12 +47,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveTrain driveTrain;
   public final Elevator elevator;
+
   public final Arm arm;
+  public final Arm arm;  
+  public final Reeler reeler;
+  
   // Make sure this is public so you can call camInit()
   public final Camera rioCamera;
   public final LimeLight limeLight;
   public final NavX navX;
-  public final Reeler reeler;
 
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
@@ -65,6 +76,7 @@ public class RobotContainer {
     limeLight = new LimeLight();
     rioCamera = new Camera();
     driveTrain = new DriveTrain();
+    arm = new Arm();
     reeler = new Reeler();
     elevator = new Elevator();
     arm = new Arm();
@@ -98,11 +110,17 @@ public class RobotContainer {
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
 
+
     // You may have to adjust these values
-    yButton.whileTrue(new ReelArmUp(reeler, .3));
-    aButton.whileTrue(new ReelArmDown(reeler, .3));
+    //yButton.whileTrue(new ReelArmUp(reeler, .3));
+    //aButton.whileTrue(new ReelArmDown(reeler, .3));
     armExtendButton.onTrue(new ArmOpen(arm));
     armRetractButton.onTrue(new ArmClose(arm));
+
+    // yButton.whileTrue(new ReelArmUp(reeler));
+    //aButton.onTrue(new ArmDownGrab(arm, SpeedsForMotors.ArmSpeed, reeler, SpeedsForMotors.ReelerSpeed));
+    //bButton.onTrue(new StopArmAndReeler(arm, reeler));
+
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));

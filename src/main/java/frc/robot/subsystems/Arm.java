@@ -4,9 +4,24 @@
 
 package frc.robot.subsystems;
 
+
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DoubleSolenoidChannels;
 import frc.robot.Constants.Motors;
@@ -29,20 +44,54 @@ public class Arm extends SubsystemBase {
 
 
   //Motor/s
-//  private WPI_TalonFX armMotorUpDown = new WPI_TalonFX(motors.ArmMotorUpDownID);
-//  private WPI_TalonFX armMotorLeft = new WPI_TalonFX(motors.ArmMotorLeftID);
-//  private WPI_TalonFX armMotorRight = new WPI_TalonFX(motors.ArmMotorRightID);
+  private WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
 
   //solenoids
   private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
-  private DoubleSolenoid armExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.armRetractChannel);
+  private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.armRetractChannel);
 
   // //limit switches (WIP)
-  // private DigitalInput armLimitSwitchOne = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchPortOne);
-  // private DigitalInput armLimitSwitchTwo = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchPortTwo);
+  private DigitalInput armLimitSwitchTop = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchTop);
+  private DigitalInput armLimitSwitchBottom = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchBottom);
 
   /* Creates a new Hand. */
   public Arm() {}
+
+
+  public void armInit(){
+    armBrake();
+  }
+
+
+  public void armBrake(){
+    armMotor.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void stopArmMotor(){
+    armMotor.stopMotor();
+  }
+
+  // // Limit switch methods (WIP)- might have to change from negative to positive values later
+  public void armUp(double armMotorsSpeed) {
+    if (armLimitSwitchTop.get() == true) {
+      armMotor.set(armMotorsSpeed);
+
+    } else if (armLimitSwitchTop.get() == false) {
+      stopArmMotor();
+      armBrake();
+    }
+  }
+
+  public void armDown(double armMotorsSpeed) {
+    if (armLimitSwitchBottom.get() == true) {
+      armMotor.set(-armMotorsSpeed);
+      
+    } else if (armLimitSwitchBottom.get() == false) {
+      armMotor.stopMotor();
+      armBrake();
+    }
+  }
+
 
   // // Limit switch methods (WIP)
   /* 
@@ -64,6 +113,7 @@ public class Arm extends SubsystemBase {
     }
   }
   */
+
   
 
   // HAND METHODS, GRABBING AND RELEASING OBJECTS
@@ -79,11 +129,11 @@ public class Arm extends SubsystemBase {
   // EXTENDER METHODS, MOVING ARM FORWARD AND BACKWARD
   
   public void armExtend(){
-    armExtandAndRetract.set(Value.kForward);
+    armSolenoidExtandAndRetract.set(Value.kForward);
   }
 
   public void armRetract(){
-    armExtandAndRetract.set(Value.kReverse);
+    armSolenoidExtandAndRetract.set(Value.kReverse);
   }
 
   @Override
