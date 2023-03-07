@@ -101,8 +101,8 @@ public class RobotContainer {
     // You may have to adjust these values
     yButton.whileTrue(new ReelArmUp(reeler, .3));
     aButton.whileTrue(new ReelArmDown(reeler, .3));
-    rightTrigger.onTrue(new ArmOpen(arm));
-    leftTrigger.onTrue(new ArmClose(arm));
+    armExtendButton.onTrue(new ArmOpen(arm));
+    armRetractButton.onTrue(new ArmClose(arm));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
