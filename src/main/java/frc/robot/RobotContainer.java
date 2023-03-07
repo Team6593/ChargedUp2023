@@ -5,15 +5,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 
+import frc.robot.commands.arm.ArmClose;
+import frc.robot.commands.arm.ArmOpen;
+
+
 import frc.robot.commands.ElevatorCommands.ElevatorDown;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.armReelerElevator.ArmDownGrab;
 import frc.robot.commands.armReelerElevator.StopArmAndReeler;
+
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
@@ -41,9 +47,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveTrain driveTrain;
   public final Elevator elevator;
+
+  public final Arm arm;
   public final Arm arm;  
   public final Reeler reeler;
-
+  
   // Make sure this is public so you can call camInit()
   public final Camera rioCamera;
   public final LimeLight limeLight;
@@ -57,8 +65,9 @@ public class RobotContainer {
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
   private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick,
                          menuButton, windowButton;
-
-  
+  private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
+  private JoystickButton armExtendButton, armRetractButton, elevatorUpButton,
+                         elevatorDownButton, grabButton, releaseButton;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -70,7 +79,7 @@ public class RobotContainer {
     arm = new Arm();
     reeler = new Reeler();
     elevator = new Elevator();
-
+    arm = new Arm();
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
@@ -100,9 +109,18 @@ public class RobotContainer {
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
+
+
+    // You may have to adjust these values
+    //yButton.whileTrue(new ReelArmUp(reeler, .3));
+    //aButton.whileTrue(new ReelArmDown(reeler, .3));
+    armExtendButton.onTrue(new ArmOpen(arm));
+    armRetractButton.onTrue(new ArmClose(arm));
+
     // yButton.whileTrue(new ReelArmUp(reeler));
-    aButton.onTrue(new ArmDownGrab(arm, SpeedsForMotors.ArmSpeed, reeler, SpeedsForMotors.ReelerSpeed));
-    bButton.onTrue(new StopArmAndReeler(arm, reeler));
+    //aButton.onTrue(new ArmDownGrab(arm, SpeedsForMotors.ArmSpeed, reeler, SpeedsForMotors.ReelerSpeed));
+    //bButton.onTrue(new StopArmAndReeler(arm, reeler));
+
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
@@ -116,12 +134,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     
-    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
-    .andThen(new BalanceOnChargeStation(
-      driveTrain,
-      navX,
-      autonomous.balancingSpeed,
-      autonomous.rollThreshholdDegrees));
+    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation);
     
     // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 

@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-<<<<<<< HEAD
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-=======
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
->>>>>>> 4b702ee5f57be7e2042eb9698bf8a9fba9d4ea06
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DoubleSolenoidChannels;
 import frc.robot.Constants.Motors;
@@ -57,11 +57,12 @@ public class Arm extends SubsystemBase {
   /* Creates a new Hand. */
   public Arm() {}
 
+
   public void armInit(){
     armBrake();
   }
 
-<<<<<<< HEAD
+
   public void armBrake(){
     armMotor.setNeutralMode(NeutralMode.Brake);
   }
@@ -90,7 +91,8 @@ public class Arm extends SubsystemBase {
       armBrake();
     }
   }
-=======
+
+
   // // Limit switch methods (WIP)
   /* 
   public void armLimitSwitchUp(double armMotorSpeed) {
@@ -111,7 +113,7 @@ public class Arm extends SubsystemBase {
     }
   }
   */
->>>>>>> 4b702ee5f57be7e2042eb9698bf8a9fba9d4ea06
+
   
 
   // HAND METHODS, GRABBING AND RELEASING OBJECTS

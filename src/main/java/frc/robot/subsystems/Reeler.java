@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -32,8 +33,8 @@ public class Reeler extends SubsystemBase {
 
   public void reelerInit() {
     // ensure motors don't move during initialization
+
     topMotor.set(0);
-<<<<<<< HEAD
     reelerBrakeMotor();
    }
   
@@ -45,9 +46,11 @@ public class Reeler extends SubsystemBase {
   public void reelArmDown(double reelerSpeed) {
     // do one of these have to be positive?
     topMotor.set(-reelerSpeed);
-
-=======
     bottomMotor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public RelativeEncoder getTopMotorEncoder() {
+    return topMotor.getEncoder();
   }
 
   public void reelArmUp(double motorspeed) {
@@ -64,7 +67,6 @@ public class Reeler extends SubsystemBase {
 
     // bottom motor may need more speed
     bottomMotor.set(ControlMode.PercentOutput, -motorspeed);
->>>>>>> 4b702ee5f57be7e2042eb9698bf8a9fba9d4ea06
   }
 
   public void stopReelerMotor() {
