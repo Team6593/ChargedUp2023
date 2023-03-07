@@ -14,16 +14,14 @@ public class BalanceOnChargeStation extends CommandBase {
   private DriveTrain driveTrain;
   private NavX navX;
   private Autonomous autonomous = new Autonomous();
-  private double speed = autonomous.levelDegrees;
 
   // what is the roll in degrees when the robot is level
-  private double levelRoll;
+  private double levelRoll = autonomous.levelDegrees;
 
-  public BalanceOnChargeStation(DriveTrain driveTrain, NavX navX, double speed) {
+  public BalanceOnChargeStation(DriveTrain driveTrain, NavX navX) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.navX = navX;
-    this.speed = speed;
 
     addRequirements(driveTrain, navX);
   }
