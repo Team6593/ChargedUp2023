@@ -9,18 +9,15 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -32,23 +29,25 @@ public class DriveTrain extends SubsystemBase {
   // refrence constants to get motor ID's
   public static Constants.Motors motors = new Constants.Motors();
   public static UnitConverter unitConverter = new UnitConverter();
+  public static DoubleSolenoidChannels doubleSolenoidChannels = new DoubleSolenoidChannels();
 
   // motor controllers
   public WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
   public WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
   public WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
   public WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // s right
-  
+
   public final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, followerLeft);
   public final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
-
+  
   private final DifferentialDrive Drive = new DifferentialDrive(DtLeft, DtRight);
 
   // Limit Switches
-  // private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
-  // private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
-  // private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
-  // private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
+  // Uncomment the following lines below if there are limit switches on the robot
+  //private DigitalInput dtRightTopLimitSwitch = new DigitalInput(0);
+  //private DigitalInput dtRightBottomLimitSwitch = new DigitalInput(1);
+  //private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
+  //private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
   private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DoubleSolenoidChannels.ForwardChannelDt, DoubleSolenoidChannels.ReverseChannelDt);
 
@@ -56,9 +55,81 @@ public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
   public DriveTrain() {}
 
+
+
+  // MOTOR INIT
+  public void dtInit() {
     
+    followerLeft.follow(masterLeft);
+    followerRight.follow(masterRight);
+    
+    //Ensure motor output is nuetral during initialization
+    masterRight.set(0);
+    masterLeft.set(0);
+    followerRight.set(0);
+    followerLeft.set(0);
+
+    setBrakeMode();
+    
+    final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
+
+
+    // Comment this code out if the robot 'stutters' while driving
+    // This limits the amount of electricity the motor can recieve,
+    // but this can cause the robot to drive slow, or 'stutter'
+    // because of the motor's safety measures
+
+    config.supplyCurrLimit.enable = true;
+    config.supplyCurrLimit.triggerThresholdCurrent = 70;
+    config.supplyCurrLimit.triggerThresholdTime = 3.0;
+    config.supplyCurrLimit.currentLimit = 70;
+  
+    masterRight.configAllSettings(config);
+    masterLeft.configAllSettings(config);
+    followerRight.configAllSettings(config);
+    followerLeft.configAllSettings(config);
+
+    /* 
+    masterRight.set(TalonFXControlMode.PercentOutput, 0);
+    masterLeft.set(TalonFXControlMode.PercentOutput, 0);
+    followerRight.set(TalonFXControlMode.PercentOutput, 0);
+    followerLeft.set(TalonFXControlMode.PercentOutput, 0);
+    */
+    
+    // set integrated sensor for PID, this doesn't matter even if PID isn't used
+    config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
+
+
+
+    masterRight.setInverted(true);
+    masterLeft.setInverted(false);
+    followerRight.setInverted(InvertType.FollowMaster);
+    followerLeft.setInverted(InvertType.FollowMaster);
+
+    // reset all motor positions on init
+    masterRight.setSelectedSensorPosition(0);
+    masterLeft.setSelectedSensorPosition(0);
+    followerRight.setSelectedSensorPosition(0);
+    followerLeft.setSelectedSensorPosition(0);
+
+  }
 
   // MOTORS
+  public void setBrakeMode() {
+    masterLeft.setNeutralMode(NeutralMode.Brake);
+    masterRight.setNeutralMode(NeutralMode.Brake);
+    followerLeft.setNeutralMode(NeutralMode.Brake);
+    followerRight.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setCoastMode() {
+    masterLeft.setNeutralMode(NeutralMode.Coast);
+    masterRight.setNeutralMode(NeutralMode.Coast);
+    followerLeft.setNeutralMode(NeutralMode.Coast);
+    followerRight.setNeutralMode(NeutralMode.Coast);
+  }
+
+
   public void setLeftMotorspeed(double leftmoterspeed) {
     DtLeft.set(leftmoterspeed);
   }
@@ -67,28 +138,12 @@ public class DriveTrain extends SubsystemBase {
     DtRight.set(rightmotorspeed);
   }
 
-  public void dtShifterOff(){
-    shifter.set(Value.kOff);
-  }
 
   public void stopAllMotors() {
     masterRight.stopMotor();
     masterLeft.stopMotor();
     followerRight.stopMotor();
     followerLeft.stopMotor();
-  }
-
-  public void driveTrainCoast(){
-    masterRight.setNeutralMode(NeutralMode.Coast);
-    masterLeft.setNeutralMode(NeutralMode.Coast);
-    followerRight.setNeutralMode(NeutralMode.Coast);
-    followerLeft.setNeutralMode(NeutralMode.Coast);
-  }
-  public void driveTrainBrake(){
-    masterRight.setNeutralMode(NeutralMode.Brake);
-    masterLeft.setNeutralMode(NeutralMode.Brake);
-    followerRight.setNeutralMode(NeutralMode.Brake);
-    followerLeft.setNeutralMode(NeutralMode.Brake);
   }
 
   // DRIVING
@@ -121,6 +176,11 @@ public class DriveTrain extends SubsystemBase {
     shifter.set(Value.kReverse);
   }
 
+  public void dtShifterOff(){
+    shifter.set(Value.kOff);
+  }
+
+
   public void drive(double motorspeed) {
     masterLeft.set(ControlMode.PercentOutput, motorspeed);
     masterRight.set(ControlMode.PercentOutput, motorspeed);
@@ -152,64 +212,16 @@ public class DriveTrain extends SubsystemBase {
     followerRight.setSelectedSensorPosition(0);
   }
 
-  // MOTOR INIT
-  public void dtInit() {
-    driveTrainBrake();
-
-    followerRight.follow(masterRight);
-    followerLeft.follow(masterLeft);
-    // //Ensure motor output is nuetral during initialization
-    // /* 
-    // masterLeft.set(0);
-    // masterRight.set(0);
-    // slaveLeft.set(0);
-    // slaveRight.set(0);
-    // */
-
-    // //Typically the right side of a drivetrain must be inverted
-    masterRight.setInverted(true);
-    masterLeft.setInverted(false);
-    followerRight.setInverted(InvertType.FollowMaster);
-    followerLeft.setInverted(InvertType.FollowMaster);
-    
-    final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
-
-    
-    config.supplyCurrLimit.enable = true;
-    config.supplyCurrLimit.triggerThresholdCurrent = 70;
-    config.supplyCurrLimit.triggerThresholdTime = 1.0;
-    config.supplyCurrLimit.currentLimit = 70;
-    
-    masterRight.configAllSettings(config);
-    masterLeft.configAllSettings(config);
-    followerRight.configAllSettings(config);
-    followerLeft.configAllSettings(config);
-    masterRight.set(TalonFXControlMode.PercentOutput, 0);
-    masterLeft.set(TalonFXControlMode.PercentOutput, 0);
-    followerRight.set(TalonFXControlMode.PercentOutput, 0);
-    followerLeft.set(TalonFXControlMode.PercentOutput, 0);
-    
-    // // set integrated sensor for PID, this doesn't matter even if PID isn't used
-    config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-
-
-    
-    masterRight.setSelectedSensorPosition(0);
-    masterLeft.setSelectedSensorPosition(0);
-    followerRight.setSelectedSensorPosition(0);
-    followerLeft.setSelectedSensorPosition(0);
-
-  }
-
   // MOTOR POSITION/SENSOR
   /**
    * this function only returns a value from the masterRight motor
    * @return rps (rotations-per-second)
-  */
+   */
   public double getRotationsPerSecond(WPI_TalonFX motor) {
     double sensorVelocity = motor.getSelectedSensorVelocity();
     double rps = sensorVelocity / motors.FalconUnitsPerRevolution * 10;
     return rps;
+    
   }
 
   /**
@@ -237,7 +249,7 @@ public class DriveTrain extends SubsystemBase {
    * @return recu_masterRightSensorPosition, the sensor-position of the master-right motor in RECU's
    */
   public double getRightSideMotorPosition() {
-    double recu_masterRightSensorPosition = masterRight.getSelectedSensorPosition();
+    double recu_masterRightSensorPosition = unitConverter.toReadableEncoderUnit(masterRight.getSelectedSensorPosition());
     return recu_masterRightSensorPosition;
   }
 
@@ -267,7 +279,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Master Left Sensor Position", masterLeftSensorPosition);
     SmartDashboard.putNumber("Follower Left Sensor Position", slaveLeftSensorPosition);
 
-    // // Sensor velocity
+    // Sensor velocity
     double masterRightSensorVelocity = masterRight.getSelectedSensorVelocity();
     double masterLeftSensorVelocity = masterLeft.getSelectedSensorVelocity();
     double followerLeftSensorVelocity = followerLeft.getSelectedSensorVelocity();
@@ -278,7 +290,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Master Left Sensor Velocity", masterLeftSensorVelocity);
     SmartDashboard.putNumber("Follower Left Sensor Velocity", followerLeftSensorVelocity);
 
-    // // Stator current
+    // Stator current
     double masterRightStatorCurrent = masterRight.getStatorCurrent();
     double masterLeftStatorCurrent = masterLeft.getStatorCurrent();
     double followerRightStatorCurrent = followerRight.getStatorCurrent();
@@ -288,9 +300,6 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Master Left Stator Current", masterLeftStatorCurrent);
     SmartDashboard.putNumber("Follower Right Stator Current", followerRightStatorCurrent);
     SmartDashboard.putNumber("Follower Left Stator Current", followerLeftStatorCurrent);
-
-    //For distance driving
-    SmartDashboard.putNumber("distance of robot per rotation", unitConverter.distanceToTravelCalcultions(5.775, 2048, 1));
   }
 
 
@@ -298,7 +307,6 @@ public class DriveTrain extends SubsystemBase {
     * displays TalonFX sensor data to rioLog, this method should be called in periodic()
     */
   public void printTalonData() {
-    // TODO: change motor naming conventions to Master/Follower here
     System.out.println("Sensor position, master right" + masterRight.getSelectedSensorPosition());
     System.out.println("Sensor position, slave right" + followerRight.getSelectedSensorPosition());
     System.out.println("Sensor position, master left" + masterLeft.getSelectedSensorPosition());

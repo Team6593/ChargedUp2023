@@ -4,23 +4,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 
-import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
-import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
-import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
-import frc.robot.commands.armAndReelerCombined.ArmDownGrab;
-import frc.robot.commands.armAndReelerCombined.StopArmAndReeler;
+import frc.robot.commands.ElevatorCommands.ElevatorDown;
+import frc.robot.commands.ElevatorCommands.ElevatorStop;
+import frc.robot.commands.armReelerElevator.ArmDownGrab;
+import frc.robot.commands.armReelerElevator.StopArmAndReeler;
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
-import frc.robot.commands.drivetrain.DriveDistanceUsingCalculations;
-import frc.robot.commands.drivetrain.DriveTrainStop;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
@@ -31,7 +26,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Reeler;
-import frc.robot.subsystems.vision.CamRIO;
+import frc.robot.subsystems.vision.Camera;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -50,7 +45,7 @@ public class RobotContainer {
   public final Reeler reeler;
 
   // Make sure this is public so you can call camInit()
-  public final CamRIO rioCamera;
+  public final Camera rioCamera;
   public final LimeLight limeLight;
   public final NavX navX;
 
@@ -60,7 +55,8 @@ public class RobotContainer {
   private Autonomous autonomous = new Autonomous();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick;
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick,
+                         menuButton, windowButton;
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -69,7 +65,7 @@ public class RobotContainer {
     //instances of classes
     navX = new NavX();
     limeLight = new LimeLight();
-    rioCamera = new CamRIO();
+    rioCamera = new Camera();
     driveTrain = new DriveTrain();
     arm = new Arm();
     reeler = new Reeler();
@@ -108,7 +104,7 @@ public class RobotContainer {
     aButton.onTrue(new ArmDownGrab(arm, SpeedsForMotors.ArmSpeed, reeler, SpeedsForMotors.ReelerSpeed));
     bButton.onTrue(new StopArmAndReeler(arm, reeler));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
-    xButton.onTrue(new DriveTrainStop(driveTrain));
+    // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
     rightClick.onTrue(new HighGear(driveTrain));
   }
@@ -131,5 +127,6 @@ public class RobotContainer {
     //new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
+     
   }
-}
+} 
