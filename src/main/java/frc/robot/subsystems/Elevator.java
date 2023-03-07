@@ -59,6 +59,7 @@ public class Elevator extends SubsystemBase {
   public void elevatorInit(){
     elevatorMotor.setSafetyEnabled(true);
     elevatorMotor.setExpiration(0.5);
+    elevatorMotor.set(0);
 
   }
 

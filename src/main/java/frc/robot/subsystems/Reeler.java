@@ -12,15 +12,20 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
 
 public class Reeler extends SubsystemBase {
   
-  Motors motors = new Motors();
+  private Motors motors = new Motors();
+  private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
 
   CANSparkMax topMotor = new CANSparkMax(motors.TopMotorID, MotorType.kBrushless);
-  WPI_TalonFX bottomMotor = new WPI_TalonFX(motors.BottomMotorID);
+
+  DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
+  DigitalInput armLimitSwitchBottom = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchBottom);
 
   /** Creates a new Reeler. */
   public Reeler() {}
@@ -28,6 +33,20 @@ public class Reeler extends SubsystemBase {
   public void reelerInit() {
     // ensure motors don't move during initialization
     topMotor.set(0);
+<<<<<<< HEAD
+    reelerBrakeMotor();
+   }
+  
+  public void reelArmUp(double reelerSpeed) {
+    // does one of these have to be negative?
+    topMotor.set(reelerSpeed);    
+  }
+
+  public void reelArmDown(double reelerSpeed) {
+    // do one of these have to be positive?
+    topMotor.set(-reelerSpeed);
+
+=======
     bottomMotor.set(ControlMode.PercentOutput, 0);
   }
 
@@ -45,16 +64,15 @@ public class Reeler extends SubsystemBase {
 
     // bottom motor may need more speed
     bottomMotor.set(ControlMode.PercentOutput, -motorspeed);
+>>>>>>> 4b702ee5f57be7e2042eb9698bf8a9fba9d4ea06
   }
 
-  public void stopReelerMotors() {
+  public void stopReelerMotor() {
     topMotor.stopMotor();
-    bottomMotor.stopMotor();
   }
 
-  public void reelerBrakeMotors() {
+  public void reelerBrakeMotor() {
     topMotor.setIdleMode(IdleMode.kBrake);
-    bottomMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
