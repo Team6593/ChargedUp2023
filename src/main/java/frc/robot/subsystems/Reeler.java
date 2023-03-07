@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -27,8 +28,12 @@ public class Reeler extends SubsystemBase {
 
   public void reelerInit() {
     // ensure motors don't move during initialization
-    topMotor.set(0);
+    topMotor.set(0);  
     bottomMotor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public RelativeEncoder getTopMotorEncoder() {
+    return topMotor.getEncoder();
   }
 
   public void reelArmUp(double motorspeed) {
