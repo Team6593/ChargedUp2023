@@ -37,7 +37,7 @@ public class NavX extends SubsystemBase {
   }
 
   public void resetYaw() {
-    navX.zeroYaw();
+    navX.zeroYaw(); 
   } 
 
   public float getPitch() {
