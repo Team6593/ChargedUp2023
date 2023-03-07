@@ -44,10 +44,6 @@ public class Arm extends SubsystemBase {
   /* Creates a new Hand. */
   public Arm() {}
 
-  public void armInit(){
-
-  }
-
   // // Limit switch methods (WIP)
   /* 
   public void armLimitSwitchUp(double armMotorSpeed) {

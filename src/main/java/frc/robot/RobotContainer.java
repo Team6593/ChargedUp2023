@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
-
+import frc.robot.commands.arm.ArmClose;
+import frc.robot.commands.arm.ArmOpen;
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
@@ -17,6 +18,7 @@ import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.commands.reeler.ReelArmDown;
 import frc.robot.commands.reeler.ReelArmUp;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
@@ -36,6 +38,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveTrain driveTrain;
   public final Elevator elevator;
+  public final Arm arm;
   // Make sure this is public so you can call camInit()
   public final Camera rioCamera;
   public final LimeLight limeLight;
@@ -62,7 +65,7 @@ public class RobotContainer {
     driveTrain = new DriveTrain();
     reeler = new Reeler();
     elevator = new Elevator();
-
+    arm = new Arm();
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
@@ -96,6 +99,8 @@ public class RobotContainer {
     // You may have to adjust these values
     yButton.whileTrue(new ReelArmUp(reeler, .3));
     aButton.whileTrue(new ReelArmDown(reeler, .3));
+    rightTrigger.onTrue(new ArmOpen(arm));
+    leftTrigger.onTrue(new ArmClose(arm));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));

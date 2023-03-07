@@ -22,6 +22,12 @@ public class NavX extends SubsystemBase {
     }
   }
 
+  public void setup() {
+    connectionTest();
+    reset();
+    calibrate();
+  }
+
   public void connectionTest() {
     if(navX.isConnected()) {
       System.out.println("NavX connected");
@@ -40,6 +46,14 @@ public class NavX extends SubsystemBase {
     navX.zeroYaw(); 
   } 
 
+  /**
+   * depending on the way the RoboRIO is mounted, the getPitch() method might
+   * actually return the roll instead, this is beacuse the roboRIO is installed
+   * sideways. Regardless, this method will return what the NavX thinks the pitch
+   * is.
+   * Pitch is the measure of rotation around the X axis.
+   * @return pitch in degrees (-180 to 180)
+   */
   public float getPitch() {
     return navX.getPitch();
   }
@@ -48,6 +62,10 @@ public class NavX extends SubsystemBase {
     return navX.getAngle();
   }
 
+  /**
+   * Yaw is the measure of rotation around the Z axis
+   * @return yaw in degrees (-180 to 180)
+   */
   public float getYaw() {
     return navX.getYaw();
   }
@@ -56,18 +74,40 @@ public class NavX extends SubsystemBase {
    return navX.getAltitude();
   }
 
+  /**
+   * This method is experimental and shouldn't be used for crucial tasks,
+   * the values are known to be "noisy" and innacurate.
+   * @return Current velocity in m^2 (meters squared) on the X axis
+   */
   public float getVelocityX() {
     return navX.getVelocityX();
   }
 
+  /**
+   * This method is experimental and shouldn't be used for crucial tasks,
+   * the values are known to be "noisy" and innacurate.
+   * @return Current velocity in m^2 (meters squared) on the Y axis
+   */
   public float getVelocityY() {
     return navX.getVelocityY();
   }
 
+  /**
+   * This method is experimental and shouldn't be used for crucial tasks,
+   * the values are known to be "noisy" and innacurate.
+   * @return Current velocity in m^2 (meters squared) on the Z axis
+   */
   public float getVelocityZ() {
     return navX.getVelocityZ();
   }
 
+  /**
+   * depending on how the RoboRIO is installed, the getRoll() method might
+   * actually be returning the pitch instead, this is because the RoboRIO
+   * is installed sideways. Regardless the method will return what the NavX
+   * thinks the roll is.
+   * @return roll in degrees (-180 to 180)
+   */
   public float getRoll() {
     return navX.getRoll();
   }
@@ -81,9 +121,9 @@ public class NavX extends SubsystemBase {
     SmartDashboard.putNumber("Yaw", getYaw());
     SmartDashboard.putNumber("Altitude", getAltitude());
     SmartDashboard.putNumber("Angle", getAngle());
-    SmartDashboard.putNumber("Pitch", getPitch());
+    SmartDashboard.putNumber("Roll (NavX Pitch)", getPitch());
 
-    SmartDashboard.putNumber("Roll", getRoll());
+    SmartDashboard.putNumber("Pitch (NavX Roll)", getRoll());
     
   }
 
