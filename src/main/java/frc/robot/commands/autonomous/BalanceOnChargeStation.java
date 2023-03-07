@@ -5,6 +5,7 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.Autonomous;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.NavX;
 
@@ -12,7 +13,8 @@ public class BalanceOnChargeStation extends CommandBase {
   /** Creates a new BalanceOnChargeStation. */
   private DriveTrain driveTrain;
   private NavX navX;
-  private double speed;
+  private Autonomous autonomous = new Autonomous();
+  private double speed = autonomous.levelDegrees;
 
   // what is the roll in degrees when the robot is level
   private double levelRoll;

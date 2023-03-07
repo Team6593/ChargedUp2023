@@ -67,8 +67,7 @@ public final class Constants {
 
     public static final class Autonomous {
         public final double encoderDistanceToChargeStation = 1223.760000; //couple feet or so, change later
-        public final double balancingSpeed = .15; // 15 percent speed
-        public final double rollThreshholdDegrees = 1;
+        public final double levelDegrees = 0;
     }
 
 
