@@ -7,10 +7,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,7 +24,7 @@ public class Reeler extends SubsystemBase {
   
   private Motors motors = new Motors();
   private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
-
+  
   CANSparkMax topMotor = new CANSparkMax(motors.TopMotorID, MotorType.kBrushless);
 
   DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
@@ -33,7 +36,7 @@ public class Reeler extends SubsystemBase {
   public void reelerInit() {
     // ensure motors don't move during initialization
     topMotor.set(0);
-<<<<<<< HEAD
+
     reelerBrakeMotor();
    }
   
@@ -46,25 +49,6 @@ public class Reeler extends SubsystemBase {
     // do one of these have to be positive?
     topMotor.set(-reelerSpeed);
 
-=======
-    bottomMotor.set(ControlMode.PercentOutput, 0);
-  }
-
-  public void reelArmUp(double motorspeed) {
-    // does one of these have to be negative?
-    topMotor.set(motorspeed);
-    
-    // bottom motor may need more speed
-    bottomMotor.set(ControlMode.PercentOutput, motorspeed);
-  }
-
-  public void reelArmDown(double motorspeed) {
-    // do one of these have to be positive?
-    topMotor.set(-motorspeed);
-
-    // bottom motor may need more speed
-    bottomMotor.set(ControlMode.PercentOutput, -motorspeed);
->>>>>>> 4b702ee5f57be7e2042eb9698bf8a9fba9d4ea06
   }
 
   public void stopReelerMotor() {
