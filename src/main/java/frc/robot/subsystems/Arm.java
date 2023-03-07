@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DoubleSolenoidChannels;
+import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
 import frc.robot.Constants.PIDValues;
 import frc.robot.Utils.UnitConverter;
@@ -42,7 +43,7 @@ public class Arm extends SubsystemBase {
   private DoubleSolenoidChannels doubleSolenoidChannels = new DoubleSolenoidChannels();
   private PIDValues pidValues = new PIDValues();
 
-
+  private LimitSwitchesPorts ports = new LimitSwitchesPorts();
   //Motor/s
   private WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
 
@@ -51,8 +52,8 @@ public class Arm extends SubsystemBase {
   private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.armRetractChannel);
 
   // //limit switches (WIP)
-  private DigitalInput armLimitSwitchTop = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchTop);
-  private DigitalInput armLimitSwitchBottom = new DigitalInput(LimitSwitchesPorts.ArmLimitSwitchBottom);
+  private DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);
+  private DigitalInput armLimitSwitchBottom = new DigitalInput(ports.ArmLimitSwitchBottom);
 
   /* Creates a new Hand. */
   public Arm() {}
@@ -71,48 +72,30 @@ public class Arm extends SubsystemBase {
     armMotor.stopMotor();
   }
 
-  // // Limit switch methods (WIP)- might have to change from negative to positive values later
-  public void armUp(double armMotorsSpeed) {
-    if (armLimitSwitchTop.get() == true) {
-      armMotor.set(armMotorsSpeed);
-
-    } else if (armLimitSwitchTop.get() == false) {
-      stopArmMotor();
-      armBrake();
-    }
-  }
-
-  public void armDown(double armMotorsSpeed) {
-    if (armLimitSwitchBottom.get() == true) {
-      armMotor.set(-armMotorsSpeed);
-      
-    } else if (armLimitSwitchBottom.get() == false) {
-      armMotor.stopMotor();
-      armBrake();
-    }
-  }
-
 
   // // Limit switch methods (WIP)
-  /* 
-  public void armLimitSwitchUp(double armMotorSpeed) {
-    if (armLimitSwitchOne.get() == true) {
-      armMotorUpDown.set(armMotorSpeed);
-    } else if (armLimitSwitchOne.get() == false) {
-      armMotorUpDown.stopMotor();
+  
+  public void armUp(double armMotorSpeed) {
+    if (armLimitSwitchTop.get() == true) {
+      armMotor.set(armMotorSpeed);
+    } else if (armLimitSwitchTop.get() == false) {
+      armMotor.stopMotor();
       armBrakeMode();
     }
   }
 
-  public void armLimitSwitchDown(double armMotorSpeed) {
-    if (armLimitSwitchTwo.get() == true) {
-      armMotorUpDown.set(-armMotorSpeed);
-    } else if (armLimitSwitchTwo.get() == false) {
-      armMotorUpDown.stopMotor();
+  public void armDown(double armMotorSpeed) {
+    if (armLimitSwitchBottom.get() == true) {
+      armMotor.set(-armMotorSpeed);
+    } else if (armLimitSwitchBottom.get() == false) {
+      armMotor.stopMotor();
       armBrakeMode();
     }
   }
-  */
+
+  public void armBrakeMode() {
+    armMotor.setNeutralMode(NeutralMode.Brake);
+  }
 
   
 

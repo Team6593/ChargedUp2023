@@ -6,9 +6,9 @@ package frc.robot.commands.ElevatorCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ElevatorUpCommand extends CommandBase {
+public class ElevatorUp extends CommandBase {
   /** Creates a new ElevatorUpCommand. */
-  public ElevatorUpCommand() {
+  public ElevatorUp() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

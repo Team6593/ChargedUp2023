@@ -7,12 +7,12 @@ package frc.robot.commands.ElevatorCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorDownCommand extends CommandBase {
+public class ElevatorDown extends CommandBase {
   /** Creates a new ElevatorDownCommand. */
   private Elevator elevator;
   private double elevatorSpeed;
 
-  public ElevatorDownCommand(Elevator elevator, double elevatorSpeed) {
+  public ElevatorDown(Elevator elevator, double elevatorSpeed) {
     this.elevator = elevator;
     this.elevatorSpeed = elevatorSpeed;
 

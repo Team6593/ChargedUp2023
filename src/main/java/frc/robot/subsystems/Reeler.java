@@ -24,7 +24,7 @@ public class Reeler extends SubsystemBase {
   private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
 
   CANSparkMax topMotor = new CANSparkMax(motors.TopMotorID, MotorType.kBrushless);
-
+  WPI_TalonFX bottomMotor = new WPI_TalonFX(motors.BottomMotorID);
   DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
   DigitalInput armLimitSwitchBottom = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchBottom);
 
@@ -36,17 +36,6 @@ public class Reeler extends SubsystemBase {
 
     topMotor.set(0);
     reelerBrakeMotor();
-   }
-  
-  public void reelArmUp(double reelerSpeed) {
-    // does one of these have to be negative?
-    topMotor.set(reelerSpeed);    
-  }
-
-  public void reelArmDown(double reelerSpeed) {
-    // do one of these have to be positive?
-    topMotor.set(-reelerSpeed);
-    bottomMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public RelativeEncoder getTopMotorEncoder() {

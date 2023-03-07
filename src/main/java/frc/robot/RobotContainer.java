@@ -48,7 +48,6 @@ public class RobotContainer {
   public final DriveTrain driveTrain;
   public final Elevator elevator;
 
-  public final Arm arm;
   public final Arm arm;  
   public final Reeler reeler;
   
@@ -79,7 +78,6 @@ public class RobotContainer {
     arm = new Arm();
     reeler = new Reeler();
     elevator = new Elevator();
-    arm = new Arm();
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 

@@ -33,8 +33,8 @@ public final class Constants {
         public final int ElevatorLowLimitSwitchPort = 1;
 
         // // Arm limit switches (WIP)
-        public final static int ArmLimitSwitchTop = 0;
-        public final static int ArmLimitSwitchBottom = 0;
+        public final int ArmLimitSwitchTop = 0;
+        public final int ArmLimitSwitchBottom = 0;
     }
 
     public static final class InputMap {
