@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
@@ -53,8 +54,9 @@ public class RobotContainer {
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
   private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick,
                          menuButton, windowButton;
-
-  
+  private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
+  private JoystickButton armExtendButton, armRetractButton, elevatorUpButton,
+                         elevatorDownButton, grabButton, releaseButton;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 

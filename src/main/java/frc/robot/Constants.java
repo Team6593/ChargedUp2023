@@ -19,12 +19,14 @@ public final class Constants {
     // ALSO MAKE SURE TO IMPORT INNER-CLASSES STATICALLY
 
     public final int XboxController_Port = 0;
+    public final int ButtonBoard_Port = 1;
 
     public static final class CameraVision {
         public final String cameraName = "camera";
         public final int ViewportWidth = 640;
         public final int ViewportHeight = 480;
     }
+    
     public static final class LimitSwitchesPorts{
 
         public final int ElevatorTopLimitSwitchPort = 0;
@@ -36,7 +38,16 @@ public final class Constants {
     }
 
     public static final class InputMap {
-    
+        
+        public static final class ButtonBoard {
+           public final int armExtendButton = 1;
+           public final int armRetract = 2;
+           public final int elevatorUp = 3;
+           public final int elevatorDown = 4;
+           public final int grab = 7;
+           public final int release = 9;
+        }
+
         public static final class xBox{
             public final int Abutton = 1;
             public final int Bbutton = 2;
