@@ -49,23 +49,25 @@ public class Arm extends SubsystemBase {
   }
 
   // // Limit switch methods (WIP)
-  // public void armLimitSwitchUp(double armMotorSpeed) {
-  //   if (armLimitSwitchOne.get() == true) {
-  //     armMotorUpDown.set(armMotorSpeed);
-  //   } else if (armLimitSwitchOne.get() == false) {
-  //     armMotorUpDown.stopMotor();
-  //     armBrakeMode();
-  //   }
-  // }
+  /* 
+  public void armLimitSwitchUp(double armMotorSpeed) {
+    if (armLimitSwitchOne.get() == true) {
+      armMotorUpDown.set(armMotorSpeed);
+    } else if (armLimitSwitchOne.get() == false) {
+      armMotorUpDown.stopMotor();
+      armBrakeMode();
+    }
+  }
 
-  // public void armLimitSwitchDown(double armMotorSpeed) {
-  //   if (armLimitSwitchTwo.get() == true) {
-  //     armMotorUpDown.set(-armMotorSpeed);
-  //   } else if (armLimitSwitchTwo.get() == false) {
-  //     armMotorUpDown.stopMotor();
-  //     armBrakeMode();
-  //   }
-  // }
+  public void armLimitSwitchDown(double armMotorSpeed) {
+    if (armLimitSwitchTwo.get() == true) {
+      armMotorUpDown.set(-armMotorSpeed);
+    } else if (armLimitSwitchTwo.get() == false) {
+      armMotorUpDown.stopMotor();
+      armBrakeMode();
+    }
+  }
+  */
   
 
   // HAND METHODS, GRABBING AND RELEASING OBJECTS
