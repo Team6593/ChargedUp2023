@@ -107,12 +107,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     
-    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
-    .andThen(new BalanceOnChargeStation(
-      driveTrain,
-      navX,
-      autonomous.balancingSpeed,
-      autonomous.rollThreshholdDegrees));
+    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation);
     
     // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 

@@ -13,14 +13,15 @@ public class BalanceOnChargeStation extends CommandBase {
   private DriveTrain driveTrain;
   private NavX navX;
   private double speed;
-  private double rollThreshhold;
 
-  public BalanceOnChargeStation(DriveTrain driveTrain, NavX navX, double speed, double rollThreshhold) {
+  // what is the roll in degrees when the robot is level
+  private double levelRoll;
+
+  public BalanceOnChargeStation(DriveTrain driveTrain, NavX navX, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrain = driveTrain;
     this.navX = navX;
     this.speed = speed;
-    this.rollThreshhold = rollThreshhold;
 
     addRequirements(driveTrain, navX);
   }
@@ -33,18 +34,19 @@ public class BalanceOnChargeStation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // don't use getPitch() because pitch and roll are swapped on the robot
-    if(navX.getRoll() < -rollThreshhold){
-      driveTrain.drive(-speed);
-
-    }else if(navX.getRoll() > rollThreshhold){
-      driveTrain.drive(speed);
-
-    }else if(navX.getRoll() > -1 && navX.getRoll() < rollThreshhold){
+    // do not use getPitch() as it actually returns the roll
+    if(navX.getRoll() < levelRoll) {
+      // robot is forward facing-down position
+      // drive backwards slowly
+      driveTrain.drive(-.1);
+    } else if (navX.getRoll() > levelRoll) {
+      // robot is backwards facing-up position
+      // drive forwards slowly
+      driveTrain.drive(.1);
+    } else if (navX.getRoll() == levelRoll) {
       driveTrain.stopAllMotors();
-      //driveTrain.driveTrainBrake();
-
     }
+    
   }
 
   // Called once the command ends or is interrupted.
