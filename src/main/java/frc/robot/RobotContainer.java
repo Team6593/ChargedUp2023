@@ -4,28 +4,24 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 
-import frc.robot.commands.ElevatorCommands.ElevatorDownCommand;
-import frc.robot.commands.ElevatorCommands.ElevatorStopCommand;
-import frc.robot.commands.ElevatorCommands.ElevatorUpCommand;
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
-import frc.robot.commands.drivetrain.DriveDistanceUsingCalculations;
-import frc.robot.commands.drivetrain.DriveTrainStop;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
+import frc.robot.commands.reeler.ReelArmDown;
+import frc.robot.commands.reeler.ReelArmUp;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.vision.CamRIO;
+import frc.robot.subsystems.Reeler;
+import frc.robot.subsystems.vision.Camera;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -41,9 +37,10 @@ public class RobotContainer {
   public final DriveTrain driveTrain;
   public final Elevator elevator;
   // Make sure this is public so you can call camInit()
-  public final CamRIO rioCamera;
+  public final Camera rioCamera;
   public final LimeLight limeLight;
   public final NavX navX;
+  public final Reeler reeler;
 
   private Constants constants = new Constants();
   private xBox xbox = new xBox();
@@ -51,7 +48,8 @@ public class RobotContainer {
   private Autonomous autonomous = new Autonomous();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, rightClick, leftClick;
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick,
+                         menuButton, windowButton;
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -60,9 +58,9 @@ public class RobotContainer {
     //instances of classes
     navX = new NavX();
     limeLight = new LimeLight();
-    rioCamera = new CamRIO();
+    rioCamera = new Camera();
     driveTrain = new DriveTrain();
-
+    reeler = new Reeler();
     elevator = new Elevator();
 
 
@@ -81,8 +79,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // define JoystickButton to XboxController buttons
     aButton = new JoystickButton(xboxController, xbox.Abutton);
-    xButton = new JoystickButton(xboxController, xbox.Bbutton);
+    // xButton = new JoystickButton(xboxController, xbox.Xbutton);
     yButton = new JoystickButton(xboxController, xbox.Ybutton);
+    bButton = new JoystickButton(xboxController, xbox.Bbutton);
     rightClick = new JoystickButton(xboxController, xbox.RightButtonClick);
     leftClick = new JoystickButton(xboxController, xbox.LeftButtonClick);
 
@@ -94,8 +93,11 @@ public class RobotContainer {
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
 
+    // You may have to adjust these values
+    yButton.whileTrue(new ReelArmUp(reeler, .3));
+    aButton.whileTrue(new ReelArmDown(reeler, .3));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
-    xButton.onTrue(new DriveTrainStop(driveTrain));
+    // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
     rightClick.onTrue(new HighGear(driveTrain));
   }
@@ -118,5 +120,6 @@ public class RobotContainer {
     //new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
+     
   }
-}
+} 

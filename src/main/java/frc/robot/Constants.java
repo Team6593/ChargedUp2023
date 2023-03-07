@@ -30,6 +30,9 @@ public final class Constants {
         public final int ElevatorTopLimitSwitchPort = 0;
         public final int ElevatorLowLimitSwitchPort = 1;
 
+        // // Arm limit switches (WIP)
+        // public final static int ArmLimitSwitchPortOne = 0;
+        // public final static int ArmLimitSwitchPortTwo = 0;
     }
 
     public static final class InputMap {
@@ -50,26 +53,49 @@ public final class Constants {
 
     public static final class Motors {
         // put motor ID's here
-        // how to define consts: subsystem + master or slave + orientation (left, right, up, down) + "ID"
+        // how to define consts: subsystem + master or follower + orientation (left, right, up, down) + "ID"
         // change these nums later
         public final int MasterRight = 1;
         public final int FollowerRight = 2;
         public final int MasterLeft = 3;
         public final int FollowerLeft = 4;
-        public final double falconUnitsPerRevolution = 2048;
+        public final double FalconUnitsPerRevolution = 2048;
 
-        public final int ElevatorMotorID = 6;
+        // Reeler motors
+        public final int TopMotorID = 10;
+        public final int BottomMotorID = 11;
+
+        // Elevator motor
+        public final int ElevatorMotorID = 0;
+
+        //units per revolution of talon Motors
+        public final int TalonFX_UnitsPerRev = 2048;
     }
 
     public static final class SpeedsForMotors{
-        public final double elevator_setSpeed = 0.2;
+        public final double Elevator_setSpeed = 0.2;
     }
 
+    public static final class DoubleSolenoidChannels{
+        // DriveTrain
+        public static final int ForwardChannelDt = 4;
+        public static final int ReverseChannelDt = 5;
+
+        // Arm
+        public final int ArmCloseChannel = 0;
+        public final int ArmOpenChannel = 0;
+        public final int ArmExtendChannel = 0;
+        public final int armRetractChannel = 0;
+
+    }
     public static final class Autonomous {
         public final double encoderDistanceToChargeStation = 1223.760000; //couple feet or so, change later
         public final double balancingSpeed = .15; // 15 percent speed
         public final double rollThreshholdDegrees = 1;
     }
 
+    public static final class PIDValues{
+        public final double KPARM = .01;
+    }
 
 }
