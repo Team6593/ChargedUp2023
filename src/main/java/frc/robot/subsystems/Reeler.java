@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
@@ -37,12 +38,18 @@ public class Reeler extends SubsystemBase {
     reelerBrakeMotor();
   }
 
-  public double getEncoderPosition() {
+  public double getMotorPosition() {
     return topMotor.getEncoder().getPosition();
   }
 
   public double getMotorVelocity() {
     return topMotor.getEncoder().getVelocity();
+  }
+  
+  public void displayTopMotorData() {
+    SmartDashboard.putNumber("Top Motor velocity", getMotorVelocity());
+    SmartDashboard.putNumber("Top Motor position", getMotorPosition());
+    SmartDashboard.putNumber("Top Motor CPR", getCountsPerRevolution());
   }
 
   public double getCountsPerRevolution() {
