@@ -5,14 +5,25 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
+import frc.robot.Constants.InputMap.ButtonBoard;
 
 import frc.robot.commands.ElevatorCommands.ElevatorDown;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
+import frc.robot.commands.arm.ArmClose;
+import frc.robot.commands.arm.ArmExtend;
+import frc.robot.commands.arm.ArmOpen;
+import frc.robot.commands.arm.ArmRetract;
+import frc.robot.commands.arm.ArmUp;
+import frc.robot.commands.armReelerElevator.ArmAndReelerDown;
+import frc.robot.commands.armReelerElevator.ArmAndReelerUp;
 import frc.robot.commands.armReelerElevator.ArmDownGrab;
+import frc.robot.commands.armReelerElevator.ArmRetractAndUP;
+import frc.robot.commands.armReelerElevator.ElevatorAndReelerUpCommand;
 import frc.robot.commands.armReelerElevator.StopArmAndReeler;
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
@@ -50,13 +61,24 @@ public class RobotContainer {
   public final NavX navX;
 
   private Constants constants = new Constants();
+  private ButtonBoard buttonBoardButtons = new ButtonBoard();
   private xBox xbox = new xBox();
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   private Autonomous autonomous = new Autonomous();
   //IO
   private XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, yButton, bButton, rightClick, leftClick,
+  private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
+
+  //Buttons for xbox controller
+  private JoystickButton rightTrigger, leftTrigger, aButton, xButton, 
+                         yButton, bButton, rightClick, leftClick,
                          menuButton, windowButton;
+
+  //Buttons for ButtonBoard
+  private JoystickButton armExtendButton, armRetractButton, elevatorUpButton, 
+                         elevatorDownButton, grabButton, releaseButton,
+                         armAndReelerUpButton, armAndReelerDownButton;
+
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -87,26 +109,45 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // define JoystickButton to XboxController buttons
     aButton = new JoystickButton(xboxController, xbox.Abutton);
-    // xButton = new JoystickButton(xboxController, xbox.Xbutton);
+    xButton = new JoystickButton(xboxController, xbox.Xbutton);
     yButton = new JoystickButton(xboxController, xbox.Ybutton);
     bButton = new JoystickButton(xboxController, xbox.Bbutton);
     rightClick = new JoystickButton(xboxController, xbox.RightButtonClick);
     leftClick = new JoystickButton(xboxController, xbox.LeftButtonClick);
-
     rightTrigger = new JoystickButton(xboxController, xbox.RightTrigger);
     leftTrigger = new JoystickButton(xboxController, xbox.LeftTrigger);
+
+    // define joystickButton to buttonBoard buttons
+    armExtendButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmExtendButton);
+    armRetractButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmRetractButton);
+    elevatorUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorUpButton);
+    elevatorDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorDownButton);
+    grabButton = new JoystickButton(buttonBoard, buttonBoardButtons.GrabButton);
+    releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.ReleaseButton);
+    armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUpButton);
+    armAndReelerDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerDownButton);
+
+
     
     // button -> command handling
-    // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
-    // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
-    // xButton.onTrue(new ElevatorStopCommand(elevator));
-    // yButton.whileTrue(new ReelArmUp(reeler));
+    // button board bindings
+    elevatorUpButton.onTrue(new ElevatorAndReelerUpCommand(elevator, speedsForMotors.ElevatorSpeed, reeler, speedsForMotors.ReelerSpeed));
+    elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed));
+    armExtendButton.onTrue(new ArmExtend(arm));
+    armRetractButton.onTrue(new ArmRetract(arm));
+    grabButton.onTrue(new ArmClose(arm));
+    releaseButton.onTrue(new ArmOpen(arm));
+    armAndReelerUpButton.onTrue(new ArmRetractAndUP(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
+    armAndReelerDownButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
+
+    // xbox button bindings
     aButton.onTrue(new ArmDownGrab(arm, SpeedsForMotors.ArmSpeed, reeler, SpeedsForMotors.ReelerSpeed));
     bButton.onTrue(new StopArmAndReeler(arm, reeler));
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
     rightClick.onTrue(new HighGear(driveTrain));
+
   }
 
   /**
