@@ -33,8 +33,9 @@ public final class Constants {
         public final int ElevatorLowLimitSwitchPort = 1;
 
         // // Arm limit switches (WIP)
-        public final int ArmLimitSwitchTop = 0;
-        public final int ArmLimitSwitchBottom = 0;
+        // CHANGE LATER
+        public final int ArmLimitSwitchTop = 4;
+        public final int ArmLimitSwitchBottom = 3;
     }
 
     public static final class InputMap {
@@ -79,11 +80,11 @@ public final class Constants {
         public final double FalconUnitsPerRevolution = 2048;
 
         // Reeler motors
-        public final int TopMotorID = 10;
-        public final int BottomMotorID = 11;
+        public final int TopMotorID = 14;
+        public final int BottomMotorID = 9;
 
         // Elevator motor
-        public final int ElevatorMotorID = 0;
+        public final int ElevatorMotorID = 11;
 
         //units per revolution of talon Motors
         public final int TalonFX_UnitsPerRev = 2048;

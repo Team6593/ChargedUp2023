@@ -133,6 +133,8 @@ public class RobotContainer {
     
     // button -> command handling
     // button board bindings
+
+    // Kelvin is responsible for this war crime
     elevatorUpButton.onTrue(new ElevatorAndReelerUpCommand(elevator, speedsForMotors.ElevatorSpeed, reeler, speedsForMotors.ReelerSpeed));
     elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed));
     armExtendButton.onTrue(new ArmExtend(arm));
