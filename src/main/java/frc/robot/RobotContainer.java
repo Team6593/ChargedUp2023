@@ -46,6 +46,7 @@ import frc.robot.subsystems.Reeler;
 import frc.robot.subsystems.vision.Camera;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -129,8 +130,6 @@ public class RobotContainer {
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
     armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUp);
     armAndReelerDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerDown);
-
-
     
     // button -> command handling
     // button board bindings
@@ -149,8 +148,6 @@ public class RobotContainer {
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
-
-
     // You may have to adjust these values
     //yButton.whileTrue(new ReelArmUp(reeler, .3));
     //aButton.whileTrue(new ReelArmDown(reeler, .3));
@@ -165,7 +162,25 @@ public class RobotContainer {
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     leftClick.onTrue(new LowGear(driveTrain));
     rightClick.onTrue(new HighGear(driveTrain));
+  }
 
+  /**
+   * stops all motors in all subsystems, and cancels all commands
+   */
+  public void emergencyStop() {
+    driveTrain.stopAllMotors();
+    elevator.elevatorStop();
+    arm.stopArmMotor();
+    reeler.stopReelerMotor();
+    CommandScheduler.getInstance().cancelAll();
+  }
+
+  /**
+   * You shouldn't use this method to stop the robot, because this erases all code on the RoboRIO,
+   * and may cause other issues. ONLY USE THIS AS A LAST RESORT.
+   */
+  public void softSelfDestruct() {
+    System.exit(0);
   }
 
   /**

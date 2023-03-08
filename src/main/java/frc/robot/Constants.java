@@ -46,8 +46,8 @@ public final class Constants {
            public final int ElevatorDown = 4;
            public final int grab = 7;
            public final int release = 9;
-           public final int ArmAndReelerUp = 10;
-           public final int ArmAndReelerDown = 11;
+           public final int ArmAndReelerUp = 5;
+           public final int ArmAndReelerDown = 6;
         }
 
         public static final class xBox{
@@ -59,6 +59,7 @@ public final class Constants {
             public final int RightTrigger = 6;
             public final int WindowButton = 7;
             public final int MenuButton = 8;
+            public final int EmergencyStop = 9;
             public final int LeftButtonClick = 9;
             public final int RightButtonClick = 10;
         }
