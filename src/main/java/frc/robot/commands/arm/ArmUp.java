@@ -34,7 +34,7 @@ public class ArmUp extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     arm.stopArmMotor();
-    // arm.armBrakeMode();
+    arm.armBrake();
   }
 
   // Returns true when the command should end.

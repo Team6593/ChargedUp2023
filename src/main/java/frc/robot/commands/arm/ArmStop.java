@@ -25,5 +25,6 @@ public class ArmStop extends InstantCommand {
   @Override
   public void initialize() {
     arm.stopArmMotor();
+    arm.armBrake();
   }
 }

@@ -19,6 +19,7 @@ public final class Constants {
     // ALSO MAKE SURE TO IMPORT INNER-CLASSES STATICALLY
 
     public final int XboxController_Port = 0;
+    public final int ButtonBoard_Port = 1;
 
     public static final class CameraVision {
         public final String cameraName = "camera";
@@ -36,6 +37,17 @@ public final class Constants {
     }
 
     public static final class InputMap {
+
+        public static final class ButtonBoard{
+            public static int ArmExtendButton = 1;
+            public static int ArmRetractButton = 2;
+            public static int ElevatorUpButton = 3;
+            public static int ElevatorDownButton = 4;
+            public static int ArmAndReelerUpButton = 5;
+            public static int ArmAndReelerDownButton = 6;
+            public static int GrabButton = 7;
+            public static int ReleaseButton = 8;
+        }
     
         public static final class xBox{
             public final int Abutton = 1;
@@ -81,7 +93,7 @@ public final class Constants {
         public static final double ReelerSpeed = 0;
 
         //speed for elevator
-        public final double Elevator_setSpeed = 0.2;
+        public final double ElevatorSpeed = 0.2;
     }
 
     public static final class DoubleSolenoidChannels{
@@ -103,7 +115,8 @@ public final class Constants {
     }
 
     public static final class PIDValues{
-        public final double KPARM = .01;
+        public final double KPARM = .001;
+        public final double KPBalancing = 0.001;
     }
 
 }

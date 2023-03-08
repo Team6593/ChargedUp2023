@@ -27,13 +27,14 @@ public class ArmDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.armDown(armSpeed);
+    arm.armDown(-armSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     arm.stopArmMotor();
+    arm.armBrake();
   }
 
   // Returns true when the command should end.

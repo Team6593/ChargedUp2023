@@ -126,8 +126,6 @@ public class RobotContainer {
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.ReleaseButton);
     armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUpButton);
     armAndReelerDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerDownButton);
-
-
     
     // button -> command handling
     // button board bindings
