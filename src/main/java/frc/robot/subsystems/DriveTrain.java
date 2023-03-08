@@ -49,7 +49,7 @@ public class DriveTrain extends SubsystemBase {
   //private DigitalInput dtLeftTopLimitSwitch = new DigitalInput(2);
   //private DigitalInput dtLeftBottomLimitSwitch = new DigitalInput(3);
 
-  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, DoubleSolenoidChannels.ForwardChannelDt, DoubleSolenoidChannels.ReverseChannelDt);
+  private DoubleSolenoid shifter = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ForwardChannelDt, doubleSolenoidChannels.ReverseChannelDt);
 
 
   /** Creates a new DriveTrain. */

@@ -40,12 +40,14 @@ public final class Constants {
     public static final class InputMap {
         
         public static final class ButtonBoard {
-           public final int armExtendButton = 1;
-           public final int armRetract = 2;
-           public final int elevatorUp = 3;
-           public final int elevatorDown = 4;
+           public final int ArmExtend = 1;
+           public final int ArmRetract = 2;
+           public final int ElevatorUp = 3;
+           public final int ElevatorDown = 4;
            public final int grab = 7;
            public final int release = 9;
+           public final int ArmAndReelerUp = 10;
+           public final int ArmAndReelerDown = 11;
         }
 
         public static final class xBox{
@@ -88,17 +90,20 @@ public final class Constants {
 
     public static final class SpeedsForMotors{
         //speeds for arm and reeler
-        public static final double ArmSpeed = 0;
-        public static final double ReelerSpeed = 0;
+        public final double ArmSpeed = 0;
+        public final double ReelerSpeed = 0;
 
         //speed for elevator
-        public final double Elevator_setSpeed = 0.2;
+        public final double ElevatorSpeed = 0.2;
+
+        // arm
+        
     }
 
     public static final class DoubleSolenoidChannels{
         // DriveTrain
-        public static final int ForwardChannelDt = 4;
-        public static final int ReverseChannelDt = 5;
+        public final int ForwardChannelDt = 4;
+        public final int ReverseChannelDt = 5;
 
         // Arm
         public final int ArmCloseChannel = 0;

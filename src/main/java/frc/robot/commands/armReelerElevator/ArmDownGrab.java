@@ -29,7 +29,6 @@ public class ArmDownGrab extends SequentialCommandGroup {
     this.reelerSpeed = reelerSpeed;
     this.armSpeed = armSpeed;
     
-    //addRequirements(arm, reeler);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
