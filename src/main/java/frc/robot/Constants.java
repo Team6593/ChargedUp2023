@@ -66,8 +66,8 @@ public final class Constants {
 
     public static final class Motors {
 
-        public static final int ArmReelerMotorID = 0;
-        public static final int ArmMotorID = 0;
+        public final int ArmReelerMotorID = 0;
+        public final int ArmMotorID = 0;
         // put motor ID's here
         // how to define consts: subsystem + master or follower + orientation (left, right, up, down) + "ID"
         // change these nums later
