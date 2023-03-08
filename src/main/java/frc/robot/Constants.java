@@ -104,14 +104,18 @@ public final class Constants {
 
     public static final class DoubleSolenoidChannels{
         // DriveTrain
-        public final int ForwardChannelDt = 4;
-        public final int ReverseChannelDt = 5;
+        // swap values?
+        public final int ForwardChannelDt = 0;
+        public final int ReverseChannelDt = 1;
 
         // Arm
-        public final int ArmCloseChannel = 0;
-        public final int ArmOpenChannel = 0;
-        public final int ArmExtendChannel = 0;
-        public final int armRetractChannel = 0;
+        // swap values?
+        public final int ArmCloseChannel = 6;
+        public final int ArmOpenChannel = 7;
+
+        // swap values?
+        public final int ArmExtendChannel = 2;
+        public final int armRetractChannel = 3;
 
     }
     public static final class Autonomous {

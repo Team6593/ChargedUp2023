@@ -135,6 +135,7 @@ public class RobotContainer {
     // button board bindings
 
     // Kelvin is responsible for this war crime
+    // rewrite all the commands being used here
     elevatorUpButton.onTrue(new ElevatorAndReelerUpCommand(elevator, speedsForMotors.ElevatorSpeed, reeler, speedsForMotors.ReelerSpeed));
     elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed));
     armExtendButton.onTrue(new ArmExtend(arm));

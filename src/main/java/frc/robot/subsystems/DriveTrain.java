@@ -69,7 +69,7 @@ public class DriveTrain extends SubsystemBase {
     followerRight.set(0);
     followerLeft.set(0);
 
-    setBrakeMode();
+    //setBrakeMode();
     
     final TalonFXConfiguration config = new TalonFXConfiguration(); // Creating an instance to
 
@@ -78,12 +78,12 @@ public class DriveTrain extends SubsystemBase {
     // This limits the amount of electricity the motor can recieve,
     // but this can cause the robot to drive slow, or 'stutter'
     // because of the motor's safety measures
-
+    /* 
     config.supplyCurrLimit.enable = true;
     config.supplyCurrLimit.triggerThresholdCurrent = 70;
     config.supplyCurrLimit.triggerThresholdTime = 3.0;
     config.supplyCurrLimit.currentLimit = 70;
-  
+    */
     masterRight.configAllSettings(config);
     masterLeft.configAllSettings(config);
     followerRight.configAllSettings(config);

@@ -28,8 +28,8 @@ public class Reeler extends SubsystemBase {
   private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
   
   CANSparkMax topMotor = new CANSparkMax(motors.TopMotorID, MotorType.kBrushless);
-  DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
-  DigitalInput armLimitSwitchBottom = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchBottom);
+  //DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
+  //DigitalInput armLimitSwitchBottom = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchBottom);
 
   /** Creates a new Reeler. */
   public Reeler() {}
