@@ -37,8 +37,16 @@ public class Reeler extends SubsystemBase {
     reelerBrakeMotor();
   }
 
-  public RelativeEncoder getTopMotorEncoder() {
-    return topMotor.getEncoder();
+  public double getEncoderPosition() {
+    return topMotor.getEncoder().getPosition();
+  }
+
+  public double getMotorVelocity() {
+    return topMotor.getEncoder().getVelocity();
+  }
+
+  public double getCountsPerRevolution() {
+    return topMotor.getEncoder().getCountsPerRevolution();
   }
 
   public void reelArmUp(double motorspeed) {
