@@ -74,7 +74,7 @@ public class RobotContainer {
   private SpeedsForMotors speedsForMotors = new SpeedsForMotors();
   private Autonomous autonomous = new Autonomous();
   //IO
-  private XboxController xboxController = new XboxController(constants.XboxController_Port);
+  private final XboxController xboxController = new XboxController(constants.XboxController_Port);
 
   //Buttons for xbox controller
   private JoystickButton rightTrigger, leftTrigger, aButton, xButton, 
@@ -146,8 +146,8 @@ public class RobotContainer {
     armAndReelerDownButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
 
     // xbox button bindings
-    aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
-    bButton.onTrue(new StopArmAndReeler(arm, reeler));
+    //aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
+    //bButton.onTrue(new StopArmAndReeler(arm, reeler));
     // aButton.onTrue(new ElevatorDownCommand(elevator, speedsForMotors.elevator_setSpeed));
     // yButton.onTrue(new ElevatorUpCommand(elevator, speedsForMotors.elevator_setSpeed));
     // xButton.onTrue(new ElevatorStopCommand(elevator));
@@ -163,8 +163,8 @@ public class RobotContainer {
 
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
-    leftClick.onTrue(new LowGear(driveTrain));
-    rightClick.onTrue(new HighGear(driveTrain));
+    aButton.onTrue(new LowGear(driveTrain));
+    xButton.onTrue(new HighGear(driveTrain));
   }
 
   /**
