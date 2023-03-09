@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -57,9 +58,13 @@ public class Arm extends SubsystemBase {
   /* Creates a new Hand. */
   public Arm() {}
 
-
+  /**
+   * ensures that the arm's motor output is 0 at init
+   */
   public void armInit(){
-    armBrake();
+    // ensure that motor output is zero at init
+    armMotor.stopMotor();
+    armMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void armBrake(){
@@ -70,9 +75,18 @@ public class Arm extends SubsystemBase {
     armMotor.stopMotor();
   }
 
+  public void rotateUpwards(double motorspeed) {
+    armMotor.set(ControlMode.PercentOutput, motorspeed);
+  }
+
+  public void rotateDownwards(double motorspeed) {
+    armMotor.set(ControlMode.PercentOutput, -motorspeed);
+  }
 
   // // Limit switch methods (WIP)
-  
+  /**
+   * This needs refactoring, DO NOT USE
+   */
   public void armUp(double armMotorSpeed) {
     if (armLimitSwitchTop.get() == true) {
       armMotor.set(armMotorSpeed);
@@ -82,6 +96,10 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  /**
+   * This needs refactoring. DO NOT USE
+   * @param armMotorSpeed
+   */
   public void armDown(double armMotorSpeed) {
     if (armLimitSwitchBottom.get() == true) {
       armMotor.set(-armMotorSpeed);
