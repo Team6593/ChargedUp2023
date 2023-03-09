@@ -137,11 +137,11 @@ public class RobotContainer {
     // Kelvin is responsible for this war crime
     // rewrite all the commands being used here
     elevatorUpButton.onTrue(new ElevatorAndReelerUpCommand(elevator, speedsForMotors.ElevatorSpeed, reeler, speedsForMotors.ReelerSpeed));
-    elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed));
-    armExtendButton.onTrue(new ArmExtend(arm));
-    armRetractButton.onTrue(new ArmRetract(arm));
-    grabButton.onTrue(new ArmClose(arm));
-    releaseButton.onTrue(new ArmOpen(arm));
+    elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed)); // DNR
+    armExtendButton.onTrue(new ArmExtend(arm)); // DNR
+    armRetractButton.onTrue(new ArmRetract(arm)); // DNR
+    grabButton.onTrue(new ArmClose(arm)); // DNR
+    releaseButton.onTrue(new ArmOpen(arm)); // DNR
     armAndReelerUpButton.onTrue(new ArmRetractAndUP(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
     armAndReelerDownButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
 
@@ -154,8 +154,6 @@ public class RobotContainer {
     // You may have to adjust these values
     //yButton.whileTrue(new ReelArmUp(reeler, .3));
     //aButton.whileTrue(new ReelArmDown(reeler, .3));
-    armExtendButton.onTrue(new ArmOpen(arm));
-    armRetractButton.onTrue(new ArmClose(arm));
 
     // yButton.whileTrue(new ReelArmUp(reeler));
     //aButton.onTrue(new ArmDownGrab(arm, SpeedsForMotors.ArmSpeed, reeler, SpeedsForMotors.ReelerSpeed));
