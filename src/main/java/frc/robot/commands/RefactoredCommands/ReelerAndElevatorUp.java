@@ -29,8 +29,8 @@ public class ReelerAndElevatorUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    reeler.reelArmUp(.2);
-    elevator.elevate(.7);
+    reeler.reelArmUp(.1);
+    elevator.elevate(-.15);
   }
 
   // Called once the command ends or is interrupted.

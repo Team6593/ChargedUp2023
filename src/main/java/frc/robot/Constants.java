@@ -45,10 +45,10 @@ public final class Constants {
            public final int ArmRetract = 2;
            public final int ElevatorUp = 3;
            public final int ElevatorDown = 4;
-           public final int grab = 7;
-           public final int release = 9;
            public final int ArmAndReelerUp = 5;
            public final int ArmAndReelerDown = 6;
+           public final int grab = 7;
+           public final int release = 8;
         }
 
         public static final class xBox{
@@ -109,13 +109,13 @@ public final class Constants {
         public final int ReverseChannelDt = 1;
 
         // Arm
-        // swap values?
-        public final int ArmCloseChannel = 6;
-        public final int ArmOpenChannel = 7;
+        // swap values? unsure values.
+        public final int ArmCloseChannel = 2;
+        public final int ArmOpenChannel = 3;
 
-        // swap values?
-        public final int ArmExtendChannel = 2;
-        public final int ArmRetractChannel = 3;
+        // swap values?,these are open and close (e: 2, r: 3)?
+        public final int ArmExtendChannel = 7;
+        public final int ArmRetractChannel = 6;
 
     }
     public static final class Autonomous {

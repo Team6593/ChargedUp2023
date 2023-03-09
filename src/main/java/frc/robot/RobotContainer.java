@@ -148,8 +148,8 @@ public class RobotContainer {
     // rewrite all the commands being used here
     elevatorUpButton.whileTrue(new ReelerAndElevatorUp(reeler, elevator)); // NEW
     elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed)); // DNR
-    armExtendButton.onTrue(new ArmExtend(arm)); // DNR
-    armRetractButton.onTrue(new ArmRetract(arm)); // DNR
+    armExtendButton.onTrue(new ArmExtend(arm)); // DNR, this opens the arm?
+    armRetractButton.onTrue(new ArmRetract(arm)); // DNR, this closes the arm?
     grabButton.onTrue(new ArmClose(arm)); // DNR
     releaseButton.onTrue(new ArmOpen(arm)); // DNR
     armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW
@@ -173,7 +173,6 @@ public class RobotContainer {
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     aButton.onTrue(new LowGear(driveTrain));
     xButton.onTrue(new HighGear(driveTrain));
-    
   }
 
   /**

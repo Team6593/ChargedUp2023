@@ -25,7 +25,12 @@ public class Elevator extends SubsystemBase {
   public Elevator() {}
 
   public void elevate(double motorspeed) {
-    elevatorMotor.set(ControlMode.PercentOutput, motorspeed);
+    if(maxHeightLimitSwitch.get() == true) {
+      elevatorMotor.set(ControlMode.PercentOutput, motorspeed);
+    } else if (maxHeightLimitSwitch.get() == false) {
+      elevatorMotor.stopMotor();
+      elevatorMotor.setNeutralMode(NeutralMode.Brake);
+    }
   }
 
   public void deElevate(double motorspeed) {
@@ -58,7 +63,6 @@ public class Elevator extends SubsystemBase {
 
   public void elevatorStop(){
     elevatorMotor.stopMotor();
-    elevatorBrake();
   }
 
   public void elevatorBrake() {
