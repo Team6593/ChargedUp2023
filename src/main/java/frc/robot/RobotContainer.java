@@ -40,6 +40,7 @@ import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.commands.reeler.ReelArmDown;
 import frc.robot.commands.reeler.ReelArmUp;
+import frc.robot.subsystems.AndyMarkCompressor;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -61,7 +62,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveTrain driveTrain;
   public final Elevator elevator;
-
+  public final AndyMarkCompressor compressor;
   public final Arm arm;  
   public final Reeler reeler;
   
@@ -103,6 +104,7 @@ public class RobotContainer {
     arm = new Arm();
     reeler = new Reeler();
     elevator = new Elevator();
+    compressor = new AndyMarkCompressor();
 
     // COMMANDS
     reelAndRotateUp = new ReelAndRotateUp(arm, reeler);

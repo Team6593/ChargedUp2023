@@ -30,8 +30,8 @@ public class ReelAndRotateUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    reeler.reelArmUp(.5);
-    arm.rotateUpwards(.5);
+    reeler.reelArmUp(.1);
+    arm.rotateUpwards(.5); // change with armUp later
   }
 
   // Called once the command ends or is interrupted.
