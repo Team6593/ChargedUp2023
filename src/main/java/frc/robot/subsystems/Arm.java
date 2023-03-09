@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -62,7 +61,6 @@ public class Arm extends SubsystemBase {
   public void armInit(){
     armBrake();
   }
-
 
   public void armBrake(){
     armMotor.setNeutralMode(NeutralMode.Brake);

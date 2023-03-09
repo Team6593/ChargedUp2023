@@ -33,19 +33,22 @@ public final class Constants {
         public final int ElevatorLowLimitSwitchPort = 1;
 
         // // Arm limit switches (WIP)
-        public final int ArmLimitSwitchTop = 0;
-        public final int ArmLimitSwitchBottom = 0;
+        // CHANGE LATER
+        public final int ArmLimitSwitchTop = 4;
+        public final int ArmLimitSwitchBottom = 3;
     }
 
     public static final class InputMap {
         
         public static final class ButtonBoard {
-           public final int armExtendButton = 1;
-           public final int armRetract = 2;
-           public final int elevatorUp = 3;
-           public final int elevatorDown = 4;
+           public final int ArmExtend = 1;
+           public final int ArmRetract = 2;
+           public final int ElevatorUp = 3;
+           public final int ElevatorDown = 4;
            public final int grab = 7;
            public final int release = 9;
+           public final int ArmAndReelerUp = 5;
+           public final int ArmAndReelerDown = 6;
         }
 
         public static final class xBox{
@@ -57,6 +60,7 @@ public final class Constants {
             public final int RightTrigger = 6;
             public final int WindowButton = 7;
             public final int MenuButton = 8;
+            public final int EmergencyStop = 9;
             public final int LeftButtonClick = 9;
             public final int RightButtonClick = 10;
         }
@@ -64,8 +68,8 @@ public final class Constants {
 
     public static final class Motors {
 
-        public static final int ArmReelerMotorID = 0;
-        public static final int ArmMotorID = 0;
+        public final int ArmReelerMotorID = 0;
+        public final int ArmMotorID = 0;
         // put motor ID's here
         // how to define consts: subsystem + master or follower + orientation (left, right, up, down) + "ID"
         // change these nums later
@@ -76,11 +80,11 @@ public final class Constants {
         public final double FalconUnitsPerRevolution = 2048;
 
         // Reeler motors
-        public final int TopMotorID = 10;
-        public final int BottomMotorID = 11;
+        public final int TopMotorID = 14;
+        public final int BottomMotorID = 9;
 
         // Elevator motor
-        public final int ElevatorMotorID = 0;
+        public final int ElevatorMotorID = 11;
 
         //units per revolution of talon Motors
         public final int TalonFX_UnitsPerRev = 2048;
@@ -88,23 +92,30 @@ public final class Constants {
 
     public static final class SpeedsForMotors{
         //speeds for arm and reeler
-        public static final double ArmSpeed = 0;
-        public static final double ReelerSpeed = 0;
+        public final double ArmSpeed = 0;
+        public final double ReelerSpeed = 0;
 
         //speed for elevator
-        public final double Elevator_setSpeed = 0.2;
+        public final double ElevatorSpeed = 0.2;
+
+        // arm
+        
     }
 
     public static final class DoubleSolenoidChannels{
         // DriveTrain
-        public static final int ForwardChannelDt = 4;
-        public static final int ReverseChannelDt = 5;
+        // swap values?
+        public final int ForwardChannelDt = 0;
+        public final int ReverseChannelDt = 1;
 
         // Arm
-        public final int ArmCloseChannel = 0;
-        public final int ArmOpenChannel = 0;
-        public final int ArmExtendChannel = 0;
-        public final int armRetractChannel = 0;
+        // swap values?
+        public final int ArmCloseChannel = 6;
+        public final int ArmOpenChannel = 7;
+
+        // swap values?
+        public final int ArmExtendChannel = 2;
+        public final int armRetractChannel = 3;
 
     }
     public static final class Autonomous {

@@ -7,13 +7,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
@@ -22,10 +26,10 @@ public class Reeler extends SubsystemBase {
   
   private Motors motors = new Motors();
   private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
-
+  
   CANSparkMax topMotor = new CANSparkMax(motors.TopMotorID, MotorType.kBrushless);
-  DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
-  DigitalInput armLimitSwitchBottom = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchBottom);
+  //DigitalInput armLimitSwitchTop = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchTop);
+  //DigitalInput armLimitSwitchBottom = new DigitalInput(limitSwitchesPorts.ArmLimitSwitchBottom);
 
   /** Creates a new Reeler. */
   public Reeler() {}
@@ -34,11 +38,26 @@ public class Reeler extends SubsystemBase {
     // ensure motors don't move during initialization
 
     topMotor.set(0);
+
     reelerBrakeMotor();
   }
 
-  public RelativeEncoder getTopMotorEncoder() {
-    return topMotor.getEncoder();
+  public double getMotorPosition() {
+    return topMotor.getEncoder().getPosition();
+  }
+
+  public double getMotorVelocity() {
+    return topMotor.getEncoder().getVelocity();
+  }
+  
+  public void displayTopMotorData() {
+    SmartDashboard.putNumber("Top Motor velocity", getMotorVelocity());
+    SmartDashboard.putNumber("Top Motor position", getMotorPosition());
+    SmartDashboard.putNumber("Top Motor CPR", getCountsPerRevolution());
+  }
+
+  public double getCountsPerRevolution() {
+    return topMotor.getEncoder().getCountsPerRevolution();
   }
 
   public void reelArmUp(double motorspeed) {
