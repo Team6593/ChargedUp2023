@@ -48,8 +48,10 @@ public class Arm extends SubsystemBase {
   private WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
 
   //solenoids
-  private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
-  private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.armRetractChannel);
+  private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
+  doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
+  private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
+  doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.ArmRetractChannel);
 
   // //limit switches (WIP)
   private DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);

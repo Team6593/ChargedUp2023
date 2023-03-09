@@ -96,7 +96,7 @@ public final class Constants {
         public final double ReelerSpeed = 0;
 
         //speed for elevator
-        public final double ElevatorSpeed = 0.2;
+        public final double ElevatorSpeed = 0.7;
 
         // arm
         
@@ -115,7 +115,7 @@ public final class Constants {
 
         // swap values?
         public final int ArmExtendChannel = 2;
-        public final int armRetractChannel = 3;
+        public final int ArmRetractChannel = 3;
 
     }
     public static final class Autonomous {

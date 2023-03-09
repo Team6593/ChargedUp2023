@@ -19,6 +19,8 @@ import frc.robot.commands.arm.ArmOpen;
 
 import frc.robot.commands.ElevatorCommands.ElevatorDown;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
+import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
+import frc.robot.commands.RefactoredCommands.ReelerAndElevatorUp;
 import frc.robot.commands.arm.ArmClose;
 import frc.robot.commands.arm.ArmExtend;
 import frc.robot.commands.arm.ArmOpen;
@@ -68,6 +70,10 @@ public class RobotContainer {
   public final LimeLight limeLight;
   public final NavX navX;
 
+  // COMMANDS
+  private final ReelAndRotateUp reelAndRotateUp;
+  private final ReelerAndElevatorUp reelerAndElevatorUp;
+
   private Constants constants = new Constants();
   private ButtonBoard buttonBoardButtons = new ButtonBoard();
   private xBox xbox = new xBox();
@@ -97,6 +103,10 @@ public class RobotContainer {
     arm = new Arm();
     reeler = new Reeler();
     elevator = new Elevator();
+
+    // COMMANDS
+    reelAndRotateUp = new ReelAndRotateUp(arm, reeler);
+    reelerAndElevatorUp = new ReelerAndElevatorUp(reeler, elevator);
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
@@ -136,13 +146,13 @@ public class RobotContainer {
 
     // Kelvin is responsible for this war crime
     // rewrite all the commands being used here
-    elevatorUpButton.onTrue(new ElevatorAndReelerUpCommand(elevator, speedsForMotors.ElevatorSpeed, reeler, speedsForMotors.ReelerSpeed));
+    elevatorUpButton.whileTrue(new ReelerAndElevatorUp(reeler, elevator)); // NEW
     elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed)); // DNR
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR
     grabButton.onTrue(new ArmClose(arm)); // DNR
     releaseButton.onTrue(new ArmOpen(arm)); // DNR
-    armAndReelerUpButton.onTrue(new ArmRetractAndUP(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
+    armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW
     armAndReelerDownButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
 
     // xbox button bindings
