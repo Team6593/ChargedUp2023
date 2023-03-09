@@ -24,12 +24,13 @@ public class ElevatorDown extends CommandBase {
   @Override
   public void initialize() {
     elevator.elevatorInit();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.elevatorDown(elevatorSpeed);
+    elevator.elevate(.1);
   }
 
   // Called once the command ends or is interrupted.

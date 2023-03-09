@@ -12,13 +12,16 @@ import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 import frc.robot.Constants.InputMap.ButtonBoard;
-
+import frc.robot.commands.arm.ArmBrake;
 import frc.robot.commands.arm.ArmClose;
+import frc.robot.commands.arm.ArmDown;
 import frc.robot.commands.arm.ArmOpen;
 
 
 import frc.robot.commands.ElevatorCommands.ElevatorDown;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
+import frc.robot.commands.ElevatorCommands.ElevatorUp;
+import frc.robot.commands.RefactoredCommands.ReelAndElevate;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
 import frc.robot.commands.RefactoredCommands.ReelerAndElevatorUp;
 import frc.robot.commands.arm.ArmClose;
@@ -146,16 +149,16 @@ public class RobotContainer {
     // button -> command handling
     // button board bindings
 
-    // Kelvin is responsible for this war crime
     // rewrite all the commands being used here
-    elevatorUpButton.whileTrue(new ReelerAndElevatorUp(reeler, elevator)); // NEW
+    //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
+    elevatorUpButton.onTrue(new ReelerAndElevatorUp(reeler, elevator));
     elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed)); // DNR
-    armExtendButton.onTrue(new ArmExtend(arm)); // DNR, this opens the arm?
-    armRetractButton.onTrue(new ArmRetract(arm)); // DNR, this closes the arm?
-    grabButton.onTrue(new ArmClose(arm)); // DNR
-    releaseButton.onTrue(new ArmOpen(arm)); // DNR
-    armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW
-    armAndReelerDownButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
+    armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
+    armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
+    grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
+    releaseButton.onTrue(new ArmOpen(arm)); // DNR, WORKS
+    armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
+    armAndReelerDownButton.onTrue(new ArmDown(arm, .2)); // NEW
 
     // xbox button bindings
     //aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));

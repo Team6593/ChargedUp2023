@@ -96,7 +96,7 @@ public final class Constants {
         public final double ReelerSpeed = 0;
 
         //speed for elevator
-        public final double ElevatorSpeed = 0.7;
+        public final double ElevatorSpeed = 0.3;
 
         // arm
         

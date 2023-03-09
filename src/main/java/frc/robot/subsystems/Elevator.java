@@ -19,18 +19,13 @@ public class Elevator extends SubsystemBase {
   private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
   private WPI_TalonFX elevatorMotor = new WPI_TalonFX(motorsId.ElevatorMotorID);
 
-  DigitalInput maxHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorTopLimitSwitchPort);
-  DigitalInput minHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorLowLimitSwitchPort); 
+  public DigitalInput maxHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorTopLimitSwitchPort);
+  public DigitalInput minHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorLowLimitSwitchPort); 
 
   public Elevator() {}
 
   public void elevate(double motorspeed) {
-    if(maxHeightLimitSwitch.get() == true) {
-      elevatorMotor.set(ControlMode.PercentOutput, motorspeed);
-    } else if (maxHeightLimitSwitch.get() == false) {
-      elevatorMotor.stopMotor();
-      elevatorMotor.setNeutralMode(NeutralMode.Brake);
-    }
+    elevatorMotor.set(ControlMode.PercentOutput, motorspeed);
   }
 
   public void deElevate(double motorspeed) {
