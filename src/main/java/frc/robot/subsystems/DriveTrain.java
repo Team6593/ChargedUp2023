@@ -34,8 +34,8 @@ public class DriveTrain extends SubsystemBase {
   // motor controllers
   public WPI_TalonFX masterRight = new WPI_TalonFX(motors.MasterRight); // m right
   public WPI_TalonFX masterLeft = new WPI_TalonFX(motors.MasterLeft); // m left
-  public WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // s left
-  public WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // s right
+  public WPI_TalonFX followerLeft = new WPI_TalonFX(motors.FollowerLeft); // f left
+  public WPI_TalonFX followerRight = new WPI_TalonFX(motors.FollowerRight); // f right
 
   public final MotorControllerGroup DtLeft = new MotorControllerGroup(masterLeft, followerLeft);
   public final MotorControllerGroup DtRight = new MotorControllerGroup(masterRight, followerRight);
@@ -102,9 +102,9 @@ public class DriveTrain extends SubsystemBase {
 
 
     masterRight.setInverted(true);
+    followerRight.setInverted(true);
+    followerLeft.setInverted(false);
     masterLeft.setInverted(false);
-    followerRight.setInverted(InvertType.FollowMaster);
-    followerLeft.setInverted(InvertType.FollowMaster);
 
     // reset all motor positions on init
     masterRight.setSelectedSensorPosition(0);
