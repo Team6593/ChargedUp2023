@@ -189,25 +189,6 @@ public class RobotContainer {
   }
 
   /**
-   * stops all motors in all subsystems, and cancels all commands
-   */
-  public void emergencyStop() {
-    driveTrain.stopAllMotors();
-    elevator.elevatorStop();
-    arm.stopArmMotor();
-    reeler.stopReelerMotor();
-    CommandScheduler.getInstance().cancelAll();
-  }
-
-  /**
-   * You shouldn't use this method to stop the robot, because this erases all code on the RoboRIO,
-   * and may cause other issues. ONLY USE THIS AS A LAST RESORT.
-   */
-  public void softExit() {
-    System.exit(0);
-  }
-
-  /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
