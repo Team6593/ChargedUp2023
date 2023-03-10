@@ -123,7 +123,7 @@ public final class Constants {
     }
     public static final class Autonomous {
         public final double encoderDistanceToChargeStation = 1223.760000; //couple feet or so, change later
-        public final double levelDegrees = 0;
+        public final double levelDegrees = 71;
     }
 
     public static final class PIDValues{
