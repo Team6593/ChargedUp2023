@@ -154,12 +154,14 @@ public class RobotContainer {
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
     elevatorUpButton.onTrue(new ReelerAndElevatorUp(reeler, elevator)); // ReelAndElevate
     elevatorDownButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
+
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
     grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
     releaseButton.onTrue(new ArmOpen(arm)); // DNR, WORKS
+
     armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
-    armAndReelerDownButton.onTrue(new ArmDown(arm, .2)); // NEW
+    armAndReelerDownButton.onTrue(new ArmDown(arm, reeler)); // NEW
 
     // xbox button bindings
     //aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));

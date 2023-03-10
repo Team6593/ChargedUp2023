@@ -39,7 +39,7 @@ public class ReelerAndElevatorUp extends CommandBase {
       elevator.elevatorBrake();
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
       reeler.reelArmUp(.15);
-      elevator.elevate(-.15);
+      elevator.elevate(-.125);
     }
   }
 
