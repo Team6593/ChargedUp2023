@@ -18,7 +18,8 @@ import frc.robot.commands.arm.ArmDown;
 import frc.robot.commands.arm.ArmOpen;
 
 
-import frc.robot.commands.ElevatorCommands.ElevatorDown;
+import frc.robot.commands.ElevatorCommands.RestingPosition;
+import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
 import frc.robot.commands.RefactoredCommands.ReelAndElevate;
@@ -152,7 +153,7 @@ public class RobotContainer {
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
     elevatorUpButton.onTrue(new ReelerAndElevatorUp(reeler, elevator)); // ReelAndElevate
-    elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed)); // DNR
+    elevatorDownButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
     grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS

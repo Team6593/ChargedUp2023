@@ -54,8 +54,8 @@ public class Arm extends SubsystemBase {
   doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.ArmRetractChannel);
 
   // //limit switches (WIP)
-  private DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);
-  private DigitalInput armLimitSwitchBottom = new DigitalInput(ports.ArmLimitSwitchBottom);
+  public DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);
+  public DigitalInput armLimitSwitchBottom = new DigitalInput(ports.ArmLimitSwitchBottom);
 
   /* Creates a new Hand. */
   public Arm() {}

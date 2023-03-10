@@ -27,7 +27,7 @@ public class ReelUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    reeler.reelArmUp(.1);
+    reeler.reelArmUp(.5);
   }
 
   // Called once the command ends or is interrupted.
