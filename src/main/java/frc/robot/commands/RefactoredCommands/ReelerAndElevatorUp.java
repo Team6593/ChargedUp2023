@@ -32,13 +32,15 @@ public class ReelerAndElevatorUp extends CommandBase {
   @Override
   public void execute() {
     //reeler.reelArmUp(.2);
-    elevator.elevate(-.1);
     if (elevator.maxHeightLimitSwitch.get() == false) {
       reeler.stopReelerMotor();
+      reeler.reelerBrakeMotor();
+      elevator.elevatorStop();
+      elevator.elevatorBrake();
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.1);
+      reeler.reelArmUp(.15);
+      elevator.elevate(-.15);
     }
-    elevator.elevatorBrake();
   }
 
   // Called once the command ends or is interrupted.

@@ -151,7 +151,7 @@ public class RobotContainer {
 
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    elevatorUpButton.onTrue(new ReelerAndElevatorUp(reeler, elevator));
+    elevatorUpButton.onTrue(new ReelerAndElevatorUp(reeler, elevator)); // ReelAndElevate
     elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed)); // DNR
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
