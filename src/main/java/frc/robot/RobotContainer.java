@@ -22,6 +22,7 @@ import frc.robot.commands.ElevatorCommands.RestingPosition;
 import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
+import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
 import frc.robot.commands.RefactoredCommands.ReelAndElevate;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
 import frc.robot.commands.RefactoredCommands.ReelerAndElevatorUp;
@@ -96,7 +97,7 @@ public class RobotContainer {
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
   private JoystickButton armExtendButton, armRetractButton, elevatorUpButton, armAndReelerDownButton,
-                         elevatorDownButton, grabButton, releaseButton, armAndReelerUpButton;
+                         elevatorDownButton, grabButton, releaseButton, armAndReelerUpButton, emergencyStop, disable;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -146,6 +147,8 @@ public class RobotContainer {
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
     armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUp);
     armAndReelerDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerDown);
+
+    disable = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
     
     // button -> command handling
     // button board bindings
@@ -162,6 +165,8 @@ public class RobotContainer {
 
     armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
     armAndReelerDownButton.onTrue(new ArmDown(arm, reeler)); // NEW
+
+    disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
 
     // xbox button bindings
     //aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
@@ -198,7 +203,7 @@ public class RobotContainer {
    * You shouldn't use this method to stop the robot, because this erases all code on the RoboRIO,
    * and may cause other issues. ONLY USE THIS AS A LAST RESORT.
    */
-  public void softSelfDestruct() {
+  public void softExit() {
     System.exit(0);
   }
 
