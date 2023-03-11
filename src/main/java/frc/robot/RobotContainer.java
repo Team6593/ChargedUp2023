@@ -26,6 +26,7 @@ import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
 import frc.robot.commands.RefactoredCommands.ReelAndElevate;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
 import frc.robot.commands.RefactoredCommands.ReelerAndElevatorUp;
+import frc.robot.commands.RefactoredCommands.SoftExit;
 import frc.robot.commands.arm.ArmClose;
 import frc.robot.commands.arm.ArmExtend;
 import frc.robot.commands.arm.ArmOpen;
@@ -148,7 +149,8 @@ public class RobotContainer {
     armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUp);
     armAndReelerDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerDown);
 
-    disable = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
+    disable = new JoystickButton(buttonBoard, buttonBoardButtons.disable);
+    emergencyStop = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
     
     // button -> command handling
     // button board bindings
@@ -167,6 +169,7 @@ public class RobotContainer {
     armAndReelerDownButton.onTrue(new ArmDown(arm, reeler)); // NEW
 
     disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
+    emergencyStop.onTrue(new SoftExit());
 
     // xbox button bindings
     //aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));

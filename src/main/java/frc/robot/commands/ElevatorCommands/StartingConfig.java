@@ -36,7 +36,7 @@ public class StartingConfig extends CommandBase {
   @Override
   public void execute() {
     if(elevator.minHeightLimitSwitch.get() == true) {
-      elevator.elevate(.15);
+      elevator.elevate(-.15);
     } else if(elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
       elevator.elevatorBrake();

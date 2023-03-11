@@ -34,7 +34,7 @@ public final class Constants {
 
         // // Arm limit switches (WIP)
         // CHANGE LATER
-        public final int ArmLimitSwitchTop = 4;
+        public final int ArmLimitSwitchTop = 2;
         public final int ArmLimitSwitchBottom = 3;
     }
 
