@@ -162,6 +162,7 @@ public class RobotContainer {
     grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
     releaseButton.onTrue(new ArmOpen(arm)); // DNR, WORKS
 
+    // What's this even for
     armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
     armAndReelerDownButton.onTrue(new ArmDown(arm, reeler)); // NEW
 

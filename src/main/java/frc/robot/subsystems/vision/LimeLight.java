@@ -39,7 +39,15 @@ public class LimeLight extends SubsystemBase {
     SmartDashboard.putNumber("LimeLightArea", area);
   }
   
-  public double estimateDistance() {
+  /**
+   * 
+   * @param limelightMountAngleDegrees how many degrees back is your limelight rotated from perfectly vertical?
+   * If the limelight is upside down, be sure to set the orientation to 'upside-down' in Limelight finder-tool or local:5801
+   * @param limelightLensHeightInches distance from the center of the Limelight lens to the floor
+   * @param goalHeightInches distance from the target to the floor
+   * @return distance from the limelight to the target in inches
+   */
+  public double estimateDistance(double limelightMountAngleDegrees, double limelightLensHeightInches, double goalHeightInches) {
     // these vars are defined in the top of this class
     // so I am redifining them here with an underscore
     NetworkTable _table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -47,13 +55,13 @@ public class LimeLight extends SubsystemBase {
     double targetOffsetAngle_Vertical = _ty.getDouble(0.0);
 
     // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 0; // limelight is upside-down
+    //double limelightMountAngleDegrees = 0; // limelight is upside-down
 
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 6.0;
+    //double limelightLensHeightInches = 6.0;
 
     // distance from the target to the floor
-    double goalHeightInches = 57; // change to (12*3) + 10
+    //double goalHeightInches = 57; // change to (12*3) + 10
 
     double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
