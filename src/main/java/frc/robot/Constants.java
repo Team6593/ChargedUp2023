@@ -43,8 +43,8 @@ public final class Constants {
         public static final class ButtonBoard {
            public final int ArmExtend = 1;
            public final int ArmRetract = 2;
-           public final int ElevatorUp = 3;
-           public final int ElevatorDown = 4;
+           public final int StartingConfig = 3;
+           public final int HumanStation = 4;
            public final int ArmAndReelerUp = 5;
            public final int ArmAndReelerDown = 6;
            public final int grab = 7;

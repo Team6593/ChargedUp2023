@@ -31,12 +31,6 @@ import frc.robot.commands.arm.ArmExtend;
 import frc.robot.commands.arm.ArmOpen;
 import frc.robot.commands.arm.ArmRetract;
 import frc.robot.commands.arm.ArmUp;
-import frc.robot.commands.armReelerElevator.ArmAndReelerDown;
-import frc.robot.commands.armReelerElevator.ArmAndReelerUp;
-import frc.robot.commands.armReelerElevator.ArmDownGrab;
-import frc.robot.commands.armReelerElevator.ArmRetractAndUP;
-import frc.robot.commands.armReelerElevator.ElevatorAndReelerUpCommand;
-import frc.robot.commands.armReelerElevator.StopArmAndReeler;
 
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
@@ -95,8 +89,10 @@ public class RobotContainer {
 
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
-  private JoystickButton armExtendButton, armRetractButton, elevatorUpButton, armAndReelerDownButton,
-                         elevatorDownButton, grabButton, releaseButton, armAndReelerUpButton, emergencyStop, disable;
+  private JoystickButton armExtendButton, armRetractButton, elevatorUpButton, 
+                         armAndReelerDownButton, elevatorDownButton, grabButton, 
+                         releaseButton, armAndReelerUpButton, emergencyStop, disable, 
+                         startingConfigButton, humanStationButton;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -139,8 +135,8 @@ public class RobotContainer {
     // define joystickButton to buttonBoard buttons
     armExtendButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmExtend);
     armRetractButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmRetract);
-    elevatorUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorUp);
-    elevatorDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorDown);
+    humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
+    startingConfigButton = new JoystickButton(buttonBoard, buttonBoardButtons.StartingConfig);
     grabButton = new JoystickButton(buttonBoard, buttonBoardButtons.grab);
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
     armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUp);
@@ -154,8 +150,10 @@ public class RobotContainer {
 
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    elevatorUpButton.onTrue(new HumanStation(reeler, elevator)); // ReelAndElevate
-    elevatorDownButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
+    humanStationButton.onTrue(new StartingConfig(elevator, reeler, arm).
+                              andThen(new RestingPosition(elevator, reeler, arm)).
+                              andThen(new HumanStation(reeler, elevator))); // ReelAndElevate
+    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
 
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
