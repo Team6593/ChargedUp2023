@@ -33,9 +33,13 @@ public class EmergencyStopCommand extends InstantCommand {
   @Override
   public void initialize() {
     driveTrain.stopAllMotors();
+    driveTrain.setBrakeMode();
     elevator.elevatorStop();
+    elevator.elevatorBrake();
     arm.stopArmMotor();
+    arm.armBrakeMode();
     reeler.stopReelerMotor();
+    reeler.reelerBrakeMotor();
     CommandScheduler.getInstance().cancelAll();
   }
 }

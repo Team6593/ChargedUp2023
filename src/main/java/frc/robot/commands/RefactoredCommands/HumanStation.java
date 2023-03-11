@@ -9,11 +9,15 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Reeler;
 
-public class ReelerAndElevatorUp extends CommandBase {
+/**
+ * Moves reeler and elevator up, keeps the arm at a 90 degree angle.
+ * Goes up to mid. 
+ */
+public class HumanStation extends CommandBase {
   Reeler reeler;
   Elevator elevator;
   /** Creates a new ReelerAndElevatorUp. */
-  public ReelerAndElevatorUp(Reeler reeler, Elevator elevator) {
+  public HumanStation(Reeler reeler, Elevator elevator) {
     this.reeler = reeler;
     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.

@@ -23,9 +23,8 @@ import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
 import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
-import frc.robot.commands.RefactoredCommands.ReelAndElevate;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
-import frc.robot.commands.RefactoredCommands.ReelerAndElevatorUp;
+import frc.robot.commands.RefactoredCommands.HumanStation;
 import frc.robot.commands.RefactoredCommands.SoftExit;
 import frc.robot.commands.arm.ArmClose;
 import frc.robot.commands.arm.ArmExtend;
@@ -78,8 +77,7 @@ public class RobotContainer {
   public final NavX navX;
 
   // COMMANDS
-  private final ReelAndRotateUp reelAndRotateUp;
-  private final ReelerAndElevatorUp reelerAndElevatorUp;
+  private final HumanStation reelerAndElevatorUp;
 
   private Constants constants = new Constants();
   private ButtonBoard buttonBoardButtons = new ButtonBoard();
@@ -113,8 +111,7 @@ public class RobotContainer {
     compressor = new AndyMarkCompressor();
 
     // COMMANDS
-    reelAndRotateUp = new ReelAndRotateUp(arm, reeler);
-    reelerAndElevatorUp = new ReelerAndElevatorUp(reeler, elevator);
+    reelerAndElevatorUp = new HumanStation(reeler, elevator);
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
@@ -157,7 +154,7 @@ public class RobotContainer {
 
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    elevatorUpButton.onTrue(new ReelerAndElevatorUp(reeler, elevator)); // ReelAndElevate
+    elevatorUpButton.onTrue(new HumanStation(reeler, elevator)); // ReelAndElevate
     elevatorDownButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
 
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
