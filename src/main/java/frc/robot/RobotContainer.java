@@ -22,6 +22,7 @@ import frc.robot.commands.ElevatorCommands.RestingPosition;
 import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
+import frc.robot.commands.RefactoredCommands.AutonomousScoring;
 import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
 import frc.robot.commands.RefactoredCommands.HomingPosition;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
@@ -197,7 +198,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     
-    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation);
+    return new AutonomousScoring(reeler, elevator, arm);
     
     // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 
