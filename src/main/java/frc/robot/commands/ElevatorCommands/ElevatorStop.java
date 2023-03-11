@@ -16,7 +16,6 @@ public class ElevatorStop extends InstantCommand {
 
   public ElevatorStop(Elevator elevator) {
     // Use addRequirements() here to declare subsystem dependencies.
-
     this.elevator = elevator;
 
     addRequirements(elevator);

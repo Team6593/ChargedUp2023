@@ -24,14 +24,13 @@ public class Elevator extends SubsystemBase {
 
   public Elevator() {}
 
-  /**
-   * negative is up, and posiitive is down
-   * @param motorspeed
-   */
   public void elevate(double motorspeed) {
     elevatorMotor.set(ControlMode.PercentOutput, motorspeed);
   }
 
+  public void deElevate(double motorspeed) {
+    elevatorMotor.set(ControlMode.PercentOutput, -motorspeed);
+  }
   /**
    * 
    --Gets the value of the digital input. Returns true if circuit is open
@@ -41,7 +40,8 @@ public class Elevator extends SubsystemBase {
   public void elevatorUP(double elevatorSpeed){
     // This code is unstable do not use for now
     if(maxHeightLimitSwitch.get() == true){
-      elevatorMotor.set(elevatorSpeed);
+      elevatorMotor.set(ControlMode.PercentOutput, elevatorSpeed);
+      
     }else if(maxHeightLimitSwitch.get() == false){
       elevatorMotor.stopMotor();
       elevatorBrake();

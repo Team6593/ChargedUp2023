@@ -41,17 +41,19 @@ public final class Constants {
     public static final class InputMap {
         
         public static final class ButtonBoard {
-           public final int ArmExtend = 1;
-           public final int ArmRetract = 2;
-           public final int StartingConfig = 3;
-           public final int HumanStation = 4;
-           public final int ArmAndReelerUp = 5;
-           public final int ArmAndReelerDown = 6;
-           public final int grab = 7;
-           public final int release = 8;
+            public static final int ElevatorUp = 0;
+            public static final int ElevatorDown = 0;
+            public final int ArmExtend = 1;
+            public final int ArmRetract = 2;
+            public final int StartingConfig = 3;
+            public final int HumanStation = 4;
+            public final int ArmAndReelerUp = 5;
+            public final int ArmAndReelerDown = 6;
+            public final int grab = 7;
+            public final int release = 8;
 
-           public final int disable = 9;
-           public final int EmergencyStop = 10;
+            public final int disable = 9;
+            public final int EmergencyStop = 10;
         }
 
         public static final class xBox{
