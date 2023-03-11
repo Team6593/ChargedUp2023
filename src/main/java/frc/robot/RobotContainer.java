@@ -23,6 +23,7 @@ import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
 import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
+import frc.robot.commands.RefactoredCommands.HomingPosition;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
 import frc.robot.commands.RefactoredCommands.HumanStation;
 import frc.robot.commands.RefactoredCommands.SoftExit;
@@ -95,8 +96,8 @@ public class RobotContainer {
 
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
-  private JoystickButton armExtendButton, armRetractButton, elevatorUpButton, armAndReelerDownButton,
-                         elevatorDownButton, grabButton, releaseButton, armAndReelerUpButton, emergencyStop, disable;
+  private JoystickButton armExtendButton, armRetractButton, startingConfigButton, scoringMidButton,
+                         floorPickupButton, grabButton, releaseButton, humanStationButton, emergencyStop, disable;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -139,32 +140,35 @@ public class RobotContainer {
     // define joystickButton to buttonBoard buttons
     armExtendButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmExtend);
     armRetractButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmRetract);
-    elevatorUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorUp);
-    elevatorDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorDown);
+    startingConfigButton = new JoystickButton(buttonBoard, buttonBoardButtons.StartingConfig);
+    floorPickupButton = new JoystickButton(buttonBoard, buttonBoardButtons.FloorPickup);
     grabButton = new JoystickButton(buttonBoard, buttonBoardButtons.grab);
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
-    armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUp);
-    armAndReelerDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerDown);
+    humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
+    scoringMidButton = new JoystickButton(buttonBoard, buttonBoardButtons.ScoringMid);
 
     disable = new JoystickButton(buttonBoard, buttonBoardButtons.disable);
-    emergencyStop = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
+    //emergencyStop = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
     
     // button -> command handling
     // button board bindings
 
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    elevatorUpButton.onTrue(new HumanStation(reeler, elevator)); // ReelAndElevate
-    elevatorDownButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
+    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
+    floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
 
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
     grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
     releaseButton.onTrue(new ArmOpen(arm)); // DNR, WORKS
 
-    // What's this even for
-    armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
-    armAndReelerDownButton.onTrue(new ArmDown(arm, reeler)); // NEW
+    // What's this even for?
+
+    //armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
+    //scoringMidButton.onTrue(new ArmDown(arm, reeler)); // NEW
+
+    humanStationButton.onTrue(new HumanStation(reeler, elevator));
 
     disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());

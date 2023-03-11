@@ -11,7 +11,10 @@ import frc.robot.subsystems.Reeler;
 public class ArmDown extends CommandBase {
   private Arm arm;
   private Reeler reeler;
-  /** Creates a new ArmLimitSwitchDown. */
+  /** if top arm limit switch is not pressed,
+   * reel the arm down, and rotate the arm motor downwards
+   * until limit switch is pressed
+   */
   public ArmDown(Arm arm, Reeler reeler) {
     this.arm = arm;
     this.reeler = reeler;
