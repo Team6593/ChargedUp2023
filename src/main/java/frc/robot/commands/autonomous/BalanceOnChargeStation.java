@@ -29,21 +29,22 @@ public class BalanceOnChargeStation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     // do not use getPitch() as it actually returns the roll
-    if(navX.getRoll() < levelRoll) {
+    if(Math.floor(navX.getRoll() ) < levelRoll) {
       // robot is forward facing-down position
       // drive backwards slowly
       driveTrain.drive(-.1);
-    } else if (navX.getRoll() > levelRoll) {
+    } else if (Math.floor(navX.getRoll() ) > levelRoll) {
       // robot is backwards facing-up position
       // drive forwards slowly
       driveTrain.drive(.1);
-    } else if (navX.getRoll() == levelRoll) {
+    } else if (Math.floor(navX.getRoll() ) == levelRoll) {
       driveTrain.stopAllMotors();
     }
     

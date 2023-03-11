@@ -34,8 +34,8 @@ public final class Constants {
 
         // // Arm limit switches (WIP)
         // CHANGE LATER
-        public final int ArmLimitSwitchTop = 4;
-        public final int ArmLimitSwitchBottom = 3;
+        public final int ArmLimitSwitchTop = 3;
+        public final int ArmLimitSwitchBottom = 2;
     }
 
     public static final class InputMap {
@@ -43,12 +43,15 @@ public final class Constants {
         public static final class ButtonBoard {
            public final int ArmExtend = 1;
            public final int ArmRetract = 2;
-           public final int ElevatorUp = 3;
-           public final int ElevatorDown = 4;
+           public final int StartingConfig = 3;
+           public final int FloorPickup = 4;
+           public final int HumanStation = 5;
+           public final int ScoringMid = 6;
            public final int grab = 7;
-           public final int release = 9;
-           public final int ArmAndReelerUp = 5;
-           public final int ArmAndReelerDown = 6;
+           public final int release = 8;
+
+           public final int disable = 9;
+           public final int EmergencyStop = 10;
         }
 
         public static final class xBox{
@@ -68,8 +71,8 @@ public final class Constants {
 
     public static final class Motors {
 
-        public final int ArmReelerMotorID = 0;
-        public final int ArmMotorID = 0;
+        public final int ArmReelerMotorID = 0; // do not use
+        public final int ArmMotorID = 9;
         // put motor ID's here
         // how to define consts: subsystem + master or follower + orientation (left, right, up, down) + "ID"
         // change these nums later
@@ -96,7 +99,7 @@ public final class Constants {
         public final double ReelerSpeed = 0;
 
         //speed for elevator
-        public final double ElevatorSpeed = 0.2;
+        public final double ElevatorSpeed = 0.5;
 
         // arm
         
@@ -109,18 +112,18 @@ public final class Constants {
         public final int ReverseChannelDt = 1;
 
         // Arm
-        // swap values?
-        public final int ArmCloseChannel = 6;
-        public final int ArmOpenChannel = 7;
+        // swap values? unsure values.
+        public final int ArmCloseChannel = 2;
+        public final int ArmOpenChannel = 3;
 
-        // swap values?
-        public final int ArmExtendChannel = 2;
-        public final int armRetractChannel = 3;
+        // swap values?,these are open and close (e: 2, r: 3)?
+        public final int ArmExtendChannel = 7;
+        public final int ArmRetractChannel = 6;
 
     }
     public static final class Autonomous {
         public final double encoderDistanceToChargeStation = 1223.760000; //couple feet or so, change later
-        public final double levelDegrees = 0;
+        public final double levelDegrees = 71;
     }
 
     public static final class PIDValues{

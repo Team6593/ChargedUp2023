@@ -5,37 +5,57 @@
 package frc.robot.commands.ElevatorCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Reeler;
 
-public class ElevatorUp extends CommandBase {
+public class StartingConfig extends CommandBase {
+  /** Creates a new ElevatorDownCommand. */
   private Elevator elevator;
-  private double elevatorSpeed;
+  private Reeler reeler;
+  private Arm arm;
 
-  /** Creates a new ElevatorUpCommand. */
-  public ElevatorUp(Elevator elevator, double elevatorSpeed) {
+  public StartingConfig(Elevator elevator, Reeler reeler, Arm arm) {
     this.elevator = elevator;
-    this.elevatorSpeed = elevatorSpeed;
-    addRequirements(elevator);
+    this.reeler = reeler;
+    this.arm = arm;
+
+    addRequirements(elevator, reeler, arm);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    elevator.elevatorInit();
+    reeler.reelerInit();
+    
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.elevatorUP(elevatorSpeed);
-    //elevator.elevate(elevatorSpeed);
+    if(elevator.minHeightLimitSwitch.get() == true) {
+      elevator.elevate(.15);
+    } else if(elevator.minHeightLimitSwitch.get() == false) {
+      elevator.elevatorStop();
+      elevator.elevatorBrake();
+    }
+    
+    if(arm.armLimitSwitchTop.get() == true) {
+      reeler.reelArmUp(.15);
+    } else if(arm.armLimitSwitchTop.get() == false) {
+      reeler.stopReelerMotor();
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("FINISHED");
     elevator.elevatorStop();
     elevator.elevatorBrake();
+    reeler.stopReelerMotor();
   }
 
   // Returns true when the command should end.

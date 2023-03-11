@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -47,19 +48,25 @@ public class Arm extends SubsystemBase {
   private WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
 
   //solenoids
-  private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
-  private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.armRetractChannel);
+  private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
+  doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
+  private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
+  doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.ArmRetractChannel);
 
   // //limit switches (WIP)
-  private DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);
-  private DigitalInput armLimitSwitchBottom = new DigitalInput(ports.ArmLimitSwitchBottom);
+  public DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);
+  public DigitalInput armLimitSwitchBottom = new DigitalInput(ports.ArmLimitSwitchBottom);
 
   /* Creates a new Hand. */
   public Arm() {}
 
-
+  /**
+   * ensures that the arm's motor output is 0 at init
+   */
   public void armInit(){
-    armBrake();
+    // ensure that motor output is zero at init
+    armMotor.stopMotor();
+    armMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void armBrake(){
@@ -70,9 +77,18 @@ public class Arm extends SubsystemBase {
     armMotor.stopMotor();
   }
 
+  public void rotateUpwards(double motorspeed) {
+    armMotor.set(ControlMode.PercentOutput, motorspeed);
+  }
+
+  public void rotateDownwards(double motorspeed) {
+    armMotor.set(ControlMode.PercentOutput, -motorspeed);
+  }
 
   // // Limit switch methods (WIP)
-  
+  /**
+   * This needs refactoring, DO NOT USE
+   */
   public void armUp(double armMotorSpeed) {
     if (armLimitSwitchTop.get() == true) {
       armMotor.set(armMotorSpeed);
@@ -82,6 +98,10 @@ public class Arm extends SubsystemBase {
     }
   }
 
+  /**
+   * This needs refactoring. DO NOT USE
+   * @param armMotorSpeed
+   */
   public void armDown(double armMotorSpeed) {
     if (armLimitSwitchBottom.get() == true) {
       armMotor.set(-armMotorSpeed);

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -18,10 +19,19 @@ public class Elevator extends SubsystemBase {
   private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
   private WPI_TalonFX elevatorMotor = new WPI_TalonFX(motorsId.ElevatorMotorID);
 
-  DigitalInput maxHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorTopLimitSwitchPort);
-  DigitalInput minHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorLowLimitSwitchPort); 
+  public DigitalInput maxHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorTopLimitSwitchPort);
+  public DigitalInput minHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorLowLimitSwitchPort); 
 
   public Elevator() {}
+
+  /**
+   * negative is up, and posiitive is down
+   * @param motorspeed
+   */
+  public void elevate(double motorspeed) {
+    elevatorMotor.set(ControlMode.PercentOutput, motorspeed);
+  }
+
   /**
    * 
    --Gets the value of the digital input. Returns true if circuit is open
@@ -49,7 +59,6 @@ public class Elevator extends SubsystemBase {
 
   public void elevatorStop(){
     elevatorMotor.stopMotor();
-    elevatorBrake();
   }
 
   public void elevatorBrake() {

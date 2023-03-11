@@ -46,7 +46,8 @@ public class Camera extends SubsystemBase {
   public static Constants.CameraVision cameraVision = new Constants.CameraVision();
 
   //public UsbCamera camera = CameraServer.startAutomaticCapture();
-
+  
+  
   /**
    * call this in robotInit()
    */
@@ -57,6 +58,9 @@ public class Camera extends SubsystemBase {
     visionThread = new Thread(
       () -> {
               var camera = CameraServer.startAutomaticCapture();
+
+              // if there is no camera plugged into a USB port this will throw an exception
+              // you may want to comment out this code if your doing that on purpose     
 
               var cameraWidth = 640;
               var cameraHeight = 480;

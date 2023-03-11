@@ -6,17 +6,20 @@ package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Reeler;
 
 public class ArmDown extends CommandBase {
   private Arm arm;
-  private double armSpeed;
-
-  /** Creates a new ArmLimitSwitchDown. */
-  public ArmDown(Arm arm, double armSpeed) {
+  private Reeler reeler;
+  /** if top arm limit switch is not pressed,
+   * reel the arm down, and rotate the arm motor downwards
+   * until limit switch is pressed
+   */
+  public ArmDown(Arm arm, Reeler reeler) {
     this.arm = arm;
-    this.armSpeed = armSpeed;
+    this.reeler = reeler;
 
-    addRequirements(arm);
+    addRequirements(arm, reeler);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,13 +30,20 @@ public class ArmDown extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.armDown(armSpeed);
+    if(arm.armLimitSwitchTop.get() == true) {
+      arm.rotateDownwards(.1);
+      reeler.reelArmDown(.05);
+    } else if (arm.armLimitSwitchTop.get() == false) {
+      arm.stopArmMotor();
+      reeler.stopReelerMotor();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     arm.stopArmMotor();
+    reeler.stopReelerMotor();
   }
 
   // Returns true when the command should end.

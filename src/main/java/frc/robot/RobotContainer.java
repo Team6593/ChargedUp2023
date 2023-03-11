@@ -12,13 +12,22 @@ import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.Constants.InputMap.xBox;
 import frc.robot.Constants.InputMap.ButtonBoard;
-
+import frc.robot.commands.arm.ArmBrake;
 import frc.robot.commands.arm.ArmClose;
+import frc.robot.commands.arm.ArmDown;
 import frc.robot.commands.arm.ArmOpen;
 
 
-import frc.robot.commands.ElevatorCommands.ElevatorDown;
+import frc.robot.commands.ElevatorCommands.RestingPosition;
+import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
+import frc.robot.commands.ElevatorCommands.ElevatorUp;
+import frc.robot.commands.RefactoredCommands.AutonomousScoring;
+import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
+import frc.robot.commands.RefactoredCommands.HomingPosition;
+import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
+import frc.robot.commands.RefactoredCommands.HumanStation;
+import frc.robot.commands.RefactoredCommands.SoftExit;
 import frc.robot.commands.arm.ArmClose;
 import frc.robot.commands.arm.ArmExtend;
 import frc.robot.commands.arm.ArmOpen;
@@ -38,6 +47,7 @@ import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.commands.reeler.ReelArmDown;
 import frc.robot.commands.reeler.ReelArmUp;
+import frc.robot.subsystems.AndyMarkCompressor;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -59,7 +69,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveTrain driveTrain;
   public final Elevator elevator;
-
+  public final AndyMarkCompressor compressor;
   public final Arm arm;  
   public final Reeler reeler;
   
@@ -67,6 +77,7 @@ public class RobotContainer {
   public final Camera rioCamera;
   public final LimeLight limeLight;
   public final NavX navX;
+
 
   private Constants constants = new Constants();
   private ButtonBoard buttonBoardButtons = new ButtonBoard();
@@ -84,8 +95,8 @@ public class RobotContainer {
 
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
-  private JoystickButton armExtendButton, armRetractButton, elevatorUpButton, armAndReelerDownButton,
-                         elevatorDownButton, grabButton, releaseButton, armAndReelerUpButton;
+  private JoystickButton armExtendButton, armRetractButton, startingConfigButton, scoringMidButton,
+                         floorPickupButton, grabButton, releaseButton, humanStationButton, emergencyStop, disable;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -97,6 +108,9 @@ public class RobotContainer {
     arm = new Arm();
     reeler = new Reeler();
     elevator = new Elevator();
+    compressor = new AndyMarkCompressor();
+
+    // COMMANDS
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
@@ -124,26 +138,38 @@ public class RobotContainer {
     // define joystickButton to buttonBoard buttons
     armExtendButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmExtend);
     armRetractButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmRetract);
-    elevatorUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorUp);
-    elevatorDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ElevatorDown);
+    startingConfigButton = new JoystickButton(buttonBoard, buttonBoardButtons.StartingConfig);
+    floorPickupButton = new JoystickButton(buttonBoard, buttonBoardButtons.FloorPickup);
     grabButton = new JoystickButton(buttonBoard, buttonBoardButtons.grab);
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
-    armAndReelerUpButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerUp);
-    armAndReelerDownButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmAndReelerDown);
+    humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
+    scoringMidButton = new JoystickButton(buttonBoard, buttonBoardButtons.ScoringMid);
+
+    disable = new JoystickButton(buttonBoard, buttonBoardButtons.disable);
+    //emergencyStop = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
     
     // button -> command handling
     // button board bindings
 
-    // Kelvin is responsible for this war crime
     // rewrite all the commands being used here
-    elevatorUpButton.onTrue(new ElevatorAndReelerUpCommand(elevator, speedsForMotors.ElevatorSpeed, reeler, speedsForMotors.ReelerSpeed));
-    elevatorDownButton.onTrue(new ElevatorDown(elevator, speedsForMotors.ElevatorSpeed));
-    armExtendButton.onTrue(new ArmExtend(arm));
-    armRetractButton.onTrue(new ArmRetract(arm));
-    grabButton.onTrue(new ArmClose(arm));
-    releaseButton.onTrue(new ArmOpen(arm));
-    armAndReelerUpButton.onTrue(new ArmRetractAndUP(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
-    armAndReelerDownButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
+    //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
+    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
+    floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
+
+    armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
+    armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
+    grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
+    releaseButton.onTrue(new ArmOpen(arm)); // DNR, WORKS
+
+    // What's this even for?
+
+    //armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
+    //scoringMidButton.onTrue(new ArmDown(arm, reeler)); // NEW
+
+    humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
+
+    disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
+    //emergencyStop.onTrue(new SoftExit());
 
     // xbox button bindings
     //aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));
@@ -154,8 +180,6 @@ public class RobotContainer {
     // You may have to adjust these values
     //yButton.whileTrue(new ReelArmUp(reeler, .3));
     //aButton.whileTrue(new ReelArmDown(reeler, .3));
-    armExtendButton.onTrue(new ArmOpen(arm));
-    armRetractButton.onTrue(new ArmClose(arm));
 
     // yButton.whileTrue(new ReelArmUp(reeler));
     //aButton.onTrue(new ArmDownGrab(arm, SpeedsForMotors.ArmSpeed, reeler, SpeedsForMotors.ReelerSpeed));
@@ -165,26 +189,6 @@ public class RobotContainer {
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     aButton.onTrue(new LowGear(driveTrain));
     xButton.onTrue(new HighGear(driveTrain));
-    
-  }
-
-  /**
-   * stops all motors in all subsystems, and cancels all commands
-   */
-  public void emergencyStop() {
-    driveTrain.stopAllMotors();
-    elevator.elevatorStop();
-    arm.stopArmMotor();
-    reeler.stopReelerMotor();
-    CommandScheduler.getInstance().cancelAll();
-  }
-
-  /**
-   * You shouldn't use this method to stop the robot, because this erases all code on the RoboRIO,
-   * and may cause other issues. ONLY USE THIS AS A LAST RESORT.
-   */
-  public void softSelfDestruct() {
-    System.exit(0);
   }
 
   /**
@@ -194,7 +198,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     
-    return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation);
+    return new AutonomousScoring(reeler, elevator, arm);
     
     // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 
