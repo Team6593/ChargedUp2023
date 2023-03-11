@@ -167,7 +167,7 @@ public class RobotContainer {
     armAndReelerDownButton.onTrue(new ArmDown(arm, reeler)); // NEW
 
     disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
-    emergencyStop.onTrue(new SoftExit());
+    //emergencyStop.onTrue(new SoftExit());
 
     // xbox button bindings
     //aButton.onTrue(new ArmDownGrab(arm, speedsForMotors.ArmSpeed, reeler, speedsForMotors.ReelerSpeed));

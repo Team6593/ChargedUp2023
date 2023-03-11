@@ -6,6 +6,19 @@ package frc.robot.Utils;
 
 /** Unit conversion class, converts between radians, degrees and units */
 public class UnitConverter {
+
+    /**
+     * Determines the number of encoder units needed to perform a certain amount of rotations needed
+     * based on the formula: Units-Per-Revolution * gear-ratio * rotations-needed
+     * @param gearRatio ask mechanical (10:1 -> 10/1)
+     * @param unitsPerRevolution - how many units per revolution (TalonFX uses 2048)
+     * @param rotationsNeeded - the amount of rotations needed
+     * @return encoder units needed to perform a certain amount of rotations needed
+     */
+    public double determineUnitsPerRevolution(double gearRatio, double unitsPerRevolution, int rotationsNeeded) {
+        // type cast rotationsNeeded?
+        return unitsPerRevolution * gearRatio * rotationsNeeded;
+    }
     //determines distance driven in inches
     /**
      * determines distance driven when a number of revolutions are given
