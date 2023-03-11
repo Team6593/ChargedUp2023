@@ -15,14 +15,16 @@ import frc.robot.subsystems.Reeler;
  */
 public class HumanStation extends CommandBase {
   Reeler reeler;
+  Arm arm;
   Elevator elevator;
   /** Moves reeler and elevator up, keeps the arm at a 90 degree angle.
  * Goes up to mid. */
-  public HumanStation(Reeler reeler, Elevator elevator) {
+  public HumanStation(Reeler reeler, Elevator elevator, Arm arm) {
     this.reeler = reeler;
     this.elevator = elevator;
+    this.arm = arm;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(reeler, elevator);
+    addRequirements(reeler, elevator, arm);
   }
 
   // Called when the command is initially scheduled.
@@ -43,7 +45,7 @@ public class HumanStation extends CommandBase {
       elevator.elevatorStop();
       elevator.elevatorBrake();
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.15);
+      reeler.reelArmUp(.10);
       elevator.elevate(-.125);
     }
   }

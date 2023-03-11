@@ -77,8 +77,6 @@ public class RobotContainer {
   public final LimeLight limeLight;
   public final NavX navX;
 
-  // COMMANDS
-  private final HumanStation reelerAndElevatorUp;
 
   private Constants constants = new Constants();
   private ButtonBoard buttonBoardButtons = new ButtonBoard();
@@ -112,7 +110,6 @@ public class RobotContainer {
     compressor = new AndyMarkCompressor();
 
     // COMMANDS
-    reelerAndElevatorUp = new HumanStation(reeler, elevator);
 
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
@@ -168,7 +165,7 @@ public class RobotContainer {
     //armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
     //scoringMidButton.onTrue(new ArmDown(arm, reeler)); // NEW
 
-    humanStationButton.onTrue(new HumanStation(reeler, elevator));
+    humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
 
     disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());

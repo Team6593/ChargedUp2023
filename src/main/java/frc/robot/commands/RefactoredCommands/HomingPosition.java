@@ -36,15 +36,17 @@ public class HomingPosition extends CommandBase {
   public void execute() {
     // limit switch is not pressed if true
     if(elevator.minHeightLimitSwitch.get() == true) {
-      elevator.elevate(.1);
+      elevator.elevate(.15);
     } else if(elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
     }
 
     if(arm.armLimitSwitchBottom.get() == true) {
-      reeler.reelArmUp(.125);
+      reeler.reelArmUp(-.15);
+      arm.rotateUpwards(.07);
     } else if(arm.armLimitSwitchBottom.get() == false) {
       reeler.stopReelerMotor();
+      arm.stopArmMotor();
     }
 
   }
@@ -54,6 +56,7 @@ public class HomingPosition extends CommandBase {
   public void end(boolean interrupted) {
     elevator.elevatorStop();
     reeler.stopReelerMotor();
+    arm.stopArmMotor();
   }
 
   // Returns true when the command should end.
