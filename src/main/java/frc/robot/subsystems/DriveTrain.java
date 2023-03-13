@@ -79,7 +79,7 @@ public class DriveTrain extends SubsystemBase {
     // but this can cause the robot to drive slow, or 'stutter'
     // because of the motor's safety measures
     
-    config.supplyCurrLimit.enable = true;
+    config.supplyCurrLimit.enable = false;
     config.supplyCurrLimit.triggerThresholdCurrent = 70;
     config.supplyCurrLimit.triggerThresholdTime = 3.0;
     config.supplyCurrLimit.currentLimit = 70;

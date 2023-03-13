@@ -78,11 +78,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void rotateUpwards(double motorspeed) {
-    armMotor.set(ControlMode.PercentOutput, motorspeed);
+    armMotor.set(ControlMode.PercentOutput, -motorspeed);
   }
 
   public void rotateDownwards(double motorspeed) {
-    armMotor.set(ControlMode.PercentOutput, -motorspeed);
+    armMotor.set(ControlMode.PercentOutput, motorspeed);
   }
 
   // // Limit switch methods (WIP)
