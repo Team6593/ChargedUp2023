@@ -51,6 +51,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     
     rbContainer.navX.displayNavXData();
+    rbContainer.limeLight.estimateDistance(0, 
+    52.0, 61);
+
     //rbContainer.memoryMonitor.getInstance().printMemoryUsage();
     //rbContainer.limeLight.estimateDistance();
     //rbContainer.driveTrain.displayTalonData();

@@ -99,7 +99,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
-    //instances of classes
+    //initialize subystems
     navX = new NavX();
     limeLight = new LimeLight();
     rioCamera = new Camera();
@@ -109,11 +109,10 @@ public class RobotContainer {
     elevator = new Elevator();
     compressor = new AndyMarkCompressor();
 
-    // COMMANDS
-
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
-    // Configure the button bindings
+    // this method polls buttons every 'tick'
+    // and handles button->command
     configureButtonBindings();
   }
 

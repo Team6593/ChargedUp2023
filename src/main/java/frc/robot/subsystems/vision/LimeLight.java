@@ -9,10 +9,12 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Autonomous;
 import frc.robot.Utils.UnitConverter;
 
 public class LimeLight extends SubsystemBase {
-
+  
+  Autonomous autonomous = new Autonomous();
   // Use the limelight finder tool to change the limelight name
   // if you change the name of the limelight, modify the string arg in .getTable();
   // to match the name of the limelight
@@ -42,7 +44,7 @@ public class LimeLight extends SubsystemBase {
   /**
    * 
    * @param limelightMountAngleDegrees how many degrees back is your limelight rotated from perfectly vertical?
-   * If the limelight is upside down, be sure to set the orientation to 'upside-down' in Limelight finder-tool or local:5801
+   * If the limelight is upside down, be sure to set the orientation to 'upside-down' in Limelight finder-tool or local:5801,
    * @param limelightLensHeightInches distance from the center of the Limelight lens to the floor
    * @param goalHeightInches distance from the target to the floor
    * @return distance from the limelight to the target in inches
@@ -106,6 +108,6 @@ public class LimeLight extends SubsystemBase {
   @Override
   public void periodic() {
     // function testing
-    displayValues();
+    displayValues();  
   }
 }
