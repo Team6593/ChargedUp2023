@@ -14,6 +14,7 @@ public class StartingConfig extends CommandBase {
   private Elevator elevator;
   private Reeler reeler;
   private Arm arm;
+  Boolean armTopLimitSwitchIsPressed;
 
   public StartingConfig(Elevator elevator, Reeler reeler, Arm arm) {
     this.elevator = elevator;
@@ -29,25 +30,29 @@ public class StartingConfig extends CommandBase {
   public void initialize() {
     elevator.elevatorInit();
     reeler.reelerInit();
-    
+    armTopLimitSwitchIsPressed = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(elevator.minHeightLimitSwitch.get() == true) {
+    if (elevator.minHeightLimitSwitch.get() == true) {
       elevator.elevate(.15);
-    } else if(elevator.minHeightLimitSwitch.get() == false) {
+    } else if (elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
       elevator.elevatorBrake();
     }
-    
-    if(arm.armLimitSwitchTop.get() == true) {
-      reeler.reelArmUp(.15);
-    } else if(arm.armLimitSwitchTop.get() == false) {
-      reeler.stopReelerMotor();
+
+    if(!armTopLimitSwitchIsPressed) {
+      if (arm.armLimitSwitchTop.get() == true) {
+        reeler.reelArmUp(.15);
+      } else if (arm.armLimitSwitchTop.get() == false) {
+        armTopLimitSwitchIsPressed = true; // this should break out of loop
+        reeler.stopReelerMotor();
+        reeler.reelerBrakeMotor();
+      }
     }
-    
+
   }
 
   // Called once the command ends or is interrupted.

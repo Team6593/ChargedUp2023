@@ -154,6 +154,12 @@ public class RobotContainer {
     startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
     floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
 
+    // TODO: fix button binding
+    // ArmOpen extends
+    // ArmClose retracts
+    // ArmRetract grabs
+    // Arm Extend releases
+    // NOTE: i fixed the sol channels in Constants - MQ
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
     grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
