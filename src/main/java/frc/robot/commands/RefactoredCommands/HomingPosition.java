@@ -13,6 +13,7 @@ public class HomingPosition extends CommandBase {
   Reeler reeler;
   Elevator elevator;
   Arm arm;
+  boolean armLimitSwitchBottomIsPressed;
   
   /** Creates a new HomingPosition. */
   public HomingPosition(Reeler reeler, Elevator elevator, Arm arm) {
@@ -29,6 +30,7 @@ public class HomingPosition extends CommandBase {
     arm.armInit();
     elevator.elevatorInit();
     reeler.reelerInit();
+    armLimitSwitchBottomIsPressed = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,14 +41,18 @@ public class HomingPosition extends CommandBase {
       elevator.elevate(.15 * 1.5); // going down
     } else if(elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
+      elevator.elevatorBrake();
     }
 
-    if(arm.armLimitSwitchBottom.get() == true) {
-      reeler.reelArmUp(-.15 * 1.25);
-      arm.rotateDownwards(.07 * 1.25);
-    } else if(arm.armLimitSwitchBottom.get() == false) {
-      reeler.stopReelerMotor();
-      arm.stopArmMotor();
+    if(!armLimitSwitchBottomIsPressed) {
+      if(arm.armLimitSwitchBottom.get() == true) {
+        reeler.reelArmUp(-.07 * 1.5);
+        arm.rotateDownwards(.085 * 1.5);
+      } else if(arm.armLimitSwitchBottom.get() == false) {
+        reeler.stopReelerMotor();
+        arm.stopArmMotor();
+        armLimitSwitchBottomIsPressed = true;
+      }
     }
 
   }

@@ -37,7 +37,7 @@ public class StartingConfig extends CommandBase {
   @Override
   public void execute() {
     if (elevator.minHeightLimitSwitch.get() == true) {
-      elevator.elevate(.15);
+      elevator.elevate(0.15 * 1.5);
     } else if (elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
       elevator.elevatorBrake();
@@ -45,11 +45,14 @@ public class StartingConfig extends CommandBase {
 
     if(!armTopLimitSwitchIsPressed) {
       if (arm.armLimitSwitchTop.get() == true) {
-        reeler.reelArmUp(.15);
+        reeler.reelArmUp(0.15 * 1.5);
+        arm.rotateUpwards(0.07 * 1.5);
       } else if (arm.armLimitSwitchTop.get() == false) {
         armTopLimitSwitchIsPressed = true; // this should break out of loop
         reeler.stopReelerMotor();
         reeler.reelerBrakeMotor();
+        arm.stopArmMotor();
+        arm.armBrake();
       }
     }
 

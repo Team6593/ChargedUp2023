@@ -50,8 +50,8 @@ public final class Constants {
            public final int grab = 7;
            public final int release = 8;
 
-           public final int disable = 9;
-           public final int EmergencyStop = 10;
+           public final int adjustReelerUp = 9;
+           public final int adjustReelerDown = 10;
         }
 
         public static final class xBox{

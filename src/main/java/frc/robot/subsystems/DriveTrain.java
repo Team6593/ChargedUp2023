@@ -112,6 +112,7 @@ public class DriveTrain extends SubsystemBase {
     followerRight.setSelectedSensorPosition(0);
     followerLeft.setSelectedSensorPosition(0);
 
+    setBrakeMode();
   }
 
   // MOTORS

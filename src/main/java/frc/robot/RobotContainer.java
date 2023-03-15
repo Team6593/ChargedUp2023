@@ -21,6 +21,8 @@ import frc.robot.commands.ElevatorCommands.RestingPosition;
 import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
+import frc.robot.commands.RefactoredCommands.AdjustReelerDown;
+import frc.robot.commands.RefactoredCommands.AdjustReelerUp;
 import frc.robot.commands.RefactoredCommands.AutonomousScoring;
 import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
 import frc.robot.commands.RefactoredCommands.HomingPosition;
@@ -95,7 +97,7 @@ public class RobotContainer {
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
   private JoystickButton armExtendButton, armRetractButton, startingConfigButton, scoringMidButton,
-                         floorPickupButton, grabButton, releaseButton, humanStationButton, emergencyStop, disable;
+                         floorPickupButton, grabButton, releaseButton, humanStationButton, adjustReelerDown, adjustReelerUp;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -143,9 +145,11 @@ public class RobotContainer {
     humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
     scoringMidButton = new JoystickButton(buttonBoard, buttonBoardButtons.ScoringMid);
 
-    disable = new JoystickButton(buttonBoard, buttonBoardButtons.disable);
-    //emergencyStop = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
+    adjustReelerUp = new JoystickButton(buttonBoard, buttonBoardButtons.adjustReelerUp);
+    adjustReelerDown = new JoystickButton(buttonBoard, buttonBoardButtons.adjustReelerDown);
     
+    adjustReelerDown.whileTrue(new AdjustReelerDown(reeler));
+    adjustReelerUp.whileTrue(new AdjustReelerUp(reeler));
     // button -> command handling
     // button board bindings
 
@@ -172,7 +176,7 @@ public class RobotContainer {
 
     humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
 
-    disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
+    //disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());
 
     // xbox button bindings
