@@ -41,7 +41,7 @@ public class HomingPosition extends CommandBase {
     // command causes the arm to 'jitter'
     if(!elevatorBottomLimitSwitchIsPressed) {
       if (elevator.minHeightLimitSwitch.get() == true) {
-        elevator.elevate(0.2 * 1.5);
+        elevator.elevate(0.18 * 1.5);
       } else if (elevator.minHeightLimitSwitch.get() == false) {
         elevatorBottomLimitSwitchIsPressed = true;
         elevator.elevatorStop();
@@ -52,8 +52,8 @@ public class HomingPosition extends CommandBase {
     if(!armLimitSwitchBottomIsPressed) {
 
       if(arm.armLimitSwitchBottom.get() == true) {
-        reeler.reelArmUp(-.07 * 1.5);
-        arm.rotateDownwards(.085 * 1.5);
+        reeler.reelArmUp(-.2 * 1.5);
+        arm.rotateDownwards(.1 * 1.5);
         //elevator.elevatorStop();
         //elevator.elevatorBrake();
       } else if(arm.armLimitSwitchBottom.get() == false) {
