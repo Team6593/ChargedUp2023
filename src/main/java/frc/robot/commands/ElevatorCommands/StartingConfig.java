@@ -49,6 +49,7 @@ public class StartingConfig extends CommandBase {
         reeler.reelArmUp(0.15 * 1.5);
         arm.rotateUpwards(0.07 * 1.5);
       } else if (arm.armLimitSwitchTop.get() == false) {
+        reeler.setMotorPosition(0); // needed for ConeSecure
         armTopLimitSwitchIsPressed = true; // this should break out of loop
         reeler.stopReelerMotor();
         reeler.reelerBrakeMotor();

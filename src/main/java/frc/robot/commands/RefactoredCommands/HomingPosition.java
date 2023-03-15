@@ -52,7 +52,7 @@ public class HomingPosition extends CommandBase {
     if(!armLimitSwitchBottomIsPressed) {
 
       if(arm.armLimitSwitchBottom.get() == true) {
-        reeler.reelArmUp(-.2 * 1.5);
+        reeler.reelArmUp(-.25 * 1.5);
         arm.rotateDownwards(.1 * 1.5);
         //elevator.elevatorStop();
         //elevator.elevatorBrake();

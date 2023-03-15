@@ -46,12 +46,12 @@ public final class Constants {
            public final int StartingConfig = 3;
            public final int FloorPickup = 4;
            public final int HumanStation = 5;
-           public final int ScoringMid = 6;
+           public final int ConeSecure = 6;
            public final int grab = 7;
            public final int release = 8;
 
-           public final int adjustReelerUp = 9;
-           public final int adjustReelerDown = 10;
+           public final int AdjustReelerUp = 9;
+           public final int AdjustReelerDown = 10;
         }
 
         public static final class xBox{

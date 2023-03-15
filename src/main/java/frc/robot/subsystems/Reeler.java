@@ -42,8 +42,12 @@ public class Reeler extends SubsystemBase {
     reelerBrakeMotor();
   }
 
+  public void setMotorPosition(double position) {
+    topMotor.getEncoder().setPosition(position);
+  }
+
   public double getMotorPosition() {
-    return topMotor.getEncoder().getPosition();
+    return Math.floor(topMotor.getEncoder().getPosition() );
   }
 
   public double getMotorVelocity() {
@@ -52,7 +56,7 @@ public class Reeler extends SubsystemBase {
   
   public void displayTopMotorData() {
     SmartDashboard.putNumber("Top Motor velocity", getMotorVelocity());
-    SmartDashboard.putNumber("Top Motor position", getMotorPosition());
+    SmartDashboard.putNumber("Top Motor position", Math.floor(getMotorPosition() ) );
     SmartDashboard.putNumber("Top Motor CPR", getCountsPerRevolution());
   }
 
@@ -78,8 +82,13 @@ public class Reeler extends SubsystemBase {
     topMotor.setIdleMode(IdleMode.kBrake);
   }
 
+  public void displayReelerPosition() {
+    SmartDashboard.putNumber("Reeler encoder position", getMotorPosition());
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    displayReelerPosition();
   }
 }

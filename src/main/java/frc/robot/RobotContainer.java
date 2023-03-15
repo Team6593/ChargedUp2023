@@ -24,6 +24,7 @@ import frc.robot.commands.ElevatorCommands.ElevatorUp;
 import frc.robot.commands.RefactoredCommands.AdjustReelerDown;
 import frc.robot.commands.RefactoredCommands.AdjustReelerUp;
 import frc.robot.commands.RefactoredCommands.AutonomousScoring;
+import frc.robot.commands.RefactoredCommands.ConeSecure;
 import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
 import frc.robot.commands.RefactoredCommands.HomingPosition;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
@@ -96,7 +97,7 @@ public class RobotContainer {
 
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
-  private JoystickButton armExtendButton, armRetractButton, startingConfigButton, scoringMidButton,
+  private JoystickButton armExtendButton, armRetractButton, startingConfigButton, coneSecureButton,
                          floorPickupButton, grabButton, releaseButton, humanStationButton, adjustReelerDown, adjustReelerUp;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
@@ -143,10 +144,10 @@ public class RobotContainer {
     grabButton = new JoystickButton(buttonBoard, buttonBoardButtons.grab);
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
     humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
-    scoringMidButton = new JoystickButton(buttonBoard, buttonBoardButtons.ScoringMid);
+    coneSecureButton = new JoystickButton(buttonBoard, buttonBoardButtons.ConeSecure);
 
-    adjustReelerUp = new JoystickButton(buttonBoard, buttonBoardButtons.adjustReelerUp);
-    adjustReelerDown = new JoystickButton(buttonBoard, buttonBoardButtons.adjustReelerDown);
+    adjustReelerUp = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerUp);
+    adjustReelerDown = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerDown);
     
     adjustReelerDown.whileTrue(new AdjustReelerDown(reeler));
     adjustReelerUp.whileTrue(new AdjustReelerUp(reeler));
@@ -157,6 +158,8 @@ public class RobotContainer {
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
     startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
     floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
+
+    coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
 
     // TODO: fix button binding
     // ArmOpen extends
