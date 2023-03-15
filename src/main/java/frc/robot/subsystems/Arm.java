@@ -44,7 +44,7 @@ public class Arm extends SubsystemBase {
 
   private LimitSwitchesPorts ports = new LimitSwitchesPorts();
   //Motor/s
-  private WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
+  public WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
 
   //solenoids
   private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 

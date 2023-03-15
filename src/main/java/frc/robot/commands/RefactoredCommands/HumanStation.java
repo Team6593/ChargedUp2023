@@ -32,6 +32,7 @@ public class HumanStation extends CommandBase {
   public void initialize() {
     reeler.reelerInit();
     elevator.elevatorInit();
+    arm.armInit();
     System.out.println("ReelerAndElevatorUp init");
   }
 
@@ -46,6 +47,7 @@ public class HumanStation extends CommandBase {
       elevator.elevatorBrake();
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
       reeler.reelArmUp(.16 * 1.5);
+      arm.stopArmMotor();
       elevator.elevate(-.125 * 1.5);
     }
   }
@@ -56,6 +58,7 @@ public class HumanStation extends CommandBase {
     System.out.println("ReelerAndElevatorUp finished");
     reeler.stopReelerMotor();
     elevator.elevatorStop();
+    arm.stopArmMotor();
   }
 
   // Returns true when the command should end.

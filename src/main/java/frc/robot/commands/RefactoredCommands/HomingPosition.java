@@ -14,7 +14,7 @@ public class HomingPosition extends CommandBase {
   Elevator elevator;
   Arm arm;
   boolean armLimitSwitchBottomIsPressed;
-  
+  boolean elevatorBottomLimitSwitchIsPressed;
   /** Creates a new HomingPosition. */
   public HomingPosition(Reeler reeler, Elevator elevator, Arm arm) {
     this.reeler = reeler;
@@ -31,27 +31,39 @@ public class HomingPosition extends CommandBase {
     elevator.elevatorInit();
     reeler.reelerInit();
     armLimitSwitchBottomIsPressed = false;
+    elevatorBottomLimitSwitchIsPressed = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // limit switch is not pressed if true
-    if(elevator.minHeightLimitSwitch.get() == true) {
-      elevator.elevate(.15 * 1.5); // going down
-    } else if(elevator.minHeightLimitSwitch.get() == false) {
-      elevator.elevatorStop();
-      elevator.elevatorBrake();
-    }
+    // put the if/elif blocks in the nested if-if/elif bloack if current
+    // command causes the arm to 'jitter'
+    if(!elevatorBottomLimitSwitchIsPressed) {
+      if (elevator.minHeightLimitSwitch.get() == true) {
+        elevator.elevate(0.2 * 1.5);
+      } else if (elevator.minHeightLimitSwitch.get() == false) {
+        elevatorBottomLimitSwitchIsPressed = true;
+        elevator.elevatorStop();
+        elevator.elevatorBrake();
+      }
+  }
 
     if(!armLimitSwitchBottomIsPressed) {
+
       if(arm.armLimitSwitchBottom.get() == true) {
         reeler.reelArmUp(-.07 * 1.5);
         arm.rotateDownwards(.085 * 1.5);
+        //elevator.elevatorStop();
+        //elevator.elevatorBrake();
       } else if(arm.armLimitSwitchBottom.get() == false) {
-        reeler.stopReelerMotor();
-        arm.stopArmMotor();
         armLimitSwitchBottomIsPressed = true;
+        reeler.stopReelerMotor();
+        //elevator.elevatorStop();
+        //elevator.elevatorBrake();
+        //arm.rotateDownwards(0);
+        arm.stopArmMotor();
+        arm.armBrake();
       }
     }
 
@@ -63,6 +75,7 @@ public class HomingPosition extends CommandBase {
     elevator.elevatorStop();
     reeler.stopReelerMotor();
     arm.stopArmMotor();
+    arm.armBrake();
   }
 
   // Returns true when the command should end.

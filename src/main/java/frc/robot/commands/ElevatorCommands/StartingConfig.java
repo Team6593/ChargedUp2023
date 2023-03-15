@@ -30,6 +30,7 @@ public class StartingConfig extends CommandBase {
   public void initialize() {
     elevator.elevatorInit();
     reeler.reelerInit();
+    arm.armInit();
     armTopLimitSwitchIsPressed = false;
   }
 
