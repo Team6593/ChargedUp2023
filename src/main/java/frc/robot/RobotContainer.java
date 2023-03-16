@@ -21,6 +21,8 @@ import frc.robot.commands.ElevatorCommands.RestingPosition;
 import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
+import frc.robot.commands.RefactoredCommands.AdjustElevatorDown;
+import frc.robot.commands.RefactoredCommands.AdjustElevatorUp;
 import frc.robot.commands.RefactoredCommands.AdjustReelerDown;
 import frc.robot.commands.RefactoredCommands.AdjustReelerUp;
 import frc.robot.commands.RefactoredCommands.AutonomousScoring;
@@ -178,6 +180,9 @@ public class RobotContainer {
     //scoringMidButton.onTrue(new ArmDown(arm, reeler)); // NEW
 
     humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
+    //rightTrigger.whileTrue(new AdjustElevatorUp(elevator));
+    //leftTrigger.whileTrue(new AdjustElevatorDown(elevator));
+
 
     //disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());

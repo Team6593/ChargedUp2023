@@ -42,7 +42,7 @@ public class HomingPosition extends CommandBase {
     // command causes the arm to 'jitter'
     if(!elevatorBottomLimitSwitchIsPressed) {
       if (elevator.minHeightLimitSwitch.get() == true) {
-        elevator.elevate(0.18 * 1.5);
+        elevator.elevate(0.20 * 1.5);
       } else if (elevator.minHeightLimitSwitch.get() == false) {
         elevatorBottomLimitSwitchIsPressed = true;
         elevator.elevatorStop();

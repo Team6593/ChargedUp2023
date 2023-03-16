@@ -54,14 +54,14 @@ public class ConeSecure extends CommandBase {
     // jank asf code
     if(currentReelerPosition > 0) {
       if(arm.armLimitSwitchTop.get() == true) {
-        reeler.reelArmUp(-.12);
+        reeler.reelArmUp(-.13);
       } else if (arm.armLimitSwitchTop.get() == false) {
         reeler.stopReelerMotor();
         reeler.reelerBrakeMotor();
       }
     } else if (currentReelerPosition < 0) {
       if(arm.armLimitSwitchTop.get() == true) {
-        reeler.reelArmUp(.12);
+        reeler.reelArmUp(.13);
       } else if (arm.armLimitSwitchTop.get() == false) {
         reeler.stopReelerMotor();
         reeler.reelerBrakeMotor();
@@ -73,7 +73,7 @@ public class ConeSecure extends CommandBase {
     //else {reeler.reelerBrakeMotor();} // brake motor regardless ???
 
     if (elevator.minHeightLimitSwitch.get() == true) {
-      elevator.elevate(0.15 * 1.5);
+      elevator.elevate(0.20 * 1.5);
     } else if (elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
       elevator.elevatorBrake();

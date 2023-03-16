@@ -37,8 +37,9 @@ public class Elevator extends SubsystemBase {
 
     if(bottomLimitSwitchStatus == false) { bottomLimitSwitchIsPressed = true;}
     else if(bottomLimitSwitchStatus == true) { bottomLimitSwitchIsPressed = false;}
-    SmartDashboard.putBoolean("Elevator top limit switch", topLimitSwitchStatus);
-    SmartDashboard.putBoolean("Elevator bottom limit switch", bottomLimitSwitchStatus);
+    
+    SmartDashboard.putBoolean("Elevator top limit switch", topLimitSwitchIsPressed);
+    SmartDashboard.putBoolean("Elevator bottom limit switch", bottomLimitSwitchIsPressed);
   }
 
   /**
