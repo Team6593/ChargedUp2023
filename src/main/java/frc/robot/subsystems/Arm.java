@@ -59,6 +59,23 @@ public class Arm extends SubsystemBase {
   /* Creates a new Hand. */
   public Arm() {}
 
+  public void displayLimitSwitchStatus() {
+    boolean bottomLimitSwitchStatus = armLimitSwitchBottom.get();
+    boolean topLimitSwitchStatus = armLimitSwitchTop.get();
+
+    boolean bottomLimitSwitchIsPressed = false;
+    boolean topLimitSwitchIsPressed = false;
+
+    if(bottomLimitSwitchStatus == false) { bottomLimitSwitchIsPressed = true;} 
+    else if (bottomLimitSwitchStatus == true) {bottomLimitSwitchIsPressed = false;}
+
+    if(topLimitSwitchStatus == false) { topLimitSwitchIsPressed = true;}
+    else if(topLimitSwitchStatus == true) { topLimitSwitchIsPressed = false;}
+
+    SmartDashboard.putBoolean("Arm bottom limit switch", bottomLimitSwitchIsPressed);
+    SmartDashboard.putBoolean("Arm top limit switch", topLimitSwitchIsPressed);
+  }
+
   /**
    * ensures that the arm's motor output is 0 at init
    */
@@ -139,5 +156,6 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    displayLimitSwitchStatus();
   }
 }

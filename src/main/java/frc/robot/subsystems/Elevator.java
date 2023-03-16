@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
@@ -23,6 +24,22 @@ public class Elevator extends SubsystemBase {
   public DigitalInput minHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorLowLimitSwitchPort); 
 
   public Elevator() {}
+
+  public void displayElevatorLimitSwitchStatus() {
+    boolean topLimitSwitchStatus = maxHeightLimitSwitch.get();
+    boolean bottomLimitSwitchStatus = minHeightLimitSwitch.get();
+
+    boolean topLimitSwitchIsPressed = false;
+    boolean bottomLimitSwitchIsPressed = false;
+    
+    if(topLimitSwitchStatus == false) { topLimitSwitchIsPressed = true;}
+    else if(topLimitSwitchStatus == true) { topLimitSwitchIsPressed = false;}
+
+    if(bottomLimitSwitchStatus == false) { bottomLimitSwitchIsPressed = true;}
+    else if(bottomLimitSwitchStatus == true) { bottomLimitSwitchIsPressed = false;}
+    SmartDashboard.putBoolean("Elevator top limit switch", topLimitSwitchStatus);
+    SmartDashboard.putBoolean("Elevator bottom limit switch", bottomLimitSwitchStatus);
+  }
 
   /**
    * negative is up, and posiitive is down
@@ -75,6 +92,7 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     elevatorMotor.feed();
+    displayElevatorLimitSwitchStatus();
     // This method will be called once per scheduler run
   }
 }

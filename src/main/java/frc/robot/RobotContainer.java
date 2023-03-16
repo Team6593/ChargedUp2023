@@ -200,6 +200,10 @@ public class RobotContainer {
     // xButton.onTrue(new DriveTrainStop(driveTrain));
     aButton.onTrue(new LowGear(driveTrain));
     xButton.onTrue(new HighGear(driveTrain));
+    yButton.onTrue(new HomingPosition(reeler, elevator, arm)
+      .andThen(new HumanStation(reeler, elevator, arm) )
+      .andThen(new ArmExtend(arm))
+    );
   }
 
   /**

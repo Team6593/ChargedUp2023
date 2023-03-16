@@ -30,15 +30,11 @@ public class LimeLight extends SubsystemBase {
   UnitConverter unitConverter = new UnitConverter();
 
   public void displayValues() {
-    // read vals periodically
-    double x = tx.getDouble(0.0);
-    double y = ty.getDouble(0.0);
-    double area = targetArea.getDouble(0.0);
-
-    // post to SmartDashboard
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimeLightY", y);
-    SmartDashboard.putNumber("LimeLightArea", area);
+    boolean validTargets = isTargetFound();
+    SmartDashboard.putBoolean("AprilTag or Ref. Tape found", validTargets);
+    double distanceFromTarget = estimateDistance(
+      0, 52.0, 32);
+    SmartDashboard.putNumber("est. Distance from target", distanceFromTarget);
   }
   
   /**
@@ -107,7 +103,6 @@ public class LimeLight extends SubsystemBase {
   
   @Override
   public void periodic() {
-    // function testing
     displayValues();  
   }
 }

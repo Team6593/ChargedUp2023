@@ -73,7 +73,7 @@ public class ConeSecure extends CommandBase {
     //else {reeler.reelerBrakeMotor();} // brake motor regardless ???
 
     if (elevator.minHeightLimitSwitch.get() == true) {
-      elevator.elevate(0.1 * 1.5);
+      elevator.elevate(0.15 * 1.5);
     } else if (elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
       elevator.elevatorBrake();
