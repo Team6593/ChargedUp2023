@@ -33,7 +33,7 @@ public class LimeLight extends SubsystemBase {
     boolean validTargets = isTargetFound();
     SmartDashboard.putBoolean("AprilTag or Ref. Tape found", validTargets);
     double distanceFromTarget = estimateDistance(
-      0, 52.0, 32);
+      0, 52.0, 24); // g was 32
     SmartDashboard.putNumber("est. Distance from target", distanceFromTarget);
   }
   

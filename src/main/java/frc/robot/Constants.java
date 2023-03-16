@@ -126,7 +126,7 @@ public final class Constants {
         public final double levelDegrees = 71;
         public final double limelightLensHeightInches = 52;
         public final double limelightMountAngleDegrees = 0;
-        public final double midPegHeight = 24 + 10; // 2 feet 10 inches
+        public final double midPegHeight = 24.5;
         public final double testHeight = 61;
     }
 
