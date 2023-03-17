@@ -43,17 +43,17 @@ public class AutoHumanStation extends CommandBase {
   public void execute() {
     if(!done) {
       //reeler.reelArmUp(.2);
-      if (elevator.maxHeightLimitSwitch.get() == false) {
+      if (elevator.maxHeightLimitSwitch.get() == true) {
+        reeler.reelArmUp(.16 * 1.5);
+        arm.stopArmMotor();
+        elevator.elevate(-.18 * 1.5);
+      } else if (elevator.maxHeightLimitSwitch.get() == false) {
         reeler.stopReelerMotor();
         reeler.reelerBrakeMotor();
         elevator.elevatorStop();
         elevator.elevatorBrake();
-        end(true);
         done = true;
-      } else if (elevator.maxHeightLimitSwitch.get() == true) {
-        reeler.reelArmUp(.16 * 1.5);
-        arm.stopArmMotor();
-        elevator.elevate(-.18 * 1.5);
+        end(true);
         } 
     }
   }

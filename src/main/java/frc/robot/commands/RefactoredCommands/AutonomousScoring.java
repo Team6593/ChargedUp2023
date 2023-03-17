@@ -29,7 +29,6 @@ public class AutonomousScoring extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ArmClose(arm),
       new AutoHomingPosition(reeler, elevator, arm),
       new AutoHumanStation(reeler, elevator, arm),
       new ArmExtend(arm),
