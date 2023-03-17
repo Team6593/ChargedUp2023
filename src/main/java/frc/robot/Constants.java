@@ -113,12 +113,12 @@ public final class Constants {
 
         // Arm
         // swap values? unsure values.
-        public final int ArmCloseChannel = 3;
-        public final int ArmOpenChannel = 2;
+        public final int ArmCloseChannel = 7;
+        public final int ArmOpenChannel = 6;
 
         // swap values?,these are open and close (e: 2, r: 3)?
-        public final int ArmExtendChannel = 7;
-        public final int ArmRetractChannel = 6;
+        public final int ArmExtendChannel = 2;
+        public final int ArmRetractChannel = 3;
 
     }
     public static final class Autonomous {

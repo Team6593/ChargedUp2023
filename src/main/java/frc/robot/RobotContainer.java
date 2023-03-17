@@ -159,7 +159,7 @@ public class RobotContainer {
 
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
+    bButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
     floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
 
     coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
@@ -204,12 +204,14 @@ public class RobotContainer {
 
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
-    aButton.onTrue(new LowGear(driveTrain));
-    xButton.onTrue(new HighGear(driveTrain));
-    yButton.onTrue(new HomingPosition(reeler, elevator, arm)
-      .andThen(new HumanStation(reeler, elevator, arm) )
-      .andThen(new ArmExtend(arm))
-    );
+    aButton.onTrue(new ArmRetract(arm));
+    //aButton.onTrue(new LowGear(driveTrain));
+    xButton.onTrue(new ArmExtend(arm));
+    yButton.onTrue(new ConeSecure(reeler, elevator, arm));
+    // yButton.onTrue(new HomingPosition(reeler, elevator, arm)
+    //   .andThen(new HumanStation(reeler, elevator, arm) )
+    //   .andThen(new ArmExtend(arm))
+    // );
   }
 
   /**

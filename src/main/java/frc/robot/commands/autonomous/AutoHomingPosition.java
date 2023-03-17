@@ -54,6 +54,7 @@ public class AutoHomingPosition extends CommandBase {
           elevatorBottomLimitSwitchIsPressed = true;
           elevator.elevatorStop();
           elevator.elevatorBrake();
+          System.out.println("ELEVATOR LIMIT SWITCH HIT");
         }
     }
 
@@ -72,8 +73,8 @@ public class AutoHomingPosition extends CommandBase {
           //arm.rotateDownwards(0);
           arm.stopArmMotor();
           arm.armBrake();
-          done = true;
           end(true);
+          done = true;
           System.out.println("!!!!!!!!!!!!!GOING ON TO NEXT COMMAND!!!!!!!!!!!!!!!!!!");
         }
       }

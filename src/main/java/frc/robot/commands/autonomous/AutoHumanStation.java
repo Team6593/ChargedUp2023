@@ -44,7 +44,7 @@ public class AutoHumanStation extends CommandBase {
     if(!done) {
       //reeler.reelArmUp(.2);
       if (elevator.maxHeightLimitSwitch.get() == true) {
-        reeler.reelArmUp(.16 * 1.5);
+        reeler.reelArmUp(.13 * 1.5);
         arm.stopArmMotor();
         elevator.elevate(-.18 * 1.5);
       } else if (elevator.maxHeightLimitSwitch.get() == false) {
