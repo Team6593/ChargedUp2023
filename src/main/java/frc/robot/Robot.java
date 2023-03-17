@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     rbContainer = new RobotContainer();
-    rbContainer.rioCamera.camInit();
+    rbContainer.camera.streamVideo();
     rbContainer.driveTrain.resetAllMotorPosition();
     rbContainer.navX.calibrate();
     rbContainer.navX.connectionTest();
@@ -69,6 +69,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    rbContainer.limeLight.setPipeline(0); // retroflective tape detection
     rbContainer.driveTrain.resetAllMotorPosition();
     m_autonomousCommand = rbContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
@@ -84,6 +85,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    rbContainer.limeLight.setPipeline(1); // AprilTags
     rbContainer.driveTrain.resetAllMotorPosition();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

@@ -83,6 +83,7 @@ public class Arm extends SubsystemBase {
     // ensure that motor output is zero at init
     armMotor.stopMotor();
     armMotor.set(ControlMode.PercentOutput, 0);
+    armBrakeMode();
   }
 
   public void armBrake(){

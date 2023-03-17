@@ -58,6 +58,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Reeler;
 import frc.robot.subsystems.vision.Camera;
+import frc.robot.subsystems.vision.CameraStream;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -78,7 +79,7 @@ public class RobotContainer {
   public final Reeler reeler;
   
   // Make sure this is public so you can call camInit()
-  public final Camera rioCamera;
+  CameraStream camera;
   public final LimeLight limeLight;
   public final NavX navX;
 
@@ -107,10 +108,10 @@ public class RobotContainer {
     //initialize subystems
     navX = new NavX();
     limeLight = new LimeLight();
-    rioCamera = new Camera();
     driveTrain = new DriveTrain();
     arm = new Arm();
     reeler = new Reeler();
+    camera = new CameraStream();
     elevator = new Elevator();
     compressor = new AndyMarkCompressor();
 
@@ -171,8 +172,8 @@ public class RobotContainer {
     // NOTE: i fixed the sol channels in Constants - MQ
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
-    grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
     releaseButton.onTrue(new ArmOpen(arm)); // DNR, WORKS
+    grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
 
     // What's this even for?
 

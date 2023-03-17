@@ -117,8 +117,8 @@ public final class Constants {
         public final int ArmOpenChannel = 2;
 
         // swap values?,these are open and close (e: 2, r: 3)?
-        public final int ArmExtendChannel = 6;
-        public final int ArmRetractChannel = 7;
+        public final int ArmExtendChannel = 7;
+        public final int ArmRetractChannel = 6;
 
     }
     public static final class Autonomous {
@@ -127,6 +127,7 @@ public final class Constants {
         public final double limelightLensHeightInches = 52;
         public final double limelightMountAngleDegrees = 0;
         public final double midPegHeight = 24.5;
+        public final double humanStationAprilTag = 32;
         public final double testHeight = 61;
     }
 

@@ -88,7 +88,12 @@ public class LimeLight extends SubsystemBase {
     return ta;
   }
 
-
+  public void setPipeline(int pipeline) {
+    NetworkTableInstance.getDefault()
+    .getTable("limelight")
+    .getEntry("pipeline")
+    .setNumber(pipeline);
+  }
 
   public boolean isTargetFound() {
     NetworkTable _table = NetworkTableInstance.getDefault().getTable("limelight");

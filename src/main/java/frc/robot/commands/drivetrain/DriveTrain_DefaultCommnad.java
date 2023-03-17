@@ -32,7 +32,7 @@ public class DriveTrain_DefaultCommnad extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(xboxController.getRawAxis(1) * 0.85, xboxController.getRawAxis(4) *0.70);
+    driveTrain.arcadeDrive(xboxController.getRawAxis(1) , xboxController.getRawAxis(4) *0.70);
 
     //if(xboxController.getRawAxis(4) > 0)
     //{xboxController.setRumble(RumbleType.kRightRumble, 1);}
