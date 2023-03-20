@@ -5,6 +5,7 @@
 package frc.robot.commands.RefactoredCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Reeler;
@@ -54,14 +55,14 @@ public class ConeSecure extends CommandBase {
     // jank asf code
     if(currentReelerPosition > 0) {
       if(arm.armLimitSwitchTop.get() == true) {
-        reeler.reelArmUp(-.13);
+        reeler.reelArmUp(-.26);
       } else if (arm.armLimitSwitchTop.get() == false) {
         reeler.stopReelerMotor();
         reeler.reelerBrakeMotor();
       }
     } else if (currentReelerPosition < 0) {
       if(arm.armLimitSwitchTop.get() == true) {
-        reeler.reelArmUp(.13);
+        reeler.reelArmUp(.26);
       } else if (arm.armLimitSwitchTop.get() == false) {
         reeler.stopReelerMotor();
         reeler.reelerBrakeMotor();
@@ -73,7 +74,7 @@ public class ConeSecure extends CommandBase {
     //else {reeler.reelerBrakeMotor();} // brake motor regardless ???
 
     if (elevator.minHeightLimitSwitch.get() == true) {
-      elevator.elevate(0.20 * 1.5);
+      elevator.elevate(0.20 * 2.0);
     } else if (elevator.minHeightLimitSwitch.get() == false) {
       elevator.elevatorStop();
       elevator.elevatorBrake();

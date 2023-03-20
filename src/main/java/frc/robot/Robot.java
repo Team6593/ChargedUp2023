@@ -71,6 +71,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     rbContainer.limeLight.setPipeline(0); // retroflective tape detection
     rbContainer.driveTrain.resetAllMotorPosition();
+    // set NEO motor position to zero during auto
+    rbContainer.reeler.setMotorPosition(0); 
     m_autonomousCommand = rbContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

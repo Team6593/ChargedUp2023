@@ -29,7 +29,7 @@ public class BalanceOnChargeStation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    driveTrain.dtInit();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,13 +39,14 @@ public class BalanceOnChargeStation extends CommandBase {
     if(Math.floor(navX.getRoll() ) < levelRoll) {
       // robot is forward facing-down position
       // drive backwards slowly
-      driveTrain.drive(-.1);
+      driveTrain.drive(-.3);
     } else if (Math.floor(navX.getRoll() ) > levelRoll) {
       // robot is backwards facing-up position
       // drive forwards slowly
-      driveTrain.drive(.1);
+      driveTrain.drive(.3);
     } else if (Math.floor(navX.getRoll() ) == levelRoll) {
       driveTrain.stopAllMotors();
+      driveTrain.setBrakeMode();
     }
     
   }
@@ -54,6 +55,7 @@ public class BalanceOnChargeStation extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     driveTrain.stopAllMotors();
+    driveTrain.setBrakeMode();
     //driveTrain.driveTrainBrake();
   }
 

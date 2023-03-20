@@ -5,6 +5,7 @@
 package frc.robot.commands.RefactoredCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DoNothing;
 import frc.robot.commands.arm.ArmClose;
 import frc.robot.commands.arm.ArmExtend;
 import frc.robot.commands.arm.ArmOpen;
@@ -30,11 +31,11 @@ public class AutonomousScoring extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // new AutoStartingConfig(elevator, reeler, arm),
-      new AutoHomingPosition(reeler, elevator, arm),
-      new AutoHumanStation(reeler, elevator, arm),
-      new ArmOpen(arm).withTimeout(1),
-      new ArmExtend(arm)
+      //new DoNothing()
+       new AutoHomingPosition(reeler, elevator, arm),
+       new AutoHumanStation(reeler, elevator, arm),
+       new ArmOpen(arm)// extended
+       //new ArmRetract(arm)
       );
   }
 }

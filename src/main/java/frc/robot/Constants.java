@@ -39,6 +39,10 @@ public final class Constants {
     }
 
     public static final class InputMap {
+
+        public static final class WoodButtonBoard {
+            
+        }
         
         public static final class ButtonBoard {
            public final int ArmExtend = 1;
@@ -101,7 +105,7 @@ public final class Constants {
         //speed for elevator
         public final double ElevatorSpeed = 0.5;
 
-        // arm
+        public final double speedMultiplier = 1.5;
         
     }
 
@@ -113,17 +117,17 @@ public final class Constants {
 
         // Arm
         // swap values? unsure values.
-        public final int ArmCloseChannel = 7;
-        public final int ArmOpenChannel = 6;
+        public final int ArmCloseChannel = 3;
+        public final int ArmOpenChannel = 2;
 
         // swap values?,these are open and close (e: 2, r: 3)?
-        public final int ArmExtendChannel = 2;
-        public final int ArmRetractChannel = 3;
+        public final int ArmExtendChannel = 7;
+        public final int ArmRetractChannel = 6;
 
     }
     public static final class Autonomous {
-        public final double encoderDistanceToChargeStation = 1223.760000; //couple feet or so, change later
-        public final double levelDegrees = 71;
+        public final double encoderDistanceToChargeStation = 1000; //couple feet or so, change later
+        public final double levelDegrees = -71;
         public final double limelightLensHeightInches = 52;
         public final double limelightMountAngleDegrees = 0;
         public final double midPegHeight = 24.5;

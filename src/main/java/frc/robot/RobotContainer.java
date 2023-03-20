@@ -19,6 +19,7 @@ import frc.robot.commands.arm.ArmOpen;
 
 import frc.robot.commands.ElevatorCommands.RestingPosition;
 import frc.robot.commands.ElevatorCommands.StartingConfig;
+import frc.robot.commands.DoNothing;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
 import frc.robot.commands.RefactoredCommands.AdjustElevatorDown;
@@ -159,7 +160,7 @@ public class RobotContainer {
 
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    bButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
+    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
     floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
 
     coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
@@ -184,8 +185,10 @@ public class RobotContainer {
     //rightTrigger.whileTrue(new AdjustElevatorUp(elevator));
     //leftTrigger.whileTrue(new AdjustElevatorDown(elevator));
 
+    aButton.onTrue(new HighGear(driveTrain));
+    xButton.onTrue(new LowGear(driveTrain));
 
-    //disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
+    // disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());
 
     // xbox button bindings
@@ -204,26 +207,30 @@ public class RobotContainer {
 
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
-    aButton.onTrue(new ArmRetract(arm));
+    //aButton.onTrue(new ArmRetract(arm));
     //aButton.onTrue(new LowGear(driveTrain));
-    xButton.onTrue(new ArmExtend(arm));
-    yButton.onTrue(new ConeSecure(reeler, elevator, arm));
+    //xButton.onTrue(new ArmExtend(arm));
+    //yButton.onTrue(new ConeSecure(reeler, elevator, arm));
     // yButton.onTrue(new HomingPosition(reeler, elevator, arm)
     //   .andThen(new HumanStation(reeler, elevator, arm) )
     //   .andThen(new ArmExtend(arm))
     // );
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    
+    //return new DoNothing();
     return new AutonomousScoring(reeler, elevator, arm);
+    //.andThen(new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation))
+    //.andThen(new BalanceOnChargeStation(driveTrain, navX));
     
-    // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
+     //return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
+     //.andThen(new BalanceOnChargeStation(driveTrain, navX));
+
+    // IF THEzzsd ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative

@@ -36,7 +36,6 @@ public class CameraStream extends SubsystemBase {
          // mats are memory expensive, it's best to just use one
         var mat = new Mat();
         // this can never be true the robot must be off for this to be true
-        // this can never be true the robot must be off for this to be true
         while (!Thread.interrupted()) {
           if (cvSink.grabFrame(mat) == 0) {
             outputStream.notifyError(cvSink.getError());

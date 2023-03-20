@@ -5,6 +5,7 @@
 package frc.robot.commands.RefactoredCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Reeler;
@@ -46,9 +47,9 @@ public class HumanStation extends CommandBase {
       elevator.elevatorStop();
       elevator.elevatorBrake();
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.16 * 1.5);
+      reeler.reelArmUp(.16 * 3.0);
       arm.stopArmMotor();
-      elevator.elevate(-.18 * 1.5);
+      elevator.elevate(-.18 * 3.0);
     }
   }
 

@@ -52,6 +52,18 @@ public class Arm extends SubsystemBase {
   private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
   doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.ArmRetractChannel);
 
+  private DoubleSolenoid autoArmSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,
+   7, 6);
+  public void autoArmOpen() {
+    autoArmSolenoidCloseAndOpen.set(Value.kReverse);
+  }
+
+  public void autoArmClose() {
+    autoArmSolenoidCloseAndOpen.set(Value.kForward);
+  }
+  
+
+  //private DoubleSolenoid autoArmOpenAndClose = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 0)
   // //limit switches (WIP)
   public DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);
   public DigitalInput armLimitSwitchBottom = new DigitalInput(ports.ArmLimitSwitchBottom);
