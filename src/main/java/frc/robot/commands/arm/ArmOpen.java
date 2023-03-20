@@ -11,7 +11,6 @@ import frc.robot.subsystems.Arm;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ArmOpen extends InstantCommand {
-
   private Arm arm;
 
   public ArmOpen(Arm arm) {

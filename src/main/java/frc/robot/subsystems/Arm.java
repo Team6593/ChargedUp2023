@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -45,20 +44,39 @@ public class Arm extends SubsystemBase {
 
   private LimitSwitchesPorts ports = new LimitSwitchesPorts();
   //Motor/s
-  private WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
+  public WPI_TalonFX armMotor = new WPI_TalonFX(motors.ArmMotorID);
 
   //solenoids
   private DoubleSolenoid armSolenoidCloseAndOpen = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
   doubleSolenoidChannels.ArmCloseChannel, doubleSolenoidChannels.ArmOpenChannel);
   private DoubleSolenoid armSolenoidExtandAndRetract = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 
   doubleSolenoidChannels.ArmExtendChannel, doubleSolenoidChannels.ArmRetractChannel);
+  
 
+  //private DoubleSolenoid autoArmOpenAndClose = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 0)
   // //limit switches (WIP)
   public DigitalInput armLimitSwitchTop = new DigitalInput(ports.ArmLimitSwitchTop);
   public DigitalInput armLimitSwitchBottom = new DigitalInput(ports.ArmLimitSwitchBottom);
 
   /* Creates a new Hand. */
   public Arm() {}
+
+  public void displayLimitSwitchStatus() {
+    boolean bottomLimitSwitchStatus = armLimitSwitchBottom.get();
+    boolean topLimitSwitchStatus = armLimitSwitchTop.get();
+
+    boolean bottomLimitSwitchIsPressed = false;
+    boolean topLimitSwitchIsPressed = false;
+
+    if(bottomLimitSwitchStatus == false) { bottomLimitSwitchIsPressed = true;} 
+    else if (bottomLimitSwitchStatus == true) {bottomLimitSwitchIsPressed = false;}
+
+    if(topLimitSwitchStatus == false) { topLimitSwitchIsPressed = true;}
+    else if(topLimitSwitchStatus == true) { topLimitSwitchIsPressed = false;}
+
+    SmartDashboard.putBoolean("Arm bottom limit switch", bottomLimitSwitchIsPressed);
+    SmartDashboard.putBoolean("Arm top limit switch", topLimitSwitchIsPressed);
+  }
 
   /**
    * ensures that the arm's motor output is 0 at init
@@ -67,6 +85,7 @@ public class Arm extends SubsystemBase {
     // ensure that motor output is zero at init
     armMotor.stopMotor();
     armMotor.set(ControlMode.PercentOutput, 0);
+    armBrakeMode();
   }
 
   public void armBrake(){
@@ -78,11 +97,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void rotateUpwards(double motorspeed) {
-    armMotor.set(ControlMode.PercentOutput, motorspeed);
+    armMotor.set(ControlMode.PercentOutput, -motorspeed);
   }
 
   public void rotateDownwards(double motorspeed) {
-    armMotor.set(ControlMode.PercentOutput, -motorspeed);
+    armMotor.set(ControlMode.PercentOutput, motorspeed);
   }
 
   // // Limit switch methods (WIP)
@@ -140,5 +159,6 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    displayLimitSwitchStatus();
   }
 }

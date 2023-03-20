@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
@@ -20,9 +19,15 @@ import frc.robot.commands.arm.ArmOpen;
 
 import frc.robot.commands.ElevatorCommands.RestingPosition;
 import frc.robot.commands.ElevatorCommands.StartingConfig;
+import frc.robot.commands.DoNothing;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
+import frc.robot.commands.RefactoredCommands.AdjustElevatorDown;
+import frc.robot.commands.RefactoredCommands.AdjustElevatorUp;
+import frc.robot.commands.RefactoredCommands.AdjustReelerDown;
+import frc.robot.commands.RefactoredCommands.AdjustReelerUp;
 import frc.robot.commands.RefactoredCommands.AutonomousScoring;
+import frc.robot.commands.RefactoredCommands.ConeSecure;
 import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
 import frc.robot.commands.RefactoredCommands.HomingPosition;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
@@ -54,6 +59,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Reeler;
 import frc.robot.subsystems.vision.Camera;
+import frc.robot.subsystems.vision.CameraStream;
 import frc.robot.subsystems.vision.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -74,7 +80,7 @@ public class RobotContainer {
   public final Reeler reeler;
   
   // Make sure this is public so you can call camInit()
-  public final Camera rioCamera;
+  CameraStream camera;
   public final LimeLight limeLight;
   public final NavX navX;
 
@@ -95,26 +101,25 @@ public class RobotContainer {
 
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
-  private JoystickButton armExtendButton, armRetractButton, startingConfigButton, scoringMidButton,
-                         floorPickupButton, grabButton, releaseButton, humanStationButton, emergencyStop, disable;
+  private JoystickButton armExtendButton, armRetractButton, startingConfigButton, coneSecureButton,
+                         floorPickupButton, grabButton, releaseButton, humanStationButton, adjustReelerDown, adjustReelerUp;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
-    //instances of classes
+    //initialize subystems
     navX = new NavX();
     limeLight = new LimeLight();
-    rioCamera = new Camera();
     driveTrain = new DriveTrain();
     arm = new Arm();
     reeler = new Reeler();
+    camera = new CameraStream();
     elevator = new Elevator();
     compressor = new AndyMarkCompressor();
 
-    // COMMANDS
-
     driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
 
-    // Configure the button bindings
+    // this method polls buttons every 'tick'
+    // and handles button->command
     configureButtonBindings();
   }
 
@@ -143,23 +148,33 @@ public class RobotContainer {
     grabButton = new JoystickButton(buttonBoard, buttonBoardButtons.grab);
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
     humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
-    scoringMidButton = new JoystickButton(buttonBoard, buttonBoardButtons.ScoringMid);
+    coneSecureButton = new JoystickButton(buttonBoard, buttonBoardButtons.ConeSecure);
 
-    disable = new JoystickButton(buttonBoard, buttonBoardButtons.disable);
-    //emergencyStop = new JoystickButton(buttonBoard, buttonBoardButtons.EmergencyStop);
+    adjustReelerUp = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerUp);
+    adjustReelerDown = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerDown);
     
+    adjustReelerDown.whileTrue(new AdjustReelerDown(reeler));
+    adjustReelerUp.whileTrue(new AdjustReelerUp(reeler));
     // button -> command handling
     // button board bindings
 
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // ReelAndElevate
+    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
     floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
 
+    coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
+
+    // TODO: fix button binding
+    // ArmOpen extends
+    // ArmClose retracts
+    // ArmRetract grabs
+    // Arm Extend releases
+    // NOTE: i fixed the sol channels in Constants - MQ
     armExtendButton.onTrue(new ArmExtend(arm)); // DNR, WORKS
     armRetractButton.onTrue(new ArmRetract(arm)); // DNR, WORKS
-    grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
     releaseButton.onTrue(new ArmOpen(arm)); // DNR, WORKS
+    grabButton.onTrue(new ArmClose(arm)); // DNR, WORKS
 
     // What's this even for?
 
@@ -167,8 +182,13 @@ public class RobotContainer {
     //scoringMidButton.onTrue(new ArmDown(arm, reeler)); // NEW
 
     humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
+    //rightTrigger.whileTrue(new AdjustElevatorUp(elevator));
+    //leftTrigger.whileTrue(new AdjustElevatorDown(elevator));
 
-    disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
+    aButton.onTrue(new HighGear(driveTrain));
+    xButton.onTrue(new LowGear(driveTrain));
+
+    // disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());
 
     // xbox button bindings
@@ -187,20 +207,30 @@ public class RobotContainer {
 
     // aButton.onTrue(new DriveDistanceUsingCalculations(driveTrain, 5.775, 2.5));
     // xButton.onTrue(new DriveTrainStop(driveTrain));
-    aButton.onTrue(new LowGear(driveTrain));
-    xButton.onTrue(new HighGear(driveTrain));
+    //aButton.onTrue(new ArmRetract(arm));
+    //aButton.onTrue(new LowGear(driveTrain));
+    //xButton.onTrue(new ArmExtend(arm));
+    //yButton.onTrue(new ConeSecure(reeler, elevator, arm));
+    // yButton.onTrue(new HomingPosition(reeler, elevator, arm)
+    //   .andThen(new HumanStation(reeler, elevator, arm) )
+    //   .andThen(new ArmExtend(arm))
+    // );
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    
+    //return new DoNothing();
     return new AutonomousScoring(reeler, elevator, arm);
+    //.andThen(new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation))
+    //.andThen(new BalanceOnChargeStation(driveTrain, navX));
     
-    // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
+     //return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
+     //.andThen(new BalanceOnChargeStation(driveTrain, navX));
+
+    // IF THEzzsd ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
     //new TaxiWithGyro(driveTrain, .2); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative

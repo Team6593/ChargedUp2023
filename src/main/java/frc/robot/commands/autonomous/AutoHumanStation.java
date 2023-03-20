@@ -2,10 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.RefactoredCommands;
+package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Reeler;
@@ -14,13 +13,14 @@ import frc.robot.subsystems.Reeler;
  * Moves reeler and elevator up, keeps the arm at a 90 degree angle.
  * Goes up to mid. 
  */
-public class HumanStation extends CommandBase {
+public class AutoHumanStation extends CommandBase {
   Reeler reeler;
   Arm arm;
   Elevator elevator;
+  boolean done;
   /** Moves reeler and elevator up, keeps the arm at a 90 degree angle.
  * Goes up to mid. */
-  public HumanStation(Reeler reeler, Elevator elevator, Arm arm) {
+  public AutoHumanStation(Reeler reeler, Elevator elevator, Arm arm) {
     this.reeler = reeler;
     this.elevator = elevator;
     this.arm = arm;
@@ -35,21 +35,26 @@ public class HumanStation extends CommandBase {
     elevator.elevatorInit();
     arm.armInit();
     System.out.println("ReelerAndElevatorUp init");
+    done = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //reeler.reelArmUp(.2);
-    if (elevator.maxHeightLimitSwitch.get() == false) {
-      reeler.stopReelerMotor();
-      reeler.reelerBrakeMotor();
-      elevator.elevatorStop();
-      elevator.elevatorBrake();
-    } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.16 * 3.0);
-      arm.stopArmMotor();
-      elevator.elevate(-.18 * 3.0);
+    if(!done) {
+      //reeler.reelArmUp(.2);
+      if (elevator.maxHeightLimitSwitch.get() == true) {
+        reeler.reelArmUp(.17* 1.5);
+        arm.stopArmMotor();
+        elevator.elevate(-.18 * 1.5);
+      } else if (elevator.maxHeightLimitSwitch.get() == false) {
+        reeler.stopReelerMotor();
+        reeler.reelerBrakeMotor();
+        elevator.elevatorStop();
+        elevator.elevatorBrake();
+        done = true;
+        end(true);
+        } 
     }
   }
 
@@ -65,6 +70,6 @@ public class HumanStation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }

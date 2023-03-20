@@ -13,7 +13,7 @@ public class DriveToChargeStation extends CommandBase {
   UnitConverter unitConverter = new UnitConverter();
   public DriveTrain driveTrain;
   public double encoderDistance;
-
+  public boolean done;
   //public double leftMotorPosition = driveTrain.getLeftSideMotorPosition();
   
 
@@ -29,17 +29,22 @@ public class DriveToChargeStation extends CommandBase {
   @Override
   public void initialize() {
     driveTrain.dtInit();
+    done = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rightMotorPosition = 0;// = driveTrain.masterRight.getSelectedSensorPosition();
+    double rightMotorPosition = driveTrain.masterRight.getSelectedSensorPosition();
     double rightMotorPosition_RECU = unitConverter.toReadableEncoderUnit(rightMotorPosition);
-    if (rightMotorPosition_RECU < encoderDistance) {
-      driveTrain.drive(.2);
-    } else {
-      driveTrain.stopAllMotors();
+    
+    if (!done) {
+      if (rightMotorPosition_RECU < encoderDistance) {
+        driveTrain.drive(.3);
+      } else {
+        driveTrain.stopAllMotors();
+        done = true;
+      }
     }
   }
 
@@ -52,6 +57,6 @@ public class DriveToChargeStation extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }
