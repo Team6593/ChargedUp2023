@@ -24,7 +24,6 @@ public class AutoArmClose extends CommandBase {
   @Override
   public void execute() {
     arm.armClose();
-    arm.autoArmClose();
   }
 
   // Called once the command ends or is interrupted.
