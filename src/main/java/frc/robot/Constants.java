@@ -126,7 +126,7 @@ public final class Constants {
 
     }
     public static final class Autonomous {
-        public final double encoderDistanceToChargeStation = 1000; //couple feet or so, change later
+        public final double encoderDistanceToChargeStation = -600; //couple feet or so, change later
         public final double levelDegrees = -71;
         public final double limelightLensHeightInches = 52;
         public final double limelightMountAngleDegrees = 0;

@@ -47,7 +47,7 @@ public class HumanStation extends CommandBase {
       elevator.elevatorStop();
       elevator.elevatorBrake();
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.16 * 3.0);
+      reeler.reelArmUp(.22 * 3.0);
       arm.stopArmMotor();
       elevator.elevate(-.18 * 3.0);
     }

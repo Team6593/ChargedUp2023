@@ -41,6 +41,10 @@ public class DriveToChargeStation extends CommandBase {
     if (!done) {
       if (rightMotorPosition_RECU < encoderDistance) {
         driveTrain.drive(.3);
+      } else if (encoderDistance < 0) {
+        if (rightMotorPosition_RECU > encoderDistance) {
+          driveTrain.drive(-.3);
+        } else {driveTrain.stopAllMotors();}
       } else {
         driveTrain.stopAllMotors();
         done = true;
