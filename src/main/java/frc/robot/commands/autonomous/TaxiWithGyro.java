@@ -7,12 +7,10 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.NavX;
 
 public class TaxiWithGyro extends CommandBase {
   
   private DriveTrain driveTrain;
-  private NavX navX;
   double motorSpeed;
   Timer timer = new Timer();
   double startTime;
@@ -30,9 +28,9 @@ public class TaxiWithGyro extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    driveTrain.dtInit();
     startTime = Timer.getFPGATimestamp();
     //driveTrain.dtInit();
-    navX.reset();
     //timer.reset();
     timer.start();
   }
@@ -41,17 +39,18 @@ public class TaxiWithGyro extends CommandBase {
   @Override
   public void execute() {
 
-    // double time = Timer.getFPGATimestamp();
-    // if (timer.getFPGATimestamp() - startTime < 5) {
-    //   System.out.println(timer.getFPGATimestamp());
-    //   // negative if backwards
-    //   // positive if forwards
-    //   driveTrain.autonDrive(-motorSpeed);
-    // } else {
-    //   System.out.println(timer.getFPGATimestamp());
-    //   driveTrain.stopAllMotors();
-    //   System.out.println(" auton stopped");
-    // }
+    double time = Timer.getFPGATimestamp();
+
+    if (timer.getFPGATimestamp() - startTime < 5) {
+      System.out.println(timer.getFPGATimestamp());
+      // negative if backwards
+      // positive if forwards
+      driveTrain.drive(motorSpeed);
+    } else {
+      System.out.println(timer.getFPGATimestamp());
+      driveTrain.stopAllMotors();
+      System.out.println(" auton stopped");
+    }
   }
 
   // Called once the command ends or is interrupted.

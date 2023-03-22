@@ -47,6 +47,7 @@ import frc.robot.commands.armReelerElevator.StopArmAndReeler;
 
 import frc.robot.commands.autonomous.BalanceOnChargeStation;
 import frc.robot.commands.autonomous.DriveToChargeStation;
+import frc.robot.commands.autonomous.TaxiWithGyro;
 import frc.robot.commands.drivetrain.DriveTrain_DefaultCommnad;
 import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
@@ -223,15 +224,15 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //return new DoNothing();
-    return new AutonomousScoring(reeler, elevator, arm);
+    //return new AutonomousScoring(reeler, elevator, arm);
     //.andThen(new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation))
     //.andThen(new BalanceOnChargeStation(driveTrain, navX));
     
-     //return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation)
+     //return new DriveToChargeStation(driveTrain, autonomous.encoderDistanceToChargeStation);
      //.andThen(new BalanceOnChargeStation(driveTrain, navX));
 
-    // IF THEzzsd ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
-    //new TaxiWithGyro(driveTrain, .2); 
+    // IF THE ABOVE AUTON COMMAND DOESN'T WORK USE THE OLD COMMAND HERE:
+    return new TaxiWithGyro(driveTrain, .16); 
     // taxi backwards for 5 seconds then stop
     // might have to invert motorspeed to a negative
      
