@@ -162,8 +162,8 @@ public class Camera extends SubsystemBase {
               // if you do not close the detector, it will cause a memory leak
               aprilTagDetector.close();
             });
-    //visionThread.setDaemon(true);
-    //visionThread.start();
+    visionThread.setDaemon(true);
+    visionThread.start();
   }
 
   @Override

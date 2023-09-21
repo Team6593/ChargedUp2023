@@ -57,22 +57,24 @@ public class Elevator extends SubsystemBase {
    *
    */
   public void elevatorUP(double elevatorSpeed){
-    // This code is unstable do not use for now
+    //This code is unstable do not use for now
     if(maxHeightLimitSwitch.get() == true){
-      elevatorMotor.set(elevatorSpeed);
+      elevatorMotor.set(ControlMode.PercentOutput, -elevatorSpeed);
     }else if(maxHeightLimitSwitch.get() == false){
       elevatorMotor.stopMotor();
       elevatorBrake();
     }
+
   }
 
   public void elevatorDown(double elevatorSpeed){
     if(minHeightLimitSwitch.get() == true){
-      elevatorMotor.set(-elevatorSpeed);
+      elevatorMotor.set(ControlMode.PercentOutput, elevatorSpeed);
     }else if(minHeightLimitSwitch.get() == false){
       elevatorMotor.stopMotor();
       elevatorBrake();
     }
+
   }
 
   public void elevatorStop(){

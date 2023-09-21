@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     rbContainer = new RobotContainer();
-    rbContainer.camera.streamVideo();
+    rbContainer.aprilTagCamera.camInit();
     rbContainer.driveTrain.resetAllMotorPosition();
     rbContainer.navX.calibrate();
     rbContainer.navX.connectionTest();

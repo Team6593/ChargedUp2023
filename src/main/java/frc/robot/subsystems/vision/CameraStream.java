@@ -47,8 +47,8 @@ public class CameraStream extends SubsystemBase {
         }
 
       });
-      streamThread.setDaemon(true);
-      streamThread.start();
+      //streamThread.setDaemon(true);
+      //streamThread.start();
   }
 
   @Override

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.drivetrain;
 
+import edu.wpi.first.wpilibj.Joystick;
 //import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -15,11 +16,14 @@ public class DriveTrain_DefaultCommnad extends CommandBase {
   private DriveTrain driveTrain;
   private XboxController xboxController;
 
-  public DriveTrain_DefaultCommnad(DriveTrain driveTrain, XboxController xboxController) {
+  private Joystick joystick;
+
+  public DriveTrain_DefaultCommnad(DriveTrain driveTrain, XboxController xboxController,
+  Joystick joystick) {
     
     this.xboxController = xboxController;
     this.driveTrain = driveTrain;
-
+    this.joystick = joystick;
     addRequirements(driveTrain);
   }
 
@@ -32,8 +36,8 @@ public class DriveTrain_DefaultCommnad extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveTrain.arcadeDrive(xboxController.getRawAxis(1) , xboxController.getRawAxis(4) *0.70);
-
+    driveTrain.arcadeDrive(xboxController.getRawAxis(1) , xboxController.getRawAxis(4));
+    //driveTrain.arcadeDrive(joystick.getRawAxis(1), joystick.getRawAxis(0));
     //if(xboxController.getRawAxis(4) > 0)
     //{xboxController.setRumble(RumbleType.kRightRumble, 1);}
     //else if(xboxController.getRawAxis(4) < 0) 
