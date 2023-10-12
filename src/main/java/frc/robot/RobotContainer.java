@@ -54,6 +54,7 @@ import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.commands.reeler.ReelArmDown;
 import frc.robot.commands.reeler.ReelArmUp;
+import frc.robot.commands.superintendent.NewHomingPosition;
 import frc.robot.subsystems.AndyMarkCompressor;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
@@ -172,10 +173,11 @@ public class RobotContainer {
     adjustReelerUp.whileTrue(new AdjustReelerUp(reeler));
     // button -> command handling
     // button board bindings
-
+    coneSecureButton = new JoystickButton(buttonBoard, 6);
+    coneSecureButton.onTrue(new HomingPosition(reeler, elevator, arm));
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    startingConfigButton.whileTrue(new ElevatorDown(elevator, 0.25));
+    startingConfigButton.whileTrue(new ElevatorUp(elevator, -0.25));
     homingButton.whileTrue(new ElevatorUp(elevator, 0.25));
     // DNR
     //floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
