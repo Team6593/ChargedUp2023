@@ -15,6 +15,8 @@ public class NewHomingPosition extends CommandBase {
   Elevator elevator;
   Reeler reeler;
   Arm arm;
+
+  // THIS CODE DOESNT WORK PLEASE DO NOT EVER USE EVER
   boolean bottomLimitSwitchPressed = elevator.minHeightLimitSwitch.get();
   boolean armBottomLimitSwitchPressed = arm.armLimitSwitchBottom.get();
   
