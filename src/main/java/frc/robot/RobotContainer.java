@@ -173,12 +173,24 @@ public class RobotContainer {
     adjustReelerUp.whileTrue(new AdjustReelerUp(reeler));
     // button -> command handling
     // button board bindings
-    coneSecureButton = new JoystickButton(buttonBoard, 6);
-    coneSecureButton.onTrue(new HomingPosition(reeler, elevator, arm));
+
+
+    // SUPERINTENDENT : CommandRewrite branch
+    coneSecureButton = new JoystickButton(buttonBoard, buttonBoardButtons.ConeSecure);
+    coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    startingConfigButton.whileTrue(new ElevatorUp(elevator, -0.25));
-    homingButton.whileTrue(new ElevatorUp(elevator, 0.25));
+    
+    // old manual commands
+    // startingConfigButton.whileTrue(new ElevatorUp(elevator, -0.25));
+    // homingButton.whileTrue(new ElevatorUp(elevator, 0.25));
+    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm));
+    homingButton.onTrue(new HomingPosition(reeler, elevator, arm));
+
+    humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
+    humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
+
+
     // DNR
     //floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
 
