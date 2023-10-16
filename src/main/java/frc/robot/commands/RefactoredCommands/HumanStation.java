@@ -47,9 +47,9 @@ public class HumanStation extends CommandBase {
       elevator.elevatorStop();
       elevator.elevatorBrake();
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.22 * 4.0);//make slower
+      reeler.reelArmUp(.18 * 3.0);//make slower
       arm.stopArmMotor();
-      elevator.elevate(-.18 * 4.0);
+      elevator.elevate(-.18 * 3.0);
     }
   }
 
@@ -57,6 +57,8 @@ public class HumanStation extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("ReelerAndElevatorUp finished");
+    elevator.elevatorBrake();
+    reeler.reelerBrakeMotor();
     reeler.stopReelerMotor();
     elevator.elevatorStop();
     arm.stopArmMotor();

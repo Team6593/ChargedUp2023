@@ -218,7 +218,12 @@ public class RobotContainer {
 
     aButton.onTrue(new HighGear(driveTrain));
     xButton.onTrue(new LowGear(driveTrain));
-
+    
+    // NOTE: to move elevator up use ElevatorUp at positive speed
+    // if elevator down, use ElevatorUp at neg speed.
+    //yButton.whileTrue(new ElevatorUp(elevator, .1));
+    //bButton.whileTrue(new ElevatorUp(elevator, -.1));
+    
     // disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());
 
