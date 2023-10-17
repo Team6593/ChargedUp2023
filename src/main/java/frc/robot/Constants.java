@@ -48,7 +48,7 @@ public final class Constants {
            public final int ArmExtend = 1;
            public final int ArmRetract = 2;
            public final int StartingConfig = 3;
-           public final int FloorPickup = 4;
+           public final int Homing = 4;
            public final int HumanStation = 5;
            public final int ConeSecure = 6;
            public final int grab = 7;

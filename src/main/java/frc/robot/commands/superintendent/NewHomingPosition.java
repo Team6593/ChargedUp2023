@@ -2,66 +2,63 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.RefactoredCommands;
+package frc.robot.commands.superintendent;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.SpeedsForMotors;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Reeler;
 
-/**
- * Moves reeler and elevator up, keeps the arm at a 90 degree angle.
- * Goes up to mid. 
- */
-public class HumanStation extends CommandBase {
+public class NewHomingPosition extends CommandBase {
+  
+  Elevator elevator;
   Reeler reeler;
   Arm arm;
-  Elevator elevator;
-  /** Moves reeler and elevator up, keeps the arm at a 90 degree angle.
- * Goes up to mid. */
-  public HumanStation(Reeler reeler, Elevator elevator, Arm arm) {
+
+  // THIS CODE DOESNT WORK PLEASE DO NOT EVER USE EVER
+  boolean bottomLimitSwitchPressed = elevator.minHeightLimitSwitch.get();
+  boolean armBottomLimitSwitchPressed = arm.armLimitSwitchBottom.get();
+  
+  /** Creates a new HomingPosition. */
+  public NewHomingPosition(Elevator elevator, Reeler reeler, Arm arm) {
     this.reeler = reeler;
     this.elevator = elevator;
     this.arm = arm;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(reeler, elevator, arm);
+    addRequirements(elevator);
+    addRequirements(reeler);
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     reeler.reelerInit();
-    elevator.elevatorInit();
     arm.armInit();
-    System.out.println("ReelerAndElevatorUp init");
+    elevator.elevatorInit();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //reeler.reelArmUp(.2);
-    if (elevator.maxHeightLimitSwitch.get() == false) {
-      reeler.stopReelerMotor();
-      reeler.reelerBrakeMotor();
-      elevator.elevatorStop();
-      elevator.elevatorBrake();
-    } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.18 * 3.0);//make slower
-      arm.stopArmMotor();
-      elevator.elevate(-.18 * 3.0);
+    if(!bottomLimitSwitchPressed && !armBottomLimitSwitchPressed) {
+      elevator.elevate(-.05);
+      reeler.reelArmUp(-.05);
+      arm.rotateDownwards(.05);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("ReelerAndElevatorUp finished");
+    //elevator.elevatorStop();
+    //reeler.stopReelerMotor();
+    //arm.stopArmMotor();
+
     elevator.elevatorBrake();
     reeler.reelerBrakeMotor();
-    reeler.stopReelerMotor();
-    elevator.elevatorStop();
-    arm.stopArmMotor();
+    arm.armBrake();
   }
 
   // Returns true when the command should end.

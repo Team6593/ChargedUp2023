@@ -20,6 +20,7 @@ import frc.robot.commands.arm.ArmOpen;
 import frc.robot.commands.ElevatorCommands.RestingPosition;
 import frc.robot.commands.ElevatorCommands.StartingConfig;
 import frc.robot.commands.DoNothing;
+import frc.robot.commands.ElevatorCommands.ElevatorDown;
 import frc.robot.commands.ElevatorCommands.ElevatorStop;
 import frc.robot.commands.ElevatorCommands.ElevatorUp;
 import frc.robot.commands.RefactoredCommands.AdjustElevatorDown;
@@ -53,6 +54,7 @@ import frc.robot.commands.drivetrain.HighGear;
 import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.commands.reeler.ReelArmDown;
 import frc.robot.commands.reeler.ReelArmUp;
+import frc.robot.commands.superintendent.NewHomingPosition;
 import frc.robot.subsystems.AndyMarkCompressor;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
@@ -82,6 +84,7 @@ public class RobotContainer {
   
   // Make sure this is public so you can call camInit()
   CameraStream camera;
+  Camera aprilTagCamera;
   public final LimeLight limeLight;
   public final NavX navX;
 
@@ -93,6 +96,10 @@ public class RobotContainer {
   private Autonomous autonomous = new Autonomous();
   //IO
   private final XboxController xboxController = new XboxController(constants.XboxController_Port);
+  private final Joystick joystick = new Joystick(2);
+
+  private JoystickButton leftThumbButton, rightThumbButton;
+
 
   //Buttons for xbox controller
   private JoystickButton rightTrigger, leftTrigger, aButton, xButton, 
@@ -103,7 +110,8 @@ public class RobotContainer {
   
   private Joystick buttonBoard = new Joystick(constants.ButtonBoard_Port);
   private JoystickButton armExtendButton, armRetractButton, startingConfigButton, coneSecureButton,
-                         floorPickupButton, grabButton, releaseButton, humanStationButton, adjustReelerDown, adjustReelerUp;
+                         floorPickupButton, grabButton, releaseButton, humanStationButton, 
+                         adjustReelerDown, adjustReelerUp, homingButton;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {    
 
@@ -114,10 +122,11 @@ public class RobotContainer {
     arm = new Arm();
     reeler = new Reeler();
     camera = new CameraStream();
+    aprilTagCamera = new Camera();
     elevator = new Elevator();
     compressor = new AndyMarkCompressor();
 
-    driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController));
+    driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController, joystick));
 
     // this method polls buttons every 'tick'
     // and handles button->command
@@ -131,6 +140,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    leftThumbButton = new JoystickButton(joystick, 3);
+    leftThumbButton.onTrue(new HumanStation(reeler, elevator, arm));
+    rightThumbButton = new JoystickButton(joystick, 4);
+    rightThumbButton.onTrue(new HomingPosition(reeler, elevator, arm));
+
     // define JoystickButton to XboxController buttons
     aButton = new JoystickButton(xboxController, xbox.Abutton);
     xButton = new JoystickButton(xboxController, xbox.Xbutton);
@@ -145,11 +159,12 @@ public class RobotContainer {
     armExtendButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmExtend);
     armRetractButton = new JoystickButton(buttonBoard, buttonBoardButtons.ArmRetract);
     startingConfigButton = new JoystickButton(buttonBoard, buttonBoardButtons.StartingConfig);
-    floorPickupButton = new JoystickButton(buttonBoard, buttonBoardButtons.FloorPickup);
+    homingButton = new JoystickButton(buttonBoard, buttonBoardButtons.Homing);
+    //floorPickupButton = new JoystickButton(buttonBoard, buttonBoardButtons.FloorPickup);
     grabButton = new JoystickButton(buttonBoard, buttonBoardButtons.grab);
     releaseButton = new JoystickButton(buttonBoard, buttonBoardButtons.release);
-    humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
-    coneSecureButton = new JoystickButton(buttonBoard, buttonBoardButtons.ConeSecure);
+    //humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
+    //coneSecureButton = new JoystickButton(buttonBoard, buttonBoardButtons.ConeSecure);
 
     adjustReelerUp = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerUp);
     adjustReelerDown = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerDown);
@@ -159,12 +174,27 @@ public class RobotContainer {
     // button -> command handling
     // button board bindings
 
+
+    // SUPERINTENDENT : CommandRewrite branch
+    coneSecureButton = new JoystickButton(buttonBoard, buttonBoardButtons.ConeSecure);
+    coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
     // rewrite all the commands being used here
     //elevatorUpButton.onTrue(new ArmBrake(arm).andThen(new ElevatorUp(elevator, -.1)) ); // NEW
-    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm)); // DNR
-    floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
+    
+    // old manual commands
+    // startingConfigButton.whileTrue(new ElevatorUp(elevator, -0.25));
+    // homingButton.whileTrue(new ElevatorUp(elevator, 0.25));
+    startingConfigButton.onTrue(new StartingConfig(elevator, reeler, arm));
+    homingButton.onTrue(new HomingPosition(reeler, elevator, arm));
 
-    coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
+    humanStationButton = new JoystickButton(buttonBoard, buttonBoardButtons.HumanStation);
+    humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
+
+
+    // DNR
+    //floorPickupButton.onTrue(new HomingPosition(reeler, elevator, arm)); // DNR
+
+    //coneSecureButton.onTrue(new ConeSecure(reeler, elevator, arm));
 
     // TODO: fix button binding
     // ArmOpen extends
@@ -182,13 +212,18 @@ public class RobotContainer {
     //armAndReelerUpButton.whileTrue(new ReelAndRotateUp(arm, reeler)); // NEW,change later ArmDown->ReelerAndElevatorUp
     //scoringMidButton.onTrue(new ArmDown(arm, reeler)); // NEW
 
-    humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
+    //humanStationButton.onTrue(new HumanStation(reeler, elevator, arm));
     //rightTrigger.whileTrue(new AdjustElevatorUp(elevator));
     //leftTrigger.whileTrue(new AdjustElevatorDown(elevator));
 
     aButton.onTrue(new HighGear(driveTrain));
     xButton.onTrue(new LowGear(driveTrain));
-
+    
+    // NOTE: to move elevator up use ElevatorUp at positive speed
+    // if elevator down, use ElevatorUp at neg speed.
+    //yButton.whileTrue(new ElevatorUp(elevator, .1));
+    //bButton.whileTrue(new ElevatorUp(elevator, -.1));
+    
     // disable.onTrue(new EmergencyStopCommand(driveTrain, elevator, arm, reeler));
     //emergencyStop.onTrue(new SoftExit());
 
