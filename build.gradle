@@ -46,7 +46,6 @@ wpi.java.debugJni = false
 def includeDesktopSupport = false
 
 // hyperlib
-
 repositories {
 	mavenCentral()
 	maven { url 'https://jitpack.io' }
