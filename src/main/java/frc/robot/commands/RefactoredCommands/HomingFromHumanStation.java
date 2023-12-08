@@ -11,14 +11,14 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Reeler;
 
-public class HomingPosition extends CommandBase {
+public class HomingFromHumanStation extends CommandBase {
   Reeler reeler;
   Elevator elevator;
   Arm arm;
   boolean armLimitSwitchBottomIsPressed;
   boolean elevatorBottomLimitSwitchIsPressed;
   /** Creates a new HomingPosition. */
-  public HomingPosition(Reeler reeler, Elevator elevator, Arm arm) {
+  public HomingFromHumanStation(Reeler reeler, Elevator elevator, Arm arm) {
     this.reeler = reeler;
     this.elevator = elevator;
     this.arm = arm;
@@ -55,7 +55,7 @@ public class HomingPosition extends CommandBase {
     if(!armLimitSwitchBottomIsPressed) {
 
       if(arm.armLimitSwitchBottom.get() == true) {
-        reeler.reelArmUp(-.30 * 1.5); // -.25 * 1.5
+        reeler.reelArmUp(-.30 * 1.5); // change reel speed to higher num, og was -.30
         //arm.rotateDownwards(.1 * 1.5);
         //elevator.elevatorStop();
         //elevator.elevatorBrake();
@@ -70,13 +70,12 @@ public class HomingPosition extends CommandBase {
         System.out.println("ARM DOWN");
       }
     }
-    System.out.println("HOMING RUNNING");
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("HOMING END");
     elevator.elevatorStop();
     reeler.stopReelerMotor();
     arm.stopArmMotor();

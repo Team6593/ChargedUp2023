@@ -40,16 +40,19 @@ public class HumanStation extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("HUMAN STATION RUNNING");
     //reeler.reelArmUp(.2);
     if (elevator.maxHeightLimitSwitch.get() == false) {
       reeler.stopReelerMotor();
       reeler.reelerBrakeMotor();
       elevator.elevatorStop();
       elevator.elevatorBrake();
+      System.out.println("HUMAN STATION STOPED");
     } else if (elevator.maxHeightLimitSwitch.get() == true) {
-      reeler.reelArmUp(.18 * 3.0);//make slower
+      reeler.reelArmUp(.16 * 1.0);//make slower
       arm.stopArmMotor();
-      elevator.elevate(-.18 * 3.0);
+      elevator.elevate(-.18 * 1.0);
+      System.out.println("HUMAN STATION PERFORMING");
     }
   }
 

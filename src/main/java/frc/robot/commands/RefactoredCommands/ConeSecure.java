@@ -51,8 +51,7 @@ public class ConeSecure extends CommandBase {
       reeler.reelerBrakeMotor();
     }
     */
-
-    // jank asf code
+    
     if(currentReelerPosition > 0) {
       if(arm.armLimitSwitchTop.get() == true) {
         reeler.reelArmUp(-.26 * 1.1);

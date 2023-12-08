@@ -4,8 +4,12 @@
 
 package frc.robot;
 
+import java.util.concurrent.locks.Condition;
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Autonomous;
 import frc.robot.Constants.SpeedsForMotors;
@@ -30,6 +34,7 @@ import frc.robot.commands.RefactoredCommands.AdjustReelerUp;
 import frc.robot.commands.RefactoredCommands.AutonomousScoring;
 import frc.robot.commands.RefactoredCommands.ConeSecure;
 import frc.robot.commands.RefactoredCommands.EmergencyStopCommand;
+import frc.robot.commands.RefactoredCommands.HomingFromHumanStation;
 import frc.robot.commands.RefactoredCommands.HomingPosition;
 import frc.robot.commands.RefactoredCommands.ReelAndRotateUp;
 import frc.robot.commands.RefactoredCommands.HumanStation;
@@ -100,7 +105,6 @@ public class RobotContainer {
 
   private JoystickButton leftThumbButton, rightThumbButton;
 
-
   //Buttons for xbox controller
   private JoystickButton rightTrigger, leftTrigger, aButton, xButton, 
                          yButton, bButton, rightClick, leftClick,
@@ -168,7 +172,14 @@ public class RobotContainer {
 
     adjustReelerUp = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerUp);
     adjustReelerDown = new JoystickButton(buttonBoard, buttonBoardButtons.AdjustReelerDown);
-    
+
+    // ELEVATOR 
+    // UP = NEGATIVE
+    // DOWN = POSITIVE
+
+    // REELER
+    // DOWN = NEGATIVE
+    // UP = POSITIVE
     adjustReelerDown.whileTrue(new AdjustReelerDown(reeler));
     adjustReelerUp.whileTrue(new AdjustReelerUp(reeler));
     // button -> command handling
@@ -218,7 +229,15 @@ public class RobotContainer {
 
     aButton.onTrue(new HighGear(driveTrain));
     xButton.onTrue(new LowGear(driveTrain));
+
+    // change this to a buttonboard button later?
     
+    yButton.onTrue(new HumanStation(reeler, elevator, arm)
+    .withTimeout(3)
+    .andThen(new HumanStation(reeler, elevator, arm) )
+    .withTimeout(3)
+    .andThen(new HomingFromHumanStation(reeler, elevator, arm)));
+
     // NOTE: to move elevator up use ElevatorUp at positive speed
     // if elevator down, use ElevatorUp at neg speed.
     //yButton.whileTrue(new ElevatorUp(elevator, .1));
