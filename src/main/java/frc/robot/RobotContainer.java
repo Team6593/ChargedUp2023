@@ -60,7 +60,7 @@ import frc.robot.commands.drivetrain.LowGear;
 import frc.robot.commands.reeler.ReelArmDown;
 import frc.robot.commands.reeler.ReelArmUp;
 import frc.robot.commands.superintendent.NewHomingPosition;
-import frc.robot.subsystems.AndyMarkCompressor;
+//import frc.robot.subsystems.AndyMarkCompressor;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -83,7 +83,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveTrain driveTrain;
   public final Elevator elevator;
-  public final AndyMarkCompressor compressor;
+  //public final AndyMarkCompressor compressor;
   public final Arm arm;  
   public final Reeler reeler;
   
@@ -101,7 +101,7 @@ public class RobotContainer {
   private Autonomous autonomous = new Autonomous();
   //IO
   private final XboxController xboxController = new XboxController(constants.XboxController_Port);
-  private final Joystick joystick = new Joystick(2);
+  //private final Joystick joystick = new Joystick(2);
 
   private JoystickButton leftThumbButton, rightThumbButton;
 
@@ -128,9 +128,9 @@ public class RobotContainer {
     camera = new CameraStream();
     aprilTagCamera = new Camera();
     elevator = new Elevator();
-    compressor = new AndyMarkCompressor();
+    //compressor = new AndyMarkCompressor();
 
-    driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController, joystick));
+    driveTrain.setDefaultCommand(new DriveTrain_DefaultCommnad(driveTrain, xboxController, null));
 
     // this method polls buttons every 'tick'
     // and handles button->command
@@ -144,10 +144,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    leftThumbButton = new JoystickButton(joystick, 3);
-    leftThumbButton.onTrue(new HumanStation(reeler, elevator, arm));
-    rightThumbButton = new JoystickButton(joystick, 4);
-    rightThumbButton.onTrue(new HomingPosition(reeler, elevator, arm));
+    // leftThumbButton = new JoystickButton(joystick, 3);
+    // leftThumbButton.onTrue(new HumanStation(reeler, elevator, arm));
+    // rightThumbButton = new JoystickButton(joystick, 4);
+    // rightThumbButton.onTrue(new HomingPosition(reeler, elevator, arm));
 
     // define JoystickButton to XboxController buttons
     aButton = new JoystickButton(xboxController, xbox.Abutton);
@@ -232,11 +232,17 @@ public class RobotContainer {
 
     // change this to a buttonboard button later?
     
-    yButton.onTrue(new HumanStation(reeler, elevator, arm)
-    .withTimeout(3)
-    .andThen(new HumanStation(reeler, elevator, arm) )
-    .withTimeout(3)
-    .andThen(new HomingFromHumanStation(reeler, elevator, arm)));
+    // Note to maintainers, the top elevator limit switch has a cut wire, rendering it useless
+    // this means that HumanStation command shouldn't be run autonomously, instead, run it in teleop mode
+    // you can eyeball when the elevator is near the top, and press a button (preferably ArmUp or ArmDown)
+    // to interrupt the command.
+    yButton.onTrue(new HumanStation(reeler, elevator, arm));
+    // .withTimeout(3)
+    // .andThen(new HumanStation(reeler, elevator, arm) )
+    // .withTimeout(3)
+    // .andThen(new HomingFromHumanStation(reeler, elevator, arm)));
+
+    //yButton.onTrue(new HomingPosition(reeler, elevator, arm));
 
     // NOTE: to move elevator up use ElevatorUp at positive speed
     // if elevator down, use ElevatorUp at neg speed.

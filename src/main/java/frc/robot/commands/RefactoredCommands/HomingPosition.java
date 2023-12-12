@@ -70,17 +70,26 @@ public class HomingPosition extends CommandBase {
         System.out.println("ARM DOWN");
       }
     }
+
+    // once both limit switches are pressed, go to the end method
+    if(armLimitSwitchBottomIsPressed && elevatorBottomLimitSwitchIsPressed) {
+      end(true);
+    }
     System.out.println("HOMING RUNNING");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("HOMING END");
     elevator.elevatorStop();
     reeler.stopReelerMotor();
     arm.stopArmMotor();
     arm.armBrake();
+
+    // print out "HOMING END" 10 times
+    for(int i = 0; i < 10; i++) {
+      System.out.println("HOMING END");
+    }
   }
 
   // Returns true when the command should end.

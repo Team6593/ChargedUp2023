@@ -74,8 +74,8 @@ public class Arm extends SubsystemBase {
     if(topLimitSwitchStatus == false) { topLimitSwitchIsPressed = true;}
     else if(topLimitSwitchStatus == true) { topLimitSwitchIsPressed = false;}
 
-    SmartDashboard.putBoolean("Arm bottom limit switch", bottomLimitSwitchIsPressed);
-    SmartDashboard.putBoolean("Arm top limit switch", topLimitSwitchIsPressed);
+    SmartDashboard.putBoolean("Arm bottom limit switch", bottomLimitSwitchStatus);
+    SmartDashboard.putBoolean("Arm top limit switch", topLimitSwitchStatus);
   }
 
   /**
