@@ -48,6 +48,7 @@ public class HomingPosition extends CommandBase {
         elevatorBottomLimitSwitchIsPressed = true;
         elevator.elevatorStop();
         elevator.elevatorBrake();
+        elevator.resetElevatorPosition();
         System.out.println("ELEVATOR DOWN");
       }
   }

@@ -235,12 +235,21 @@ public class RobotContainer {
     // Note to maintainers, the top elevator limit switch has a cut wire, rendering it useless
     // this means that HumanStation command shouldn't be run autonomously, instead, run it in teleop mode
     // you can eyeball when the elevator is near the top, and press a button (preferably ArmUp or ArmDown)
+    // UPDATE TO MAINTAINERS: the top limit switch has been fixed
+
     // to interrupt the command.
-    yButton.onTrue(new HumanStation(reeler, elevator, arm));
+    // yButton.onTrue(new HomingPosition(reeler, elevator, arm)
     // .withTimeout(3)
-    // .andThen(new HumanStation(reeler, elevator, arm) )
+    // .andThen(new HumanStation(reeler, elevator, arm) ));
+    // We'll let the user collect the cone themselves, and then have them press the HomingFromHumanStation button
+    // to score low (if needed, they can leave the elevator/arm as is, if they want to score high)
+
+    //yButton.onTrue(new HomingPosition(reeler, elevator, arm));
+    yButton.whileTrue(new ElevatorUp(elevator, -.1));
     // .withTimeout(3)
     // .andThen(new HomingFromHumanStation(reeler, elevator, arm)));
+    
+    //yButton.whileTrue(new ElevatorUp(elevator, -.1));
 
     //yButton.onTrue(new HomingPosition(reeler, elevator, arm));
 

@@ -27,6 +27,17 @@ public final class Constants {
         public final int ViewportHeight = 480;
     }
     
+    public static final class ElevatorSensorPositions {
+        // Note that these are approximate values, I did some tests and guesstimated an average of what thoe
+        // sensor ticks might be. The integrated sensor loses precision as numbers go higher (doesn't matter if
+        // its positive or negative), however the ticks are stored as doubles, so we should have just enough
+        // precision needed. You may adjust these values as needed, we are /1000 on all positions, because it's
+        // more readable.  
+        public static final double top = -315195 /1000; // ~315
+        public static final double mid = -157563 /1000; // ~157
+        public static final double bottom = 0;
+    }
+
     public static final class LimitSwitchesPorts{
 
         public final int ElevatorTopLimitSwitchPort = 0;

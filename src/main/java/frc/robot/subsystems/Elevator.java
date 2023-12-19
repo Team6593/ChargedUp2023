@@ -12,9 +12,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimitSwitchesPorts;
 import frc.robot.Constants.Motors;
+import frc.robot.Utils.UnitConverter;
 
 public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
+
+  UnitConverter unitConverter = new UnitConverter();
 
   private Motors motorsId = new Motors();
   private LimitSwitchesPorts limitSwitchesPorts = new LimitSwitchesPorts();
@@ -24,6 +27,22 @@ public class Elevator extends SubsystemBase {
   public DigitalInput minHeightLimitSwitch = new DigitalInput(limitSwitchesPorts.ElevatorLowLimitSwitchPort); 
 
   public Elevator() {}
+
+  public void displayElevatorEncoderPosition() {
+    double elevatorEncoderPosition = elevatorMotor.getSelectedSensorPosition() /1000;
+    SmartDashboard.putNumber("Elevator I.Sensor Position", elevatorEncoderPosition);
+  }
+
+  /**
+   * Should be called when elevator is hitting the bottom limit switch
+   */
+  public void resetElevatorPosition() {
+    elevatorMotor.setSelectedSensorPosition(0);
+  }
+
+  public double getElevatorEncoderPosition() {
+    return elevatorMotor.getSelectedSensorPosition()/1000;
+  }
 
   public void displayElevatorLimitSwitchStatus() {
     boolean topLimitSwitchStatus = maxHeightLimitSwitch.get();
@@ -96,6 +115,7 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     elevatorMotor.feed();
     displayElevatorLimitSwitchStatus();
+    displayElevatorEncoderPosition();
     // This method will be called once per scheduler run
   }
 }
